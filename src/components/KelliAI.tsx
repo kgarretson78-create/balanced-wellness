@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, Sparkles, Calendar, Camera, ArrowRight, User, Mail, Phone, CheckCircle2, RotateCcw, Aperture, Upload, Volume2, Loader2 } from "lucide-react";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
+import { getPreferredLocation } from "@/lib/booking";
 
 interface Message {
   id: number;
@@ -816,6 +818,7 @@ function LeadCaptureForm({ onSubmit }: { onSubmit: (data: LeadData) => void }) {
 }
 
 export function KelliAIChat() {
+  const { open: openBookingChooser } = useBookingChooser();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -1190,7 +1193,7 @@ export function KelliAIChat() {
 
   const handleAction = useCallback((action: string) => {
     if (action === "book") {
-      window.open("https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", "_blank");
+      openBookingChooser({ service: "Free Consultation" });
     } else if (action === "skin-analyzer" || action === "start-selfie") {
       setPreviewMode(null);
       setShowCamera(true);
@@ -1205,7 +1208,7 @@ export function KelliAIChat() {
     } else if (action === "more-previews") {
       processUserMessage("show me another treatment preview");
     }
-  }, []);
+  }, [openBookingChooser]);
 
   const handleLeadSubmit = useCallback(async (data: LeadData) => {
     setLeadCaptured(true);
@@ -1220,6 +1223,7 @@ export function KelliAIChat() {
           email: data.email,
           phone: data.phone,
           smsConsent: data.smsConsent,
+          preferredLocation: getPreferredLocation(),
           conversationSummary: summary,
           messages: conversationRef.current.slice(-20),
         }),

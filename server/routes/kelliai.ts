@@ -37,12 +37,15 @@ if (process.env.DATABASE_URL) {
       "smsConsent" BOOLEAN DEFAULT FALSE,
       "primaryGoal" TEXT,
       "treatmentInterest" TEXT,
+      "preferredLocation" TEXT,
       "conversationSummary" TEXT,
       messages JSONB,
       status TEXT DEFAULT 'new',
       source TEXT DEFAULT 'kelliai'
     )
-  `).catch((e: Error) => console.error("DB init error:", e.message));
+  `).then(() =>
+    db!.query(`ALTER TABLE kelli_leads ADD COLUMN IF NOT EXISTS "preferredLocation" TEXT`),
+  ).catch((e: Error) => console.error("DB init error:", e.message));
 }
 
 // ── ElevenLabs rate limit ───────────────────────────────────────────────────
@@ -220,15 +223,21 @@ router.post("/kelliai/voice", async (req: any, res: any) => {
 router.post("/kelliai/lead", async (req: any, res: any) => {
   if (!db) return res.status(503).json({ error: "Database not configured. Set DATABASE_URL." });
 
-  const { firstName, email, phone, smsConsent, primaryGoal, treatmentInterest, conversationSummary, messages } = req.body;
+  const { firstName, email, phone, smsConsent, primaryGoal, treatmentInterest, preferredLocation, conversationSummary, messages } = req.body;
   if (!email && !phone) return res.status(400).json({ error: "Email or phone is required" });
+
+  // Whitelist preferredLocation values to avoid arbitrary text in this column.
+  const safeLocation =
+    preferredLocation === "kingsport" || preferredLocation === "jonesborough"
+      ? preferredLocation
+      : null;
 
   try {
     await db.query(
-      `INSERT INTO kelli_leads ("firstName", email, phone, "smsConsent", "primaryGoal", "treatmentInterest", "conversationSummary", messages, status, source)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'new','kelliai')`,
+      `INSERT INTO kelli_leads ("firstName", email, phone, "smsConsent", "primaryGoal", "treatmentInterest", "preferredLocation", "conversationSummary", messages, status, source)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'new','kelliai')`,
       [firstName || null, email ? String(email).toLowerCase() : null, phone || null, !!smsConsent,
-       primaryGoal || null, treatmentInterest || null, conversationSummary || null,
+       primaryGoal || null, treatmentInterest || null, safeLocation, conversationSummary || null,
        messages ? JSON.stringify(messages) : null],
     );
     res.json({ success: true });
@@ -269,7 +278,7 @@ router.get("/kelliai/leads.csv", async (req: any, res: any) => {
   try {
     const { rows } = await db.query(`SELECT * FROM kelli_leads ORDER BY "createdAt" DESC`);
     const headers = ["id", "createdAt", "firstName", "email", "phone", "smsConsent",
-                     "primaryGoal", "treatmentInterest", "status", "source", "conversationSummary"];
+                     "primaryGoal", "treatmentInterest", "preferredLocation", "status", "source", "conversationSummary"];
     const csv = [headers.join(","), ...rows.map((r: any) => headers.map((h) => csvEscape(r[h])).join(","))].join("\n");
     res.setHeader("Content-Type", "text/csv; charset=utf-8");
     res.setHeader("Content-Disposition", `attachment; filename="kelliai-leads-${new Date().toISOString().slice(0,10)}.csv"`);

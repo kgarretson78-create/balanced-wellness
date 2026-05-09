@@ -108,7 +108,7 @@ const data = {
     { name: "Before & After Gallery", path: "/gallery", desc: "Real lip filler results from our patients." },
     { name: "RF Microneedling Kingsport TN", path: "/rf-microneedling-kingsport-tn", desc: "Improve perioral skin texture and fine lines." },
     { name: "VIP Memberships", path: "/memberships", desc: "Save on lip filler with our membership plan." },
-    { name: "Book Consultation", path: "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", desc: "Schedule your free lip filler consultation." },
+    { name: "Book Consultation", path: "/book", desc: "Schedule your free lip filler consultation." },
   ],
   schemaDescription: "Lip filler injections in Kingsport TN at Balanced Wellness Medical Spa. Hyaluronic acid lip augmentation for natural volume, symmetry, and definition.",
 };

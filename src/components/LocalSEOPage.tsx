@@ -4,6 +4,11 @@ import { CheckCircle2, ChevronRight, MapPin, Phone, Calendar, Star, Navigation }
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessSchema } from "@/components/SchemaMarkup";
+import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
+
+function cityToLocationId(city: string): LocationId {
+  return city.toLowerCase().includes("jonesborough") ? "jonesborough" : "kingsport";
+}
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -52,6 +57,9 @@ export interface LocalSEOPageProps {
 
 export function LocalSEOPage(props: LocalSEOPageProps) {
   const { seo, hero, intro, services, whyUs, nearbyAreas, primaryLocation, secondaryLocation, faqs, relatedLinks } = props;
+  const primaryLocId = cityToLocationId(primaryLocation.city);
+  const primaryBookingUrl = LOCATIONS[primaryLocId].bookingUrl;
+  const handlePrimaryBooking = () => setPreferredLocation(primaryLocId);
 
   return (
     <PageLayout>
@@ -75,7 +83,7 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer"
+                href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
               >
                 <Calendar className="w-4 h-4" />
@@ -143,7 +151,7 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
                     <Navigation className="w-3 h-3" /> Get Directions
                   </a>
                 </div>
-                <Link href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer" className="block w-full text-center py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
+                <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="block w-full text-center py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
                   Book Appointment
                 </Link>
               </div>
@@ -203,7 +211,7 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
                 ))}
               </ul>
               <div className="mt-8 flex gap-3">
-                <Link href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer" className="px-6 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors">
+                <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="px-6 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors">
                   Book Consultation
                 </Link>
                 <Link href="/about" className="px-6 py-3 text-primary text-sm font-semibold rounded-full border border-primary hover:bg-primary hover:text-white transition-colors">
@@ -275,7 +283,7 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
             Balanced Wellness Medical Spa is {primaryLocation.city}'s premier destination for aesthetic medicine and wellness. Visit us today for a complimentary consultation.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all">
+            <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all">
               <Calendar className="w-4 h-4" />
               Book Your Free Consultation
             </Link>

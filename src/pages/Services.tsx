@@ -16,52 +16,67 @@ export default function Services() {
     {
       id: "injectables",
       title: "Injectables & Fillers",
+      tagline: "Smooth lines, restore volume",
+      bestFor: "Best for: Softening forehead lines, crow's feet, and restoring lip or cheek volume.",
       icon: <Sparkles className="w-8 h-8 text-primary" />,
-      shortDesc: "Restore youthful volume and smooth fine lines with premium cosmetic injectables.",
+      shortDesc: "Refresh your look with premium neurotoxins and hyaluronic acid fillers — placed by experienced injectors for results that look like you, only rested.",
       services: ["Botox & Dysport", "Jeuveau", "Daxxify", "Dermal Fillers", "Kybella", "Lip Enhancement"],
       link: "/injectables",
       price: 350,
-      img: "service-injectables.png"
+      img: "service-injectables.png",
+      gradient: "from-rose-100/60 via-champagne/30 to-primary/10",
     },
     {
       id: "laser",
       title: "Laser & Skin Treatments",
+      tagline: "Clearer, brighter, firmer skin",
+      bestFor: "Best for: Sun damage, fine lines, acne scars, large pores, and skin laxity.",
       icon: <Stethoscope className="w-8 h-8 text-primary" />,
-      shortDesc: "Reveal radiant, clear skin with advanced laser technology tailored to your skin type.",
+      shortDesc: "Advanced laser, IPL, and RF microneedling tailored to your skin type — to fade discoloration, smooth texture, and rebuild collagen over time.",
       services: ["Laser Hair Removal", "IPL / Photofacial", "Spectrum Erbium Laser", "RF Microneedling", "Skin Rejuvenation Packages"],
       link: "/laser-treatments",
       price: 1200,
-      img: "service-laser.png"
+      img: "service-laser.png",
+      gradient: "from-amber-100/50 via-background to-primary/10",
     },
     {
       id: "weight-loss",
-      title: "Weight Loss & Metabolic",
+      title: "Medical Weight Loss",
+      tagline: "Lose weight with medical support",
+      bestFor: "Best for: Patients who've tried diet and exercise and want medically supervised, sustainable progress.",
       icon: <Scale className="w-8 h-8 text-primary" />,
-      shortDesc: "Medically supervised weight loss with provider oversight and progress tracking.",
+      shortDesc: "Semaglutide and Tirzepatide programs guided by medical providers, with monthly check-ins, lab review, and a personalized plan — not a one-size shot.",
       services: ["Semaglutide / Tirzepatide", "Lipotropic Injections", "Body Contouring", "Metabolic Reset", "Nutrition Plans"],
       link: "/weight-loss",
       price: 699,
-      img: "service-weight.png"
+      img: "service-weight.png",
+      gradient: "from-emerald-100/50 via-background to-primary/10",
     },
     {
       id: "wellness",
-      title: "Wellness & Vitamin Injections",
+      title: "Wellness & IV Therapy",
+      tagline: "Energy, immunity & recovery",
+      bestFor: "Best for: Low energy, stress, post-illness recovery, athletes, and busy professionals.",
       icon: <Droplet className="w-8 h-8 text-primary" />,
-      shortDesc: "Optimize your inner vitality for outer radiance with holistic wellness therapies.",
+      shortDesc: "IV hydration, vitamin injections, peptides, and NAD+ — a quick-acting way to support energy, focus, and recovery from the inside out.",
       services: ["IV Hydration", "Peptide Therapy", "B12 & Vitamin D", "Lipotropic / Skinny Shot", "NAD+ Therapy"],
       link: "/wellness",
       price: 250,
-      img: "service-wellness.png"
+      img: "service-wellness.png",
+      gradient: "from-sky-100/50 via-background to-champagne/20",
     },
     {
       id: "hormones",
       title: "Hormone Optimization",
+      tagline: "Feel like yourself again",
+      bestFor: "Best for: Fatigue, low libido, mood changes, sleep issues, and midlife hormonal shifts (men & women).",
       icon: <Dna className="w-8 h-8 text-primary" />,
-      shortDesc: "Bioidentical hormone therapy for men and women to restore energy, mood, and vitality.",
+      shortDesc: "Bioidentical hormone therapy for men and women, guided by lab work and provider oversight — to help restore energy, focus, and balance.",
       services: ["Bioidentical HRT", "Testosterone Optimization", "Thyroid Support", "Adrenal Health", "Longevity Protocols"],
       link: "/hormone-optimization",
       price: 499,
-      img: "service-wellness.png"
+      img: "service-wellness.png",
+      gradient: "from-violet-100/50 via-background to-primary/10",
     },
   ];
 
@@ -146,11 +161,16 @@ export default function Services() {
               className={`flex flex-col lg:flex-row gap-12 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
             >
               <div className="w-full lg:w-1/2">
-                <div className="rounded-2xl overflow-hidden shadow-xl aspect-[4/3] bg-gradient-to-br from-secondary via-background to-champagne/10 border border-border flex flex-col items-center justify-center">
-                  <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    {cat.icon}
+                <div className={`relative rounded-2xl overflow-hidden shadow-xl aspect-[4/3] bg-gradient-to-br ${cat.gradient} border border-border flex flex-col items-center justify-center p-8`}>
+                  <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)", backgroundSize: "24px 24px" }} />
+                  <div className="relative z-10 text-center max-w-xs">
+                    <div className="w-20 h-20 rounded-2xl bg-white shadow-md flex items-center justify-center mb-5 mx-auto">
+                      {cat.icon}
+                    </div>
+                    <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-primary mb-2">{cat.tagline}</p>
+                    <h3 className="font-serif text-2xl font-bold text-foreground mb-3 leading-snug">{cat.title}</h3>
+                    <p className="text-sm text-foreground/60 italic">{cat.bestFor}</p>
                   </div>
-                  <p className="text-foreground/30 font-serif text-sm">Photos Coming Soon</p>
                 </div>
               </div>
               <div className="w-full lg:w-1/2 space-y-5">
@@ -185,14 +205,14 @@ export default function Services() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 shadow-md shadow-primary/15 transition-all text-sm"
                   >
-                    Book Now + Flexible Payments
+                    Book a Free Consultation
                     <ArrowRight className="w-4 h-4" />
                   </a>
                   <Link
                     href={cat.link}
                     className="inline-flex items-center px-6 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-300 text-sm"
                   >
-                    Explore Details
+                    See if this is right for me
                   </Link>
                 </div>
 
@@ -243,7 +263,7 @@ export default function Services() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-sm"
                 >
-                  Book Now + Flexible Payments
+                  Book a Free Consultation
                   <ArrowRight className="w-3.5 h-3.5" />
                 </a>
               </motion.div>

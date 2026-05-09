@@ -162,9 +162,22 @@ export default function Gallery() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-foreground/30 font-serif text-lg">Photos coming soon for this category.</p>
-                <p className="text-foreground/20 text-sm mt-2">Check back for updates!</p>
+              <div className="text-center py-20 px-6 max-w-2xl mx-auto">
+                <div className="rounded-2xl bg-gradient-to-br from-primary/5 via-background to-champagne/15 border border-border p-10">
+                  <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-primary mb-3">More results in-clinic</p>
+                  <h3 className="font-serif text-2xl font-bold text-foreground mb-3">Real outcomes, every day</h3>
+                  <p className="text-sm text-foreground/60 leading-relaxed mb-6">
+                    We have additional patient results in this category available to view privately during your consultation, with patient consent. Book a free consultation and we'll share examples relevant to your skin and goals.
+                  </p>
+                  <a
+                    href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-md shadow-primary/15"
+                  >
+                    Book a Free Consultation
+                  </a>
+                </div>
               </div>
             )}
           </motion.div>

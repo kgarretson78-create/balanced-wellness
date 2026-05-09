@@ -48,9 +48,25 @@ export default function About() {
           </div>
           <div className="relative">
             <div className="absolute -inset-3 bg-primary/10 rounded-3xl transform rotate-2" />
-            <div className="relative rounded-2xl shadow-xl z-10 w-full aspect-[4/3] bg-gradient-to-br from-secondary via-background to-champagne/20 border border-border flex flex-col items-center justify-center">
-              <Users className="w-16 h-16 text-primary/30 mb-4" />
-              <p className="text-foreground/40 font-serif text-lg">Team Photos Coming Soon</p>
+            <div className="relative rounded-2xl shadow-xl z-10 w-full aspect-[4/3] bg-gradient-to-br from-secondary via-background to-champagne/20 border border-border p-8 flex flex-col justify-center">
+              <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-primary mb-4">By the numbers</p>
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {[
+                  { value: "8,000+", label: "Patients Treated" },
+                  { value: "200+", label: "5-Star Reviews" },
+                  { value: "5+ yrs", label: "Serving Tri-Cities" },
+                  { value: "2", label: "Locations" },
+                ].map((s) => (
+                  <div key={s.label} className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-border text-center">
+                    <p className="text-2xl font-serif font-bold text-primary">{s.value}</p>
+                    <p className="text-[10px] uppercase tracking-wider text-foreground/50 mt-1">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-foreground/70 justify-center">
+                <Users className="w-4 h-4 text-primary" />
+                <span className="font-medium">Medical providers serving Kingsport & Jonesborough, TN</span>
+              </div>
             </div>
           </div>
         </div>

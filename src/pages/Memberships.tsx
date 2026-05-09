@@ -13,6 +13,8 @@ const tiers = [
     name: "Gold",
     price: "$99",
     period: "/month",
+    bestFor: "New patients starting their aesthetic journey",
+    idealIf: "You're booking 1–2 wellness or skincare visits a month and want member pricing.",
     icon: <Star className="w-8 h-8" />,
     color: "from-primary/15 to-primary/5",
     iconColor: "text-primary",
@@ -29,6 +31,8 @@ const tiers = [
     price: "$199",
     period: "/month",
     popular: true,
+    bestFor: "Regular patients who want consistent results",
+    idealIf: "You come in monthly for facials, peels, or injectables and want bigger savings plus VIP perks.",
     icon: <Crown className="w-8 h-8" />,
     color: "from-primary/15 to-accent/5",
     iconColor: "text-primary",
@@ -46,6 +50,8 @@ const tiers = [
     name: "Diamond",
     price: "$349",
     period: "/month",
+    bestFor: "Patients committed to total wellness & aesthetics",
+    idealIf: "You invest in injectables, IV therapy, and skin care regularly and want concierge-level access.",
     icon: <Gem className="w-8 h-8" />,
     color: "from-purple-500/10 to-primary/5",
     iconColor: "text-purple-600",
@@ -60,6 +66,17 @@ const tiers = [
       "VIP lounge access",
     ],
   },
+];
+
+const compareRows: { label: string; gold: string; platinum: string; diamond: string }[] = [
+  { label: "Discount on treatments", gold: "10%", platinum: "15%", diamond: "20%" },
+  { label: "Monthly included treatment", gold: "B12 or Lipo injection", platinum: "Facial, peel, or dermaplaning", diamond: "$150 injectable credit" },
+  { label: "Quarterly IV hydration", gold: "—", platinum: "—", diamond: "Included" },
+  { label: "Complimentary consultations", gold: "—", platinum: "Included", diamond: "Included" },
+  { label: "Priority / concierge booking", gold: "Priority", platinum: "Priority + VIP events", diamond: "Concierge scheduling" },
+  { label: "Birthday treatment bonus", gold: "Yes", platinum: "Yes", diamond: "Yes" },
+  { label: "Guest pass", gold: "—", platinum: "1x / quarter", diamond: "1x / quarter" },
+  { label: "Skin analysis", gold: "—", platinum: "—", diamond: "2x / year" },
 ];
 
 export default function Memberships() {
@@ -102,9 +119,15 @@ export default function Memberships() {
               </div>
 
               <h3 className="text-2xl font-serif font-bold text-foreground mb-1">{tier.name}</h3>
-              <div className="mb-6">
+              <div className="mb-3">
                 <span className="text-4xl font-bold text-foreground">{tier.price}</span>
                 <span className="text-foreground/50">{tier.period}</span>
+              </div>
+
+              <div className="mb-5 pb-5 border-b border-border/60">
+                <p className="text-[11px] uppercase tracking-[0.15em] font-semibold text-primary mb-1">Best for</p>
+                <p className="text-sm font-semibold text-foreground mb-2">{tier.bestFor}</p>
+                <p className="text-xs text-foreground/55 italic leading-relaxed">{tier.idealIf}</p>
               </div>
 
               <ul className="space-y-3 mb-8">
@@ -124,10 +147,65 @@ export default function Memberships() {
                     : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
                 }`}
               >
-                Join {tier.name}
+                Find My Best Membership Tier
               </Link>
             </motion.div>
           ))}
+        </div>
+      </Section>
+
+      <Section className="bg-secondary/20">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Compare Tiers</p>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">Side-by-Side Comparison</h2>
+            <p className="text-sm text-foreground/60 max-w-2xl mx-auto">Not sure which tier fits? Here's what's included at each level. Or ask us — we'll recommend based on the treatments you actually use.</p>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-border bg-white shadow-sm">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-secondary/40 border-b border-border">
+                  <th className="text-left p-4 font-semibold text-foreground/70 text-xs uppercase tracking-wider">Feature</th>
+                  <th className="text-center p-4 font-serif font-bold text-foreground">Gold</th>
+                  <th className="text-center p-4 font-serif font-bold text-foreground bg-primary/5">
+                    Platinum
+                    <span className="block text-[10px] font-sans font-semibold text-primary uppercase tracking-wider mt-0.5">Most Popular</span>
+                  </th>
+                  <th className="text-center p-4 font-serif font-bold text-foreground">Diamond</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compareRows.map((row, i) => (
+                  <tr key={row.label} className={i % 2 === 0 ? "bg-background/40" : ""}>
+                    <td className="p-4 font-medium text-foreground/80">{row.label}</td>
+                    <td className="p-4 text-center text-foreground/70">{row.gold}</td>
+                    <td className="p-4 text-center text-foreground/80 bg-primary/5">{row.platinum}</td>
+                    <td className="p-4 text-center text-foreground/70">{row.diamond}</td>
+                  </tr>
+                ))}
+                <tr className="border-t border-border">
+                  <td className="p-4 font-medium text-foreground/80">Monthly price</td>
+                  <td className="p-4 text-center font-serif font-bold text-foreground">$99</td>
+                  <td className="p-4 text-center font-serif font-bold text-foreground bg-primary/5">$199</td>
+                  <td className="p-4 text-center font-serif font-bold text-foreground">$349</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="text-center text-xs text-foreground/50 mt-4 italic">All memberships include a 6-month minimum commitment. Cancel anytime after with 30-day notice.</p>
+
+          <div className="text-center mt-8">
+            <a
+              href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-md shadow-primary/15"
+            >
+              Ask About Memberships
+            </a>
+          </div>
         </div>
       </Section>
 

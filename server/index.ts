@@ -19,18 +19,29 @@ const PORT = process.env.PORT || 3000;
 
 // Resolve the Vite build output. Try a few likely locations so the server
 // keeps working regardless of cwd Railway runs from.
-function resolveDistPath(): string {
+function resolveDistPath(): { distPath: string; tried: string[]; found: boolean } {
   const candidates = [
+    process.env.DIST_PATH,
     path.resolve(process.cwd(), "dist"),
     path.resolve(__dirname, "../dist"),
     path.resolve(__dirname, "../../dist"),
-  ];
+    path.resolve(__dirname, "..", "..", "dist"),
+    "/app/dist",
+  ].filter(Boolean) as string[];
   for (const c of candidates) {
-    if (fs.existsSync(path.join(c, "index.html"))) return c;
+    if (fs.existsSync(path.join(c, "index.html"))) {
+      return { distPath: c, tried: candidates, found: true };
+    }
   }
-  return candidates[0];
+  return { distPath: candidates[0], tried: candidates, found: false };
 }
-const distPath = resolveDistPath();
+const { distPath, tried: distTried, found: distFound } = resolveDistPath();
+if (!distFound) {
+  console.error("[server] CRITICAL: dist/index.html not found. Tried:");
+  for (const c of distTried) console.error(`  - ${c}`);
+  console.error("[server] cwd:", process.cwd());
+  console.error("[server] __dirname:", __dirname);
+}
 
 const CANONICAL_HOST = process.env.CANONICAL_HOST || "balancedmedicalspa.com";
 
@@ -54,7 +65,14 @@ app.use("/api", kelliaiRouter);
 
 // Health check
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok", service: "Balanced Wellness Medical Spa", ts: new Date().toISOString() });
+  res.json({
+    status: "ok",
+    service: "Balanced Wellness Medical Spa",
+    ts: new Date().toISOString(),
+    distFound,
+    distPath,
+    cwd: process.cwd(),
+  });
 });
 
 // Explicit static SEO files — guarantees correct Content-Type and avoids
@@ -81,6 +99,15 @@ app.use(express.static(distPath, {
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api/")) {
     res.status(404).json({ error: "Not found" });
+    return;
+  }
+  if (!distFound) {
+    res.status(503).type("text/plain").send(
+      `Service starting: frontend build artifacts not found.\n\n` +
+      `Tried:\n${distTried.map((p) => "  - " + p).join("\n")}\n\n` +
+      `cwd: ${process.cwd()}\n__dirname: ${__dirname}\n` +
+      `Check the Railway build logs — \`npm run build\` should produce dist/index.html.\n`
+    );
     return;
   }
   res.setHeader("Cache-Control", "no-cache");

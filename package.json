@@ -1,9 +1,6 @@
 {
   "name": "balanced-wellness-medspa",
   "version": "1.0.0",
-  "engines": {
-  "node": ">=20"
-},
   "private": true,
   "type": "module",
   "scripts": {
@@ -71,7 +68,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@tanstack/react-query": "^5.0.0",
     "@tailwindcss/typography": "^0.5.15",
     "@tailwindcss/vite": "^4.0.0",
     "@types/cors": "^2.8.17",

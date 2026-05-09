@@ -5,11 +5,13 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import kelliaiRouter from "./routes/kelliai.js";
 
 dotenv.config();
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,7 +27,7 @@ app.get("/health", (_req, res) => {
 });
 
 // Serve React build (Vite outputs to /dist)
-const distPath = path.join(process.cwd(), "dist");
+const distPath = path.resolve(__dirname, "../../dist");
 app.use(express.static(distPath));
 
 // React Router catch-all — serve index.html for all non-API routes

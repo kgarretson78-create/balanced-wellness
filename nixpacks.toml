@@ -1,0 +1,16 @@
+# Explicit Nixpacks plan for Railway. Prevents auto-detect from picking up
+# the wrong start command if it ever sees a stray entrypoint at the repo root.
+
+[phases.setup]
+nixPkgs = ["nodejs_20"]
+
+[phases.install]
+# Force devDeps so vite/tsc are available in the build phase even when
+# Railway sets NODE_ENV=production at the platform level.
+cmds = ["npm install --include=dev --no-audit --no-fund"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run ensure-build && node dist-server/index.js"

@@ -4,6 +4,7 @@ import { CheckCircle2, ChevronRight, MapPin, Phone, Calendar, Star, AlertCircle,
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { ServiceSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
+import { openBookingChooser } from "@/components/BookingChooser";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -103,13 +104,14 @@ export function SEOServicePage(props: SEOServicePageProps) {
               {hero.subheadline}
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Link
-                href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => openBookingChooser({ source: "seo-service-hero" })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
               >
                 <Calendar className="w-4 h-4" />
                 Book a Consultation
-              </Link>
+              </button>
               <a
                 href="tel:423-765-1393"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-all"
@@ -166,9 +168,13 @@ export function SEOServicePage(props: SEOServicePageProps) {
                   <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
                   <span className="text-sm text-foreground/70">Free consultations available</span>
                 </div>
-                <Link href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer" className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
+                <button
+                  type="button"
+                  onClick={() => openBookingChooser({ source: "seo-service-quickfacts" })}
+                  className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
+                >
                   Book Free Consult <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                </button>
               </div>
               <div className="bg-foreground rounded-2xl p-5 text-white">
                 <p className="text-xs text-white/50 uppercase tracking-widest mb-1">Both Locations</p>
@@ -355,13 +361,14 @@ export function SEOServicePage(props: SEOServicePageProps) {
             Schedule your complimentary consultation at our Kingsport or Jonesborough clinic today. Our expert providers will design a personalized treatment plan just for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBookingChooser({ source: "seo-service-final" })}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
             >
               <Calendar className="w-4 h-4" />
               Book Your Free Consultation
-            </Link>
+            </button>
             <a
               href="tel:423-765-1393"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-all"

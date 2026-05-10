@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Wallet, Layers, CalendarRange, ShieldCheck, ArrowRight } from "lucide-react";
-
-const PODIUM_BOOKING_URL =
-  "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505";
+import { openBookingChooser } from "@/components/BookingChooser";
 
 const cards = [
   {
@@ -101,14 +99,13 @@ export function FlexiblePaymentsSection() {
               View Services + Payment Options
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
-            <a
-              href={PODIUM_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBookingChooser({ source: "flex-payments-section" })}
               className="inline-flex items-center justify-center px-7 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-300 text-sm"
             >
               Book Now + Flexible Payments
-            </a>
+            </button>
           </div>
 
           <p className="text-[11px] text-foreground/40 mt-4 italic text-center max-w-xl">

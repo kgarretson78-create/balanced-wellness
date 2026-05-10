@@ -4,8 +4,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { Sparkles, Stethoscope, Droplet, Dna, Scale, Zap, Gem, Sun, Activity, ArrowRight } from "lucide-react";
-
-const PODIUM_BOOKING_URL = "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505";
+import { openBookingChooser } from "@/components/BookingChooser";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
@@ -199,15 +198,14 @@ export default function Services() {
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <a
-                    href={PODIUM_BOOKING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => openBookingChooser({ source: "services-category" })}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 shadow-md shadow-primary/15 transition-all text-sm"
                   >
                     Book a Free Consultation
                     <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </button>
                   <Link
                     href={cat.link}
                     className="inline-flex items-center px-6 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-300 text-sm"
@@ -257,15 +255,14 @@ export default function Services() {
                 <p className="text-sm text-primary font-semibold mb-4">
                   As low as ${monthly(s.price)}/month*
                 </p>
-                <a
-                  href={PODIUM_BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openBookingChooser({ source: "services-featured" })}
                   className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-sm"
                 >
                   Book a Free Consultation
                   <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+                </button>
               </motion.div>
             ))}
           </div>

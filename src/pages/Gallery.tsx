@@ -5,6 +5,7 @@ import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { motion, AnimatePresence } from "framer-motion";
+import { openBookingChooser } from "@/components/BookingChooser";
 
 interface GalleryItem {
   id: string;
@@ -169,14 +170,13 @@ export default function Gallery() {
                   <p className="text-sm text-foreground/60 leading-relaxed mb-6">
                     We have additional patient results in this category available to view privately during your consultation, with patient consent. Book a free consultation and we'll share examples relevant to your skin and goals.
                   </p>
-                  <a
-                    href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() => openBookingChooser({ source: "gallery-empty" })}
                     className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-md shadow-primary/15"
                   >
                     Book a Free Consultation
-                  </a>
+                  </button>
                 </div>
               </div>
             )}

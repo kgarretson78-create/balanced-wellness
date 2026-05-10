@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, Sparkles, Calendar, Camera, ArrowRight, User, Mail, Phone, CheckCircle2, RotateCcw, Aperture, Upload, Volume2, Loader2 } from "lucide-react";
+import { openBookingChooser } from "@/components/BookingChooser";
+import { getPreferredLocation } from "@/lib/booking";
 
 interface Message {
   id: number;
@@ -1190,7 +1192,7 @@ export function KelliAIChat() {
 
   const handleAction = useCallback((action: string) => {
     if (action === "book") {
-      window.open("https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", "_blank");
+      openBookingChooser({ source: "kelliai" });
     } else if (action === "skin-analyzer" || action === "start-selfie") {
       setPreviewMode(null);
       setShowCamera(true);
@@ -1212,6 +1214,7 @@ export function KelliAIChat() {
     try {
       const apiBase = (import.meta as any).env?.VITE_API_URL || "/api";
       const summary = conversationRef.current.slice(-6).map(m => `${m.role}: ${m.content.slice(0, 200)}`).join("\n");
+      const preferredLocation = getPreferredLocation();
       await fetch(`${apiBase}/kelliai/lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1222,6 +1225,7 @@ export function KelliAIChat() {
           smsConsent: data.smsConsent,
           conversationSummary: summary,
           messages: conversationRef.current.slice(-20),
+          preferredLocation,
         }),
       });
     } catch (err) {

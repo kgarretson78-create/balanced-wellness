@@ -13,6 +13,8 @@ import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useEffect } from "react";
+import { openBookingChooser } from "@/components/BookingChooser";
+import { BOOKING_LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 const fadeUp = {
@@ -26,8 +28,6 @@ const stagger = {
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
 };
-
-const BOOKING_URL = "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505";
 
 const homeFaqs = [
   {
@@ -153,11 +153,14 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"
-                className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm">
+              <button
+                type="button"
+                onClick={() => openBookingChooser({ source: "home-hero" })}
+                className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm"
+              >
                 Book a Free Consultation
                 <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </button>
               <button onClick={() => (document.querySelector('[aria-label="Open KelliAI Chat"]') as HTMLButtonElement)?.click()}
                 className="px-8 py-3.5 bg-white/[0.06] backdrop-blur-sm text-white text-center font-medium rounded-full border border-white/[0.12] hover:bg-white/[0.12] transition-all duration-300 text-sm flex items-center justify-center gap-2">
                 <Bot className="w-4 h-4" /> Ask KelliAI
@@ -309,7 +312,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/gallery" className="inline-block px-7 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">View Full Gallery</Link>
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book a Free Consultation</a>
+          <button type="button" onClick={() => openBookingChooser({ source: "home-gallery-cta" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book a Free Consultation</button>
         </div>
       </Section>
 
@@ -436,10 +439,17 @@ export default function Home() {
               <div className="h-36 bg-muted rounded-xl overflow-hidden border border-border mb-4">
                 <iframe src={loc.mapSrc} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`${loc.city} Location Map`} />
               </div>
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => {
+                  const id = (loc.city.toLowerCase() === "kingsport" ? "kingsport" : "jonesborough") as LocationId;
+                  setPreferredLocation(id);
+                  const target = BOOKING_LOCATIONS.find((l) => l.id === id);
+                  if (target) window.open(target.bookingUrl, "_blank", "noopener,noreferrer");
+                }}
                 className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15">
                 <CalendarCheck className="w-4 h-4" /> Book at {loc.city}
-              </a>
+              </button>
             </motion.div>
           ))}
         </div>
@@ -458,10 +468,10 @@ export default function Home() {
             <Phone className="w-4 h-4 text-primary" />
             <span className="text-[10px] font-medium uppercase tracking-wide">Call</span>
           </a>
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer"
+          <button type="button" onClick={() => openBookingChooser({ source: "home-mobile-sticky" })}
             className="flex-[2] flex items-center justify-center py-3 bg-primary text-white font-semibold text-sm gap-2 hover:bg-primary/90 transition-colors">
             <CalendarCheck className="w-4 h-4" /> Book Free Consult
-          </a>
+          </button>
           <Link href="/sms-consent" className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-l border-border text-foreground/70 hover:bg-background transition-colors">
             <MessageSquare className="w-4 h-4 text-primary" />
             <span className="text-[10px] font-medium uppercase tracking-wide">Text</span>

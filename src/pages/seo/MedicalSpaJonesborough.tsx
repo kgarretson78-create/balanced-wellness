@@ -86,7 +86,7 @@ const data = {
     { name: "Weight Loss Clinic Kingsport", path: "/weight-loss-clinic-kingsport-tn", desc: "Semaglutide weight loss programs." },
     { name: "Hormone Therapy Kingsport", path: "/hormone-therapy-kingsport-tn", desc: "Bioidentical HRT programs." },
     { name: "VIP Memberships", path: "/memberships", desc: "Membership benefits at both locations." },
-    { name: "Book Consultation", path: "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", desc: "Schedule at either location." },
+    { name: "Book Consultation", path: "/book", desc: "Schedule at either location." },
   ],
 };
 

@@ -26,6 +26,7 @@ import { KelliAIChat } from "./components/KelliAI";
 import { FloatingBookButton } from "./components/FloatingBookButton";
 import { EmailSignupPopup } from "./components/EmailSignupPopup";
 import { VisitorTracker } from "./components/VisitorTracker";
+import { BookingChooser } from "./components/BookingChooser";
 
 // SEO Service Pages
 import BotoxKingsport from "./pages/seo/BotoxKingsport";
@@ -111,6 +112,7 @@ function GlobalOverlays() {
       <EmailSignupPopup />
       <KelliAIChat />
       <FloatingBookButton />
+      <BookingChooser />
     </>
   );
 }

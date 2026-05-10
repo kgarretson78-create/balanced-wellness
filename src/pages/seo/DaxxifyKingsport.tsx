@@ -104,7 +104,7 @@ const data = {
     { name: "Injectables & Fillers", path: "/injectables", desc: "Full injectable treatment menu." },
     { name: "VIP Memberships", path: "/memberships", desc: "Exclusive savings on premium treatments." },
     { name: "Before & After Gallery", path: "/gallery", desc: "See real patient results." },
-    { name: "Book Consultation", path: "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", desc: "Schedule your free Daxxify consultation." },
+    { name: "Book Consultation", path: "/book", desc: "Schedule your free Daxxify consultation." },
   ],
   schemaDescription: "Daxxify injections in Kingsport TN at Balanced Wellness Medical Spa. FDA-approved neurotoxin lasting up to 6 months for glabellar wrinkle reduction.",
 };

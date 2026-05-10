@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FlexiblePaymentsBand } from "@/components/FlexiblePaymentsBand";
+import { openBookingChooser } from "@/components/BookingChooser";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -119,15 +120,14 @@ export function Navbar() {
             <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
             <Link href="/sms-consent" className={navLinkClass("/sms-consent")}>Text Us</Link>
 
-            <a
-              href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBookingChooser({ source: "navbar" })}
               className="group flex items-center px-5 py-2 bg-primary text-white text-[13px] font-semibold rounded-full hover:bg-primary/90 shadow-sm shadow-primary/15 hover:shadow-md hover:shadow-primary/20 hover:-translate-y-[1px] transition-all duration-300"
             >
               Book Now
               <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </button>
           </nav>
 
           <button
@@ -181,14 +181,13 @@ export function Navbar() {
                 <a href="tel:423-646-2169" className="flex items-center px-3 text-sm text-foreground/50">
                   <Phone className="w-4 h-4 mr-3 text-primary" /> Jonesborough: (423) 646-2169
                 </a>
-                <a
-                  href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => openBookingChooser({ source: "navbar-mobile" })}
                   className="block w-full text-center mt-4 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-xl shadow-md shadow-primary/15"
                 >
                   Book Appointment
-                </a>
+                </button>
               </div>
             </div>
           </motion.div>

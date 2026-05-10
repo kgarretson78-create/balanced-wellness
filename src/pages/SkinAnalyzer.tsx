@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
+import { openBookingChooser } from "@/components/BookingChooser";
 import {
   Upload,
   Camera,
@@ -643,12 +644,13 @@ export default function SkinAnalyzer() {
                     Our team will review your AI skin analysis and reach out within 24 hours to schedule your personalized consultation.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Link
-                      href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => openBookingChooser({ source: "skin-analyzer-confirm" })}
                       className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors"
                     >
                       Book Your Personalized Consultation
-                    </Link>
+                    </button>
                     <Link
                       href="/services"
                       className="inline-flex items-center justify-center gap-2 px-7 py-3 text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-colors"

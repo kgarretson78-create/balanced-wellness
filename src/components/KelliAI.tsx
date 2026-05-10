@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X, Send, Bot, Sparkles, Calendar, Camera, ArrowRight, User, Mail, Phone, CheckCircle2, RotateCcw, Aperture, Upload, Volume2, Loader2 } from "lucide-react";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 import { getPreferredLocation } from "@/lib/booking";
 
 interface Message {
@@ -818,6 +818,7 @@ function LeadCaptureForm({ onSubmit }: { onSubmit: (data: LeadData) => void }) {
 }
 
 export function KelliAIChat() {
+  const { open: openBookingChooser } = useBookingChooser();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -1192,7 +1193,7 @@ export function KelliAIChat() {
 
   const handleAction = useCallback((action: string) => {
     if (action === "book") {
-      openBookingChooser({ source: "kelliai" });
+      openBookingChooser({ service: "Free Consultation" });
     } else if (action === "skin-analyzer" || action === "start-selfie") {
       setPreviewMode(null);
       setShowCamera(true);
@@ -1207,14 +1208,13 @@ export function KelliAIChat() {
     } else if (action === "more-previews") {
       processUserMessage("show me another treatment preview");
     }
-  }, []);
+  }, [openBookingChooser]);
 
   const handleLeadSubmit = useCallback(async (data: LeadData) => {
     setLeadCaptured(true);
     try {
       const apiBase = (import.meta as any).env?.VITE_API_URL || "/api";
       const summary = conversationRef.current.slice(-6).map(m => `${m.role}: ${m.content.slice(0, 200)}`).join("\n");
-      const preferredLocation = getPreferredLocation();
       await fetch(`${apiBase}/kelliai/lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1223,9 +1223,9 @@ export function KelliAIChat() {
           email: data.email,
           phone: data.phone,
           smsConsent: data.smsConsent,
+          preferredLocation: getPreferredLocation(),
           conversationSummary: summary,
           messages: conversationRef.current.slice(-20),
-          preferredLocation,
         }),
       });
     } catch (err) {

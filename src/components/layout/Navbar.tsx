@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FlexiblePaymentsBand } from "@/components/FlexiblePaymentsBand";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -11,6 +11,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const { open: openBookingChooser } = useBookingChooser();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -122,7 +123,7 @@ export function Navbar() {
 
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "navbar" })}
+              onClick={() => openBookingChooser()}
               className="group flex items-center px-5 py-2 bg-primary text-white text-[13px] font-semibold rounded-full hover:bg-primary/90 shadow-sm shadow-primary/15 hover:shadow-md hover:shadow-primary/20 hover:-translate-y-[1px] transition-all duration-300"
             >
               Book Now
@@ -183,7 +184,10 @@ export function Navbar() {
                 </a>
                 <button
                   type="button"
-                  onClick={() => openBookingChooser({ source: "navbar-mobile" })}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openBookingChooser();
+                  }}
                   className="block w-full text-center mt-4 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-xl shadow-md shadow-primary/15"
                 >
                   Book Appointment

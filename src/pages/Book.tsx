@@ -1,109 +1,108 @@
-import { useEffect, useState } from "react";
-import { Calendar, Phone, MessageSquare, MapPin } from "lucide-react";
+import { useEffect } from "react";
+import { Calendar, MapPin, Phone, MessageSquare, ArrowRight, AlertCircle } from "lucide-react";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { Section } from "@/components/ui/Section";
+import { SEO } from "@/components/SEO";
 import {
-  BOOKING_LOCATIONS,
+  ANY_DEDICATED_BOOKING_URL,
+  LOCATION_LIST,
   setPreferredLocation,
-  type LocationId,
   type BookingLocation,
 } from "@/lib/booking";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 export default function Book() {
-  const [picked, setPicked] = useState<LocationId | null>(null);
+  const { open } = useBookingChooser();
 
+  // Surface the chooser dialog automatically on this page so clicking
+  // "Book Now" anywhere always lands on a location choice — including direct
+  // /book visits from old links.
   useEffect(() => {
-    if (!picked) return;
-    const loc = BOOKING_LOCATIONS.find((l) => l.id === picked);
-    if (!loc) return;
-    setPreferredLocation(picked);
-    // Brief delay so users see what they picked before redirecting.
-    const t = window.setTimeout(() => {
-      window.location.href = loc.bookingUrl;
-    }, 250);
-    return () => window.clearTimeout(t);
-  }, [picked]);
+    open({ service: "your appointment" });
+  }, [open]);
+
+  const handleSelect = (loc: BookingLocation) => {
+    setPreferredLocation(loc.id);
+    window.open(loc.bookingUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-16">
-      <div className="w-full max-w-xl">
-        <div className="text-center mb-8">
-          <p className="text-champagne uppercase tracking-widest text-xs font-semibold mb-3">
-            Book an Appointment
-          </p>
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">
+    <PageLayout>
+      <SEO
+        title="Book an Appointment | Balanced Wellness Medical Spa Kingsport & Jonesborough TN"
+        description="Book your appointment at Balanced Wellness Medical Spa. Choose Kingsport or Jonesborough — or call/text us and we'll schedule you the same day."
+      />
+      <Section>
+        <div className="max-w-3xl mx-auto text-center mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[11px] uppercase tracking-widest font-semibold mb-4">
+            <Calendar className="w-3 h-3" />
+            Schedule
+          </div>
+          <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
             Choose your preferred location
           </h1>
-          <p className="text-sm text-foreground/60">
-            Pick the clinic you'd like to book at. If no times appear, give
-            us a call or text — we'll get you scheduled.
+          <p className="text-base md:text-lg text-foreground/60 leading-relaxed">
+            We have two convenient locations in Tennessee. Pick the one closest
+            to you and we'll open the scheduler. <strong>If no times show, just call or
+            text — we'll get you on the books today.</strong>
           </p>
         </div>
 
-        <div className="space-y-3">
-          {BOOKING_LOCATIONS.map((loc) => (
-            <BookCard
+        <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-5">
+          {LOCATION_LIST.map((loc) => (
+            <div
               key={loc.id}
-              loc={loc}
-              picked={picked === loc.id}
-              onPick={() => setPicked(loc.id as LocationId)}
-            />
+              className="rounded-2xl border border-border bg-white p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="w-4 h-4 text-primary" />
+                <h2 className="text-xl font-serif font-bold text-foreground">{loc.name}</h2>
+              </div>
+              <p className="text-sm text-foreground/60 leading-relaxed mb-4 pl-6">
+                {loc.address}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => handleSelect(loc)}
+                className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors mb-2"
+              >
+                <Calendar className="w-4 h-4" />
+                Book at {loc.name}
+                <ArrowRight className="w-3.5 h-3.5 opacity-80" />
+              </button>
+
+              <div className="grid grid-cols-2 gap-2">
+                <a
+                  href={loc.tel}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-white border border-border text-foreground/80 text-[12px] font-medium rounded-full hover:bg-secondary transition-colors"
+                >
+                  <Phone className="w-3.5 h-3.5 text-primary" />
+                  {loc.phone}
+                </a>
+                <a
+                  href={loc.smsTel}
+                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 bg-white border border-border text-foreground/80 text-[12px] font-medium rounded-full hover:bg-secondary transition-colors"
+                >
+                  <MessageSquare className="w-3.5 h-3.5 text-primary" />
+                  Text us
+                </a>
+              </div>
+            </div>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-foreground/50">
-          Don't see a time that works? Call or text either location and we'll
-          book you personally.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function BookCard({
-  loc,
-  picked,
-  onPick,
-}: {
-  loc: BookingLocation;
-  picked: boolean;
-  onPick: () => void;
-}) {
-  return (
-    <div className="bg-white rounded-2xl border border-border p-5 hover:border-primary/40 transition-colors">
-      <div className="mb-3">
-        <h2 className="font-serif font-bold text-xl text-foreground">
-          {loc.name}
-        </h2>
-        <p className="text-xs text-foreground/60 mt-1 flex items-start gap-1.5">
-          <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-primary" />
-          <span>
-            {loc.address}, {loc.cityState}
-          </span>
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <button
-          onClick={onPick}
-          disabled={picked}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors disabled:opacity-70"
-        >
-          <Calendar className="w-3.5 h-3.5" />
-          {picked ? "Opening…" : `Book ${loc.shortName}`}
-        </button>
-        <a
-          href={loc.phoneHref}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-secondary text-foreground text-sm font-medium rounded-full hover:bg-secondary/80 transition-colors"
-        >
-          <Phone className="w-3.5 h-3.5" />
-          {loc.phone}
-        </a>
-        <a
-          href={loc.smsHref}
-          className="inline-flex items-center gap-1.5 px-4 py-2 bg-secondary text-foreground text-sm font-medium rounded-full hover:bg-secondary/80 transition-colors"
-        >
-          <MessageSquare className="w-3.5 h-3.5" />
-          Text
-        </a>
-      </div>
-    </div>
+        {!ANY_DEDICATED_BOOKING_URL && (
+          <div className="max-w-3xl mx-auto mt-6 flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-900">
+            <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <span>
+              Online scheduling is being updated. If the calendar shows no
+              availability, please <strong>call or text</strong> the location
+              you'd like to visit and we'll schedule you right away.
+            </span>
+          </div>
+        )}
+      </Section>
+    </PageLayout>
   );
 }

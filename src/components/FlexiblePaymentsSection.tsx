@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Wallet, Layers, CalendarRange, ShieldCheck, ArrowRight } from "lucide-react";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const cards = [
   {
@@ -27,6 +27,7 @@ const cards = [
 ];
 
 export function FlexiblePaymentsSection() {
+  const { open: openBookingChooser } = useBookingChooser();
   return (
     <section className="relative py-20 sm:py-24 overflow-hidden bg-gradient-to-b from-background via-secondary/30 to-background">
       <div className="absolute inset-0 pointer-events-none opacity-[0.06]">
@@ -101,7 +102,7 @@ export function FlexiblePaymentsSection() {
             </Link>
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "flex-payments-section" })}
+              onClick={() => openBookingChooser({ service: "Treatment Plan + Flexible Payments" })}
               className="inline-flex items-center justify-center px-7 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors duration-300 text-sm"
             >
               Book Now + Flexible Payments

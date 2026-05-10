@@ -4,7 +4,7 @@ import { CheckCircle2, ChevronRight, MapPin, Phone, Calendar, Star, AlertCircle,
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { ServiceSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -74,6 +74,7 @@ const LOCATIONS = [
 
 export function SEOServicePage(props: SEOServicePageProps) {
   const { seo, hero, intro, benefits, candidates, expectations, faqs, relatedLinks, schemaDescription } = props;
+  const { open: openBookingChooser } = useBookingChooser();
 
   return (
     <PageLayout>
@@ -106,7 +107,7 @@ export function SEOServicePage(props: SEOServicePageProps) {
             <div className="flex flex-col sm:flex-row gap-3">
               <button
                 type="button"
-                onClick={() => openBookingChooser({ source: "seo-service-hero" })}
+                onClick={() => openBookingChooser({ service: hero.h1 })}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
               >
                 <Calendar className="w-4 h-4" />
@@ -168,11 +169,7 @@ export function SEOServicePage(props: SEOServicePageProps) {
                   <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
                   <span className="text-sm text-foreground/70">Free consultations available</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => openBookingChooser({ source: "seo-service-quickfacts" })}
-                  className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
-                >
+                <button type="button" onClick={() => openBookingChooser({ service: hero.h1 })} className="mt-5 flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
                   Book Free Consult <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -363,7 +360,7 @@ export function SEOServicePage(props: SEOServicePageProps) {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "seo-service-final" })}
+              onClick={() => openBookingChooser({ service: hero.h1 })}
               className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
             >
               <Calendar className="w-4 h-4" />

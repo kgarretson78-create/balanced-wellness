@@ -1,8 +1,9 @@
 import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
-import { openBookingChooser } from "./BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 export function FloatingBookButton() {
+  const { open } = useBookingChooser();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -12,7 +13,7 @@ export function FloatingBookButton() {
     >
       <button
         type="button"
-        onClick={() => openBookingChooser({ source: "floating-button" })}
+        onClick={() => open()}
         className="group flex items-center gap-2 px-5 py-2.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 text-[13px] shimmer"
       >
         <Calendar className="w-3.5 h-3.5" />

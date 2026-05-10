@@ -12,9 +12,9 @@ import { SEO } from "@/components/SEO";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
+import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
 import { useEffect } from "react";
-import { openBookingChooser } from "@/components/BookingChooser";
-import { BOOKING_LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
 const fadeUp = {
@@ -57,6 +57,7 @@ const homeFaqs = [
 ];
 
 export default function Home() {
+  const { open: openBookingChooser } = useBookingChooser();
   const featuredTreatments = [
     { name: "Botox / Dysport / Daxxify", desc: "Smooth wrinkles and prevent new lines with premium neurotoxins. Starting at $200–$600 depending on treatment areas.", icon: <Sparkles className="w-5 h-5" />, href: "/injectables", badge: "Most Popular" },
     { name: "Lip Filler", desc: "Enhance volume, shape, and symmetry for naturally beautiful lips with premium hyaluronic acid fillers.", icon: <HeartPulse className="w-5 h-5" />, href: "/injectables" },
@@ -153,11 +154,8 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="button"
-                onClick={() => openBookingChooser({ source: "home-hero" })}
-                className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm"
-              >
+              <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
+                className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm">
                 Book a Free Consultation
                 <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </button>
@@ -312,7 +310,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/gallery" className="inline-block px-7 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">View Full Gallery</Link>
-          <button type="button" onClick={() => openBookingChooser({ source: "home-gallery-cta" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book a Free Consultation</button>
+          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book a Free Consultation</button>
         </div>
       </Section>
 
@@ -422,8 +420,8 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {[
-            { city: "Kingsport", address: "1309 South John B Dennis Hwy, Suite 104", zip: "Kingsport, TN 37660", phone: "(423) 765-1393", tel: "423-765-1393", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.5494!3d36.5149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1309+S+John+B+Dennis+Hwy+%23104%2C+Kingsport%2C+TN+37660!5e0!3m2!1sen!2sus!4v1" },
-            { city: "Jonesborough", address: "120 South Cherokee St", zip: "Jonesborough, TN 37659", phone: "(423) 646-2169", tel: "423-646-2169", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.473!3d36.294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s120+S+Cherokee+St%2C+Jonesborough%2C+TN+37659!5e0!3m2!1sen!2sus!4v1" },
+            { id: "kingsport" as LocationId, city: "Kingsport", address: "1309 South John B Dennis Hwy, Suite 104", zip: "Kingsport, TN 37660", phone: "(423) 765-1393", tel: "423-765-1393", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.5494!3d36.5149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1309+S+John+B+Dennis+Hwy+%23104%2C+Kingsport%2C+TN+37660!5e0!3m2!1sen!2sus!4v1" },
+            { id: "jonesborough" as LocationId, city: "Jonesborough", address: "120 South Cherokee St", zip: "Jonesborough, TN 37659", phone: "(423) 646-2169", tel: "423-646-2169", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.473!3d36.294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s120+S+Cherokee+St%2C+Jonesborough%2C+TN+37659!5e0!3m2!1sen!2sus!4v1" },
           ].map((loc) => (
             <motion.div key={loc.city} {...fadeUp} className="luxury-card p-7">
               <h3 className="text-xl font-serif font-bold text-foreground mb-4">{loc.city} Location</h3>
@@ -439,17 +437,15 @@ export default function Home() {
               <div className="h-36 bg-muted rounded-xl overflow-hidden border border-border mb-4">
                 <iframe src={loc.mapSrc} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`${loc.city} Location Map`} />
               </div>
-              <button
-                type="button"
-                onClick={() => {
-                  const id = (loc.city.toLowerCase() === "kingsport" ? "kingsport" : "jonesborough") as LocationId;
-                  setPreferredLocation(id);
-                  const target = BOOKING_LOCATIONS.find((l) => l.id === id);
-                  if (target) window.open(target.bookingUrl, "_blank", "noopener,noreferrer");
-                }}
-                className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15">
+              <a
+                href={LOCATIONS[loc.id].bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setPreferredLocation(loc.id)}
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15"
+              >
                 <CalendarCheck className="w-4 h-4" /> Book at {loc.city}
-              </button>
+              </a>
             </motion.div>
           ))}
         </div>
@@ -468,7 +464,7 @@ export default function Home() {
             <Phone className="w-4 h-4 text-primary" />
             <span className="text-[10px] font-medium uppercase tracking-wide">Call</span>
           </a>
-          <button type="button" onClick={() => openBookingChooser({ source: "home-mobile-sticky" })}
+          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
             className="flex-[2] flex items-center justify-center py-3 bg-primary text-white font-semibold text-sm gap-2 hover:bg-primary/90 transition-colors">
             <CalendarCheck className="w-4 h-4" /> Book Free Consult
           </button>

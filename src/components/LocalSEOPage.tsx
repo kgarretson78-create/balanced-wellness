@@ -4,7 +4,11 @@ import { CheckCircle2, ChevronRight, MapPin, Phone, Calendar, Star, Navigation }
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessSchema } from "@/components/SchemaMarkup";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
+
+function cityToLocationId(city: string): LocationId {
+  return city.toLowerCase().includes("jonesborough") ? "jonesborough" : "kingsport";
+}
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -53,6 +57,9 @@ export interface LocalSEOPageProps {
 
 export function LocalSEOPage(props: LocalSEOPageProps) {
   const { seo, hero, intro, services, whyUs, nearbyAreas, primaryLocation, secondaryLocation, faqs, relatedLinks } = props;
+  const primaryLocId = cityToLocationId(primaryLocation.city);
+  const primaryBookingUrl = LOCATIONS[primaryLocId].bookingUrl;
+  const handlePrimaryBooking = () => setPreferredLocation(primaryLocId);
 
   return (
     <PageLayout>
@@ -75,14 +82,13 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
               {hero.subheadline}
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                type="button"
-                onClick={() => openBookingChooser({ source: `local-seo-${primaryLocation.city}-hero` })}
+              <Link
+                href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
               >
                 <Calendar className="w-4 h-4" />
                 Book a Free Consultation
-              </button>
+              </Link>
               <a
                 href={`tel:${primaryLocation.tel}`}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-all"
@@ -145,13 +151,9 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
                     <Navigation className="w-3 h-3" /> Get Directions
                   </a>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => openBookingChooser({ source: `local-seo-${primaryLocation.city}-sidebar` })}
-                  className="block w-full text-center py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
-                >
+                <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="block w-full text-center py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
                   Book Appointment
-                </button>
+                </Link>
               </div>
               <div className="bg-secondary rounded-xl p-5 border border-border">
                 <p className="text-xs text-foreground/50 uppercase tracking-widest mb-3 font-medium">Also Serving</p>
@@ -209,13 +211,9 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
                 ))}
               </ul>
               <div className="mt-8 flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => openBookingChooser({ source: `local-seo-${primaryLocation.city}-whyus` })}
-                  className="px-6 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors"
-                >
+                <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="px-6 py-3 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors">
                   Book Consultation
-                </button>
+                </Link>
                 <Link href="/about" className="px-6 py-3 text-primary text-sm font-semibold rounded-full border border-primary hover:bg-primary hover:text-white transition-colors">
                   Learn About Us
                 </Link>
@@ -285,14 +283,10 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
             Balanced Wellness Medical Spa is {primaryLocation.city}'s premier destination for aesthetic medicine and wellness. Visit us today for a complimentary consultation.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <button
-              type="button"
-              onClick={() => openBookingChooser({ source: `local-seo-${primaryLocation.city}-final` })}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all"
-            >
+            <Link href={primaryBookingUrl} target="_blank" rel="noopener noreferrer" onClick={handlePrimaryBooking} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full shadow-lg hover:bg-primary/90 hover:-translate-y-0.5 transition-all">
               <Calendar className="w-4 h-4" />
               Book Your Free Consultation
-            </button>
+            </Link>
             <a href={`tel:${primaryLocation.tel}`} className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-all">
               <Phone className="w-4 h-4 text-primary" />
               Call {primaryLocation.phone}

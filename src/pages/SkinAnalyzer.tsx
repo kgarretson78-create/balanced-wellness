@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 import {
   Upload,
   Camera,
@@ -186,6 +186,7 @@ function ScoreRing({ score, size = 56 }: { score: number; size?: number }) {
 }
 
 export default function SkinAnalyzer() {
+  const { open: openBookingChooser } = useBookingChooser();
   const [step, setStep] = useState<Step>("hero");
   const [preview, setPreview] = useState<string | null>(null);
   const [analysisProgress, setAnalysisProgress] = useState(0);
@@ -646,7 +647,7 @@ export default function SkinAnalyzer() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       type="button"
-                      onClick={() => openBookingChooser({ source: "skin-analyzer-confirm" })}
+                      onClick={() => openBookingChooser({ service: "Personalized Skin Consultation" })}
                       className="inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors"
                     >
                       Book Your Personalized Consultation

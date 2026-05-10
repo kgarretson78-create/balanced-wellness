@@ -4,13 +4,14 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { Sparkles, Stethoscope, Droplet, Dna, Scale, Zap, Gem, Sun, Activity, ArrowRight } from "lucide-react";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
 const monthly = (price: number) => Math.ceil(price / 12);
 
 export default function Services() {
+  const { open: openBookingChooser } = useBookingChooser();
   const categories = [
     {
       id: "injectables",
@@ -200,7 +201,7 @@ export default function Services() {
                 <div className="flex flex-wrap gap-3">
                   <button
                     type="button"
-                    onClick={() => openBookingChooser({ source: "services-category" })}
+                    onClick={() => openBookingChooser({ service: cat.title })}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 shadow-md shadow-primary/15 transition-all text-sm"
                   >
                     Book a Free Consultation
@@ -257,7 +258,7 @@ export default function Services() {
                 </p>
                 <button
                   type="button"
-                  onClick={() => openBookingChooser({ source: "services-featured" })}
+                  onClick={() => openBookingChooser({ service: s.title })}
                   className="inline-flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-sm"
                 >
                   Book a Free Consultation

@@ -5,7 +5,7 @@ import { SEO } from "@/components/SEO";
 import { CheckCircle2, Crown, Gem, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
@@ -81,6 +81,7 @@ const compareRows: { label: string; gold: string; platinum: string; diamond: str
 ];
 
 export default function Memberships() {
+  const { open: openBookingChooser } = useBookingChooser();
   return (
     <PageLayout>
       <SEO title="VIP Memberships | Balanced Wellness Medical Spa Kingsport TN" description="Exclusive VIP membership plans at Balanced Wellness Medical Spa. Gold, Platinum, and Diamond tiers with savings on Botox, fillers, laser treatments, and wellness services in Kingsport & Jonesborough TN." keywords="med spa membership Kingsport TN, VIP membership Jonesborough TN, Botox membership, monthly aesthetic plan, medical spa savings" />
@@ -142,8 +143,8 @@ export default function Memberships() {
 
               <button
                 type="button"
-                onClick={() => openBookingChooser({ source: "memberships-tier", intent: tier.name })}
-                className={`block w-full text-center py-3 rounded-full font-semibold transition-colors ${
+                onClick={() => openBookingChooser({ service: `${tier.name} Membership Consultation` })}
+                className={`block text-center w-full py-3 rounded-full font-semibold transition-colors ${
                   tier.popular
                     ? 'bg-primary text-white hover:bg-primary/90'
                     : 'border-2 border-primary text-primary hover:bg-primary hover:text-white'
@@ -201,7 +202,7 @@ export default function Memberships() {
           <div className="text-center mt-8">
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "memberships-ask", intent: "membership" })}
+              onClick={() => openBookingChooser({ service: "Membership Consultation" })}
               className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-md shadow-primary/15"
             >
               Ask About Memberships

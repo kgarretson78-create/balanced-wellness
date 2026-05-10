@@ -11,7 +11,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const providers = [
   {
@@ -67,6 +67,7 @@ const faqs = [
 ];
 
 export default function FlexiblePayments() {
+  const { open: openBookingChooser } = useBookingChooser();
   return (
     <PageLayout>
       <SEO
@@ -111,7 +112,7 @@ export default function FlexiblePayments() {
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "flex-payments-page-top" })}
+              onClick={() => openBookingChooser({ service: "Treatment Plan + Flexible Payments" })}
               className="group inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 shadow-md shadow-primary/15 transition-all text-sm"
             >
               Book Now + Flexible Payments
@@ -240,7 +241,7 @@ export default function FlexiblePayments() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               type="button"
-              onClick={() => openBookingChooser({ source: "flex-payments-page-final" })}
+              onClick={() => openBookingChooser({ service: "Treatment Plan + Flexible Payments" })}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-primary font-semibold rounded-full hover:bg-champagne transition-colors text-sm shadow-lg"
             >
               Book Now + Flexible Payments

@@ -37,16 +37,15 @@ if (process.env.DATABASE_URL) {
       "smsConsent" BOOLEAN DEFAULT FALSE,
       "primaryGoal" TEXT,
       "treatmentInterest" TEXT,
+      "preferredLocation" TEXT,
       "conversationSummary" TEXT,
       messages JSONB,
       status TEXT DEFAULT 'new',
-      source TEXT DEFAULT 'kelliai',
-      "preferredLocation" TEXT
+      source TEXT DEFAULT 'kelliai'
     )
-  `).catch((e: Error) => console.error("DB init error:", e.message));
-  // Backfill column for existing deployments where the table predates this field.
-  db.query(`ALTER TABLE kelli_leads ADD COLUMN IF NOT EXISTS "preferredLocation" TEXT`)
-    .catch((e: Error) => console.error("DB migrate error:", e.message));
+  `).then(() =>
+    db!.query(`ALTER TABLE kelli_leads ADD COLUMN IF NOT EXISTS "preferredLocation" TEXT`),
+  ).catch((e: Error) => console.error("DB init error:", e.message));
 }
 
 // ── ElevenLabs rate limit ───────────────────────────────────────────────────
@@ -78,7 +77,7 @@ YOUR PERSONALITY:
 ABOUT BALANCED WELLNESS:
 - Kingsport: 1309 S John B Dennis Hwy, Suite 104, Kingsport, TN 37660 · (423) 765-1393
 - Jonesborough: 120 S Cherokee St, Jonesborough, TN 37867 · (423) 646-2169
-- Booking: https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505
+- Booking: visitors should use the on-site "Book" buttons (which open a Kingsport vs Jonesborough chooser) or call the location directly. Never paste a raw scheduling URL — direct them to the in-page button or to call/text the location they prefer.
 - Founders/Team: Kelli Griffey (Founder & CEO), Shelly Ketron (PA-C, Lead Injector), Sophia Arias (COO)
 
 TREATMENTS WE OFFER:
@@ -224,20 +223,22 @@ router.post("/kelliai/voice", async (req: any, res: any) => {
 router.post("/kelliai/lead", async (req: any, res: any) => {
   if (!db) return res.status(503).json({ error: "Database not configured. Set DATABASE_URL." });
 
-  const { firstName, email, phone, smsConsent, primaryGoal, treatmentInterest, conversationSummary, messages, preferredLocation } = req.body;
+  const { firstName, email, phone, smsConsent, primaryGoal, treatmentInterest, preferredLocation, conversationSummary, messages } = req.body;
   if (!email && !phone) return res.status(400).json({ error: "Email or phone is required" });
 
-  const safeLocation = preferredLocation === "kingsport" || preferredLocation === "jonesborough"
-    ? preferredLocation
-    : null;
+  // Whitelist preferredLocation values to avoid arbitrary text in this column.
+  const safeLocation =
+    preferredLocation === "kingsport" || preferredLocation === "jonesborough"
+      ? preferredLocation
+      : null;
 
   try {
     await db.query(
-      `INSERT INTO kelli_leads ("firstName", email, phone, "smsConsent", "primaryGoal", "treatmentInterest", "conversationSummary", messages, status, source, "preferredLocation")
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,'new','kelliai',$9)`,
+      `INSERT INTO kelli_leads ("firstName", email, phone, "smsConsent", "primaryGoal", "treatmentInterest", "preferredLocation", "conversationSummary", messages, status, source)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'new','kelliai')`,
       [firstName || null, email ? String(email).toLowerCase() : null, phone || null, !!smsConsent,
-       primaryGoal || null, treatmentInterest || null, conversationSummary || null,
-       messages ? JSON.stringify(messages) : null, safeLocation],
+       primaryGoal || null, treatmentInterest || null, safeLocation, conversationSummary || null,
+       messages ? JSON.stringify(messages) : null],
     );
     res.json({ success: true });
   } catch (error) {

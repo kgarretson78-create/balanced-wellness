@@ -5,7 +5,7 @@ import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { motion, AnimatePresence } from "framer-motion";
-import { openBookingChooser } from "@/components/BookingChooser";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 interface GalleryItem {
   id: string;
@@ -71,6 +71,7 @@ const categories = ["All", "CO2 Laser", "RF Microneedling", "Lip Filler", "Botox
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const { open: openBookingChooser } = useBookingChooser();
 
   const filteredItems = activeCategory === "All"
     ? galleryItems
@@ -172,7 +173,7 @@ export default function Gallery() {
                   </p>
                   <button
                     type="button"
-                    onClick={() => openBookingChooser({ source: "gallery-empty" })}
+                    onClick={() => openBookingChooser({ service: "Free Consultation" })}
                     className="inline-flex items-center gap-2 px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all text-sm shadow-md shadow-primary/15"
                   >
                     Book a Free Consultation

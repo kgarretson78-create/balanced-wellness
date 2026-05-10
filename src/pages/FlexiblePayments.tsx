@@ -11,9 +11,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
-
-const PODIUM_BOOKING_URL =
-  "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505";
+import { useBookingChooser } from "@/components/booking/LocationChooser";
 
 const providers = [
   {
@@ -69,6 +67,7 @@ const faqs = [
 ];
 
 export default function FlexiblePayments() {
+  const { open: openBookingChooser } = useBookingChooser();
   return (
     <PageLayout>
       <SEO
@@ -111,15 +110,14 @@ export default function FlexiblePayments() {
             <strong>Klarna</strong>, <strong>Afterpay</strong>, and card checkout.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={PODIUM_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBookingChooser({ service: "Treatment Plan + Flexible Payments" })}
               className="group inline-flex items-center justify-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 shadow-md shadow-primary/15 transition-all text-sm"
             >
               Book Now + Flexible Payments
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
+            </button>
             <Link
               href="/services"
               className="inline-flex items-center justify-center px-7 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors text-sm"
@@ -241,15 +239,14 @@ export default function FlexiblePayments() {
             for your goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a
-              href={PODIUM_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
+              onClick={() => openBookingChooser({ service: "Treatment Plan + Flexible Payments" })}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white text-primary font-semibold rounded-full hover:bg-champagne transition-colors text-sm shadow-lg"
             >
               Book Now + Flexible Payments
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
             <Link
               href="/contact"
               className="inline-flex items-center justify-center px-8 py-3.5 border-2 border-white/70 text-white font-semibold rounded-full hover:bg-white/10 transition-colors text-sm"

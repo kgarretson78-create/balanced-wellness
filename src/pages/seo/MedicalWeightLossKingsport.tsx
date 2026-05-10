@@ -108,7 +108,7 @@ const data = {
     { name: "Weight Loss & Metabolic", path: "/weight-loss", desc: "Full weight loss program overview." },
     { name: "Wellness Clinic Kingsport TN", path: "/wellness-clinic-kingsport-tn", desc: "Comprehensive wellness programs." },
     { name: "VIP Memberships", path: "/memberships", desc: "Membership discounts on weight loss programs." },
-    { name: "Book Consultation", path: "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505", desc: "Schedule your weight loss consultation." },
+    { name: "Book Consultation", path: "/book", desc: "Schedule your weight loss consultation." },
   ],
   schemaDescription: "Medical weight loss programs in Kingsport TN at Balanced Wellness Medical Spa. Semaglutide, Tirzepatide, and physician-supervised metabolic programs for lasting weight loss.",
 };

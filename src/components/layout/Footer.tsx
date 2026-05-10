@@ -39,7 +39,7 @@ export function Footer() {
               <li><Link href="/gallery" className="text-white/40 hover:text-white transition-colors duration-300">Before & After</Link></li>
               <li><Link href="/contact" className="text-white/40 hover:text-white transition-colors duration-300">Contact</Link></li>
               <li><Link href="/sms-consent" className="text-white/40 hover:text-white transition-colors duration-300">Text Us</Link></li>
-              <li><a href="https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505" target="_blank" rel="noopener noreferrer" className="text-primary font-medium hover:text-champagne transition-colors duration-300">Book Appointment</a></li>
+              <li><Link href="/book" className="text-primary font-medium hover:text-champagne transition-colors duration-300">Book Appointment</Link></li>
             </ul>
           </div>
 

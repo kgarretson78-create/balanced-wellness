@@ -26,6 +26,7 @@ import { KelliAIChat } from "./components/KelliAI";
 import { FloatingBookButton } from "./components/FloatingBookButton";
 import { EmailSignupPopup } from "./components/EmailSignupPopup";
 import { VisitorTracker } from "./components/VisitorTracker";
+import { BookingChooserProvider } from "./components/booking/LocationChooser";
 
 // SEO Service Pages
 import BotoxKingsport from "./pages/seo/BotoxKingsport";
@@ -120,9 +121,11 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-          <VisitorTracker />
-          <GlobalOverlays />
+          <BookingChooserProvider>
+            <Router />
+            <VisitorTracker />
+            <GlobalOverlays />
+          </BookingChooserProvider>
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

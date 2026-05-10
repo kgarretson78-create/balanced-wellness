@@ -43,8 +43,38 @@ In Railway dashboard → your service → Variables tab:
 | `ALLOWED_ORIGIN` | CORS allowlist. Set to `https://balancedmedicalspa.com` in prod (default `*`) |
 | `CANONICAL_HOST` | Apex host. Default `balancedmedicalspa.com`. The server 301s `www.*` to this host |
 | `VITE_API_URL` | **Build-time only.** Leave unset to use the same-origin `/api` routes. Set to an absolute URL (no trailing slash) if KelliAI is hosted separately, e.g. `https://kelliai.balancedmedicalspa.com/api` |
+| `VITE_PODIUM_BOOKING_URL_KINGSPORT` | **Build-time only.** Per-location Podium scheduling URL for the Kingsport clinic. When set, "Book at Kingsport" deep-links here. |
+| `VITE_PODIUM_BOOKING_URL_JONESBOROUGH` | **Build-time only.** Per-location Podium scheduling URL for the Jonesborough clinic. |
+| `VITE_PODIUM_BOOKING_URL` | **Build-time only.** Optional shared/fallback scheduling URL used for any location whose dedicated URL isn't set. If neither this nor the per-location vars are configured, links fall back to the legacy single-tenant URL so nothing 404s, and the chooser dialog plus contact form surface a "call or text us" banner. |
 
 Railway sets PORT automatically — do not set it manually.
+
+### Booking / location chooser
+
+Every "Book Now" / "Book Consultation" CTA on the site opens a **location chooser** dialog
+that asks the user to pick **Kingsport** or **Jonesborough**, then opens that location's
+scheduling URL in a new tab. The user's choice is also stored in `localStorage` and
+attached to KelliAI / contact-form lead submissions as `preferredLocation` so the team
+knows which clinic to route follow-up to.
+
+URLs are resolved at build time from the env vars above. The legacy single-tenant URL
+(`https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505`) is only used
+as a last-resort fallback so the page never 404s. While the calendar shows no
+availability, the chooser displays a banner telling visitors to call or text instead —
+this is what to fix on the Podium side:
+
+1. **In Podium**, create (or finish) one bookable provider/calendar **per location**.
+   The current single-tenant link routes everyone to the same calendar; if business
+   hours, providers, or services aren't published for that calendar, every slot reads
+   "no availability."
+2. Verify each location has: business hours, at least one bookable resource (provider
+   or chair), the services that are bookable online, and a buffer/lead time that
+   isn't set so far in the future that no slot is offerable today.
+3. Copy the per-location booking link from Podium and paste it into Railway as
+   `VITE_PODIUM_BOOKING_URL_KINGSPORT` / `VITE_PODIUM_BOOKING_URL_JONESBOROUGH`,
+   then redeploy. (These are build-time vars, so a rebuild is required.)
+4. Until that's done, the call/text banner stays visible. Leads still flow through the
+   Contact form, KelliAI, and the per-location phone numbers.
 
 ### KelliAI integration
 

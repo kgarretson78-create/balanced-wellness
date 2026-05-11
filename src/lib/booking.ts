@@ -1,13 +1,13 @@
 /**
  * Central booking configuration.
  *
- * Each location has its own optional Podium scheduling URL, sourced from
- * Vite build-time env vars. If a location's URL is missing, the fallback
- * URL is used. If the fallback is also missing, the legacy single-tenant
- * Podium URL (which today shows "no availability") is used so links don't
- * 404.
+ * Each location resolves its Podium scheduling URL in this order:
+ *   1. Per-location Vite build-time env var (highest priority — set in Railway)
+ *   2. Hardcoded per-location default below
+ *   3. Shared fallback env var (VITE_PODIUM_BOOKING_URL)
  *
- * Configure these in Railway → Variables (build-time):
+ * Configure these in Railway → Variables (build-time) only if you want to
+ * override the defaults baked in here:
  *   VITE_PODIUM_BOOKING_URL_KINGSPORT
  *   VITE_PODIUM_BOOKING_URL_JONESBOROUGH
  *   VITE_PODIUM_BOOKING_URL          (optional shared/fallback URL)
@@ -23,18 +23,21 @@ export interface BookingLocation {
   phone: string;
   tel: string;        // tel: link form
   smsTel: string;     // sms: link form
-  bookingUrl: string; // resolved scheduling URL (may be the legacy fallback)
-  hasDedicatedUrl: boolean; // true if a per-location env URL is configured
+  bookingUrl: string; // resolved scheduling URL
+  hasDedicatedUrl: boolean; // true if a real per-location URL resolved (not the shared fallback)
 }
 
 const env = (import.meta as any).env ?? {};
 
-// Legacy single-tenant Podium URL (kept as last-resort fallback so links never 404).
-const LEGACY_PODIUM_URL =
+// Per-location Podium booking URL defaults. Each location is a distinct
+// Podium tenant/calendar, so these are real, dedicated links — not legacy
+// fallbacks. Env vars below can still override them.
+const KINGSPORT_DEFAULT_URL =
+  "https://booking.podium.com/medspa/01930831-564b-7342-98d8-620e43a707e7";
+const JONESBOROUGH_DEFAULT_URL =
   "https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505";
 
-const SHARED_FALLBACK: string =
-  (env.VITE_PODIUM_BOOKING_URL as string | undefined) || LEGACY_PODIUM_URL;
+const SHARED_FALLBACK = env.VITE_PODIUM_BOOKING_URL as string | undefined;
 
 const KINGSPORT_URL_RAW = env.VITE_PODIUM_BOOKING_URL_KINGSPORT as
   | string
@@ -42,6 +45,11 @@ const KINGSPORT_URL_RAW = env.VITE_PODIUM_BOOKING_URL_KINGSPORT as
 const JONESBOROUGH_URL_RAW = env.VITE_PODIUM_BOOKING_URL_JONESBOROUGH as
   | string
   | undefined;
+
+const kingsportResolved =
+  KINGSPORT_URL_RAW || KINGSPORT_DEFAULT_URL || SHARED_FALLBACK || "";
+const jonesboroughResolved =
+  JONESBOROUGH_URL_RAW || JONESBOROUGH_DEFAULT_URL || SHARED_FALLBACK || "";
 
 export const LOCATIONS: Record<LocationId, BookingLocation> = {
   kingsport: {
@@ -52,8 +60,8 @@ export const LOCATIONS: Record<LocationId, BookingLocation> = {
     phone: "(423) 765-1393",
     tel: "tel:423-765-1393",
     smsTel: "sms:+14237651393",
-    bookingUrl: KINGSPORT_URL_RAW || SHARED_FALLBACK,
-    hasDedicatedUrl: Boolean(KINGSPORT_URL_RAW),
+    bookingUrl: kingsportResolved,
+    hasDedicatedUrl: Boolean(KINGSPORT_URL_RAW || KINGSPORT_DEFAULT_URL),
   },
   jonesborough: {
     id: "jonesborough",
@@ -63,8 +71,8 @@ export const LOCATIONS: Record<LocationId, BookingLocation> = {
     phone: "(423) 646-2169",
     tel: "tel:423-646-2169",
     smsTel: "sms:+14236462169",
-    bookingUrl: JONESBOROUGH_URL_RAW || SHARED_FALLBACK,
-    hasDedicatedUrl: Boolean(JONESBOROUGH_URL_RAW),
+    bookingUrl: jonesboroughResolved,
+    hasDedicatedUrl: Boolean(JONESBOROUGH_URL_RAW || JONESBOROUGH_DEFAULT_URL),
   },
 };
 
@@ -104,9 +112,10 @@ export function setPreferredLocation(id: LocationId): void {
 }
 
 /**
- * True if at least one location has a real, dedicated Podium URL configured.
- * When false, every "Book" CTA sends the user to the same legacy URL that
- * currently has no availability, so we should be extra clear about the
+ * True if at least one location resolves to a real, dedicated Podium URL
+ * (either a per-location default baked in here or a per-location env var).
+ * When false, every "Book" CTA falls back to a shared URL that may not be
+ * a real per-location calendar, so we should be extra clear about the
  * call/text fallback.
  */
 export const ANY_DEDICATED_BOOKING_URL =

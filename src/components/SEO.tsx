@@ -7,7 +7,7 @@ interface SEOProps {
   canonicalPath?: string;
 }
 
-const CANONICAL_ORIGIN = "https://balancedmedicalspa.com";
+const CANONICAL_ORIGIN = "https://www.balancedmedicalspa.com";
 
 function setMetaContent(selector: string, content: string) {
   const el = document.querySelector(selector);

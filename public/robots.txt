@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://balancedmedicalspa.com/sitemap.xml
+Sitemap: https://www.balancedmedicalspa.com/sitemap.xml

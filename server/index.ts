@@ -43,15 +43,20 @@ if (!distFound) {
   console.error("[server] __dirname:", __dirname);
 }
 
-const CANONICAL_HOST = process.env.CANONICAL_HOST || "balancedmedicalspa.com";
+const CANONICAL_HOST = process.env.CANONICAL_HOST || "www.balancedmedicalspa.com";
 
 // Trust Railway's proxy so req.protocol/req.hostname are correct
 app.set("trust proxy", true);
 
-// Canonical host redirect: www.* -> apex
+// Canonical host redirect: redirect any non-canonical host (e.g. apex) to CANONICAL_HOST
 app.use((req, res, next) => {
   const host = req.hostname;
-  if (host && host.startsWith("www.") && host.replace(/^www\./, "") === CANONICAL_HOST) {
+  if (!host) return next();
+  // If canonical host is a www host, redirect the apex equivalent up to www.
+  // If canonical host is an apex host, redirect the www.* equivalent down to apex.
+  const apexOfCanonical = CANONICAL_HOST.replace(/^www\./, "");
+  const wwwOfCanonical = CANONICAL_HOST.startsWith("www.") ? CANONICAL_HOST : `www.${CANONICAL_HOST}`;
+  if (host !== CANONICAL_HOST && (host === apexOfCanonical || host === wwwOfCanonical)) {
     return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
   }
   next();

@@ -40,8 +40,8 @@ In Railway dashboard → your service → Variables tab:
 | `ELEVENLABS_VOICE_ID` | From your ElevenLabs voice library |
 | `DATABASE_URL` | Added automatically when you add Postgres (Step 4) |
 | `ADMIN_API_KEY` | Any secret string — protects /api/kelliai/leads |
-| `ALLOWED_ORIGIN` | CORS allowlist. Set to `https://balancedmedicalspa.com` in prod (default `*`) |
-| `CANONICAL_HOST` | Apex host. Default `balancedmedicalspa.com`. The server 301s `www.*` to this host |
+| `ALLOWED_ORIGIN` | CORS allowlist. Set to `https://www.balancedmedicalspa.com` in prod (default `*`) |
+| `CANONICAL_HOST` | Canonical host. Default `www.balancedmedicalspa.com`. The server 301s the non-canonical variant (apex or `www.*`) to this host |
 | `VITE_API_URL` | **Build-time only.** Leave unset to use the same-origin `/api` routes. Set to an absolute URL (no trailing slash) if KelliAI is hosted separately, e.g. `https://kelliai.balancedmedicalspa.com/api` |
 | `VITE_PODIUM_BOOKING_URL_KINGSPORT` | **Build-time only.** Optional override for the Kingsport Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/01930831-564b-7342-98d8-620e43a707e7` (hardcoded in `src/lib/booking.ts`). |
 | `VITE_PODIUM_BOOKING_URL_JONESBOROUGH` | **Build-time only.** Optional override for the Jonesborough Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505` (hardcoded in `src/lib/booking.ts`). |
@@ -105,7 +105,7 @@ Point your DNS:
 - Apex `balancedmedicalspa.com` → Railway-provided CNAME/ALIAS (use ALIAS/ANAME if your DNS supports it; Cloudflare flattens CNAME at apex automatically)
 - `www` → CNAME to the same Railway target
 
-SSL is automatic. The Express server 301-redirects `www.*` → apex via `CANONICAL_HOST`, so Google sees a single canonical origin. The `<link rel="canonical">` tag in `index.html` and the dynamic SEO component reinforce this.
+SSL is automatic. The Express server 301-redirects the non-canonical variant to `CANONICAL_HOST` (default `www.balancedmedicalspa.com`), so Google sees a single canonical origin. The `<link rel="canonical">` tag in `index.html` and the dynamic SEO component reinforce this.
 
 ---
 
@@ -115,7 +115,7 @@ SSL is automatic. The Express server 301-redirects `www.*` → apex via `CANONIC
 - your-url.railway.app/health → {"status":"ok"}
 - your-url.railway.app/robots.txt → plain text with sitemap reference
 - your-url.railway.app/sitemap.xml → valid XML sitemap
-- https://www.balancedmedicalspa.com → 301 → https://balancedmedicalspa.com
+- https://balancedmedicalspa.com → 301 → https://www.balancedmedicalspa.com
 
 ---
 

@@ -36,13 +36,6 @@ export function LocalBusinessSchema() {
         "https://www.facebook.com/balancedwellnessmedspa",
         "https://www.instagram.com/balancedwellnessmedspa",
       ],
-      aggregateRating: {
-        "@type": "AggregateRating",
-        ratingValue: "5.0",
-        bestRating: "5",
-        worstRating: "1",
-        ratingCount: "200",
-      },
       areaServed: [
         { "@type": "City", name: "Kingsport" },
         { "@type": "City", name: "Jonesborough" },

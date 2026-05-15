@@ -83,15 +83,76 @@ export const data = {
       q: "What medical spa treatments are available in Kingsport TN?",
       a: "At Balanced Wellness, we offer Botox, Dysport, Daxxify, lip filler, dermal fillers, IPL photofacials, laser resurfacing, RF microneedling, skin tightening, medical weight loss (Semaglutide/Tirzepatide), bioidentical HRT, peptide therapy, IV therapy, and VIP memberships.",
     },
+    {
+      q: "Do you see patients from Johnson City, Bristol, or Jonesborough at the Kingsport clinic?",
+      a: "Yes. Our Kingsport location regularly serves patients from Johnson City, Bristol, Jonesborough, Greeneville, Rogersville, and surrounding Tri-Cities communities. For patients closer to Washington County, our Jonesborough clinic at 120 S Cherokee St may be more convenient.",
+    },
+    {
+      q: "How do I book a medical spa appointment in Kingsport?",
+      a: "Book online at /book to schedule at the Kingsport location, or call (423) 765-1393. New patients always start with a complimentary consultation so we can build a treatment plan around your goals, anatomy, and budget.",
+    },
+    {
+      q: "What should I expect at my first visit?",
+      a: "Your first visit is a relaxed, no-pressure consultation. We review your goals, medical history, and skin or wellness concerns, walk through realistic options and pricing, and — when appropriate and you're ready — perform same-day treatment. You're never obligated to book a treatment at the consultation.",
+    },
   ],
   relatedLinks: [
     { name: "Botox in Kingsport TN", path: "/botox-kingsport-tn", desc: "Expert Botox injections in Kingsport." },
+    { name: "RF Microneedling Kingsport", path: "/rf-microneedling-kingsport-tn", desc: "Collagen remodeling for texture and tightening." },
     { name: "Lip Filler Kingsport TN", path: "/lip-filler-kingsport-tn", desc: "Natural lip enhancement." },
     { name: "Medical Weight Loss Kingsport", path: "/medical-weight-loss-kingsport-tn", desc: "Semaglutide weight loss clinic." },
     { name: "Hormone Therapy Kingsport", path: "/hormone-therapy-kingsport-tn", desc: "Bioidentical HRT for men and women." },
+    { name: "Laser Skin Rejuvenation", path: "/laser-skin-rejuvenation-kingsport-tn", desc: "IPL and laser for tone, sun damage, and texture." },
+    { name: "Wellness Clinic Kingsport", path: "/wellness-clinic-kingsport-tn", desc: "Peptides, IV therapy, and longevity programs." },
     { name: "Medical Spa Jonesborough TN", path: "/medical-spa-jonesborough-tn", desc: "Our Jonesborough location." },
     { name: "VIP Memberships", path: "/memberships", desc: "Exclusive member savings." },
   ],
+  trust: {
+    headline: "Trusted by 8,000+ Tri-Cities Patients",
+    intro: "Balanced Wellness Medical Spa has earned 200+ five-star Google reviews and treated more than 8,000 patients across Kingsport, Jonesborough, Johnson City, and the surrounding Tri-Cities region. Patients consistently describe a calm, unhurried experience with results that look like them — only refreshed.",
+    proofCards: [
+      {
+        title: "Natural-looking results",
+        body: "Patients often mention that injectables, lip filler, and laser work at Balanced Wellness look natural — never overdone — because we plan conservatively and refine over follow-up visits.",
+      },
+      {
+        title: "Friendly, judgment-free care",
+        body: "First-time visitors frequently note how welcoming the team is, especially for patients who have never had Botox, weight loss medication, or hormone therapy before.",
+      },
+      {
+        title: "Clear, honest treatment plans",
+        body: "We walk you through realistic options, pricing, and timelines before anything is scheduled — no high-pressure consults, no surprise fees.",
+      },
+      {
+        title: "Medical-grade safety",
+        body: "Every treatment is performed or supervised by licensed medical providers, including nurse practitioners and physicians — not technicians without medical training.",
+      },
+      {
+        title: "Patients across the Tri-Cities",
+        body: "Our Kingsport clinic regularly sees patients from Johnson City, Bristol, Jonesborough, Greeneville, and Rogersville, plus Southwest Virginia.",
+      },
+      {
+        title: "Two locations, one standard of care",
+        body: "Whether you visit our Kingsport flagship or our Jonesborough clinic, you'll see the same providers, protocols, and pricing.",
+      },
+    ],
+    googleReviewsUrl: "https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa",
+    ctaText: "Read our Google reviews",
+  },
+  locationDetails: {
+    headline: "Visiting Our Kingsport Medical Spa",
+    paragraphs: [
+      "Our Kingsport flagship sits on South John B Dennis Highway, just off I-26 — making it an easy drive from Johnson City, Bristol, Greeneville, Rogersville, and Southwest Virginia. On-site parking is available directly outside Suite 104, and we plan appointment lengths so you're never rushed in or out.",
+      "If our Kingsport schedule is full or you're closer to Washington County, we can usually offer the same treatment at our Jonesborough clinic (120 S Cherokee St) within a similar timeframe.",
+    ],
+    points: [
+      "Address: 1309 S John B Dennis Hwy, Suite 104, Kingsport, TN 37660",
+      "Phone: (423) 765-1393 — call or text for help choosing the right appointment",
+      "Easy access from I-26 and Eastman Road; on-site parking outside Suite 104",
+      "Serves Kingsport, Johnson City, Bristol, Jonesborough, Greeneville, Rogersville, and Southwest Virginia",
+      "Second location: 120 S Cherokee St, Jonesborough, TN 37659 — about 25 minutes south",
+    ],
+  },
 };
 
 export default function MedicalSpaKingsport() {

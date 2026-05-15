@@ -88,13 +88,6 @@ const LOCAL_BUSINESS_SCHEMA = {
     "https://www.facebook.com/balancedwellnessmedspa",
     "https://www.instagram.com/balancedwellnessmedspa",
   ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5.0",
-    bestRating: "5",
-    worstRating: "1",
-    ratingCount: "200",
-  },
   areaServed: [
     { "@type": "City", name: "Kingsport" },
     { "@type": "City", name: "Jonesborough" },
@@ -141,6 +134,18 @@ interface LocalPageData {
   secondaryLocation: { city: string; address: string; zip: string; phone: string; tel: string; directions: string; distance: string };
   faqs: FAQ[];
   relatedLinks: { name: string; path: string; desc: string }[];
+  trust?: {
+    headline: string;
+    intro: string;
+    proofCards: { title: string; body: string }[];
+    googleReviewsUrl?: string;
+    ctaText?: string;
+  };
+  locationDetails?: {
+    headline?: string;
+    paragraphs?: string[];
+    points?: string[];
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -389,6 +394,48 @@ function renderLocalBody(d: LocalPageData, canonicalUrl: string): string {
           ${nearby}
         </ul>
       </section>
+      ${
+        d.trust
+          ? `
+      <section aria-label="Patient Experience">
+        <h2>${escapeHtml(d.trust.headline)}</h2>
+        <p>${escapeHtml(d.trust.intro)}</p>
+        <ul>
+          ${d.trust.proofCards
+            .map(
+              (c) =>
+                `<li><strong>${escapeHtml(c.title)}</strong> — ${escapeHtml(c.body)}</li>`,
+            )
+            .join("\n          ")}
+        </ul>
+        ${
+          d.trust.googleReviewsUrl
+            ? `<p><a href="${escapeAttr(d.trust.googleReviewsUrl)}" rel="noopener noreferrer">${escapeHtml(d.trust.ctaText ?? "Read Google Reviews")}</a> · <a href="/book">Book a Free Consultation</a></p>`
+            : `<p>${escapeHtml(d.trust.ctaText ?? "Search “Balanced Wellness Medical Spa” on Google to read recent reviews.")} · <a href="/book">Book a Free Consultation</a></p>`
+        }
+      </section>`
+          : ""
+      }
+      ${
+        d.locationDetails &&
+        ((d.locationDetails.paragraphs && d.locationDetails.paragraphs.length) ||
+          (d.locationDetails.points && d.locationDetails.points.length))
+          ? `
+      <section aria-label="Visiting">
+        <h2>${escapeHtml(d.locationDetails.headline ?? `Visiting Our ${d.primaryLocation.city} Clinic`)}</h2>
+        ${(d.locationDetails.paragraphs ?? [])
+          .map((p) => `<p>${escapeHtml(p)}</p>`)
+          .join("\n        ")}
+        ${
+          d.locationDetails.points && d.locationDetails.points.length
+            ? `<ul>
+          ${d.locationDetails.points.map((pt) => `<li>${escapeHtml(pt)}</li>`).join("\n          ")}
+        </ul>`
+            : ""
+        }
+      </section>`
+          : ""
+      }
       <section>
         <h2>Frequently Asked Questions</h2>${faqs}
       </section>

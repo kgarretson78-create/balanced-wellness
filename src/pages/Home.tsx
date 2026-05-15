@@ -32,7 +32,11 @@ const stagger = {
 const homeFaqs = [
   {
     q: "What is the best med spa in Kingsport TN?",
-    a: "Balanced Wellness Medical Spa is widely recognized as the best med spa in Kingsport TN. With over 8,000 patients treated, 200+ five-star Google ratings, and board-certified providers specializing in Botox, dermal fillers, laser treatments, RF microneedling, medical weight loss, and hormone optimization, we deliver luxury aesthetic care with proven results. Our Kingsport clinic is located at 1309 South John B Dennis Hwy, Suite 104.",
+    a: "Balanced Wellness Medical Spa is one of the most-reviewed and highest-rated med spas in Kingsport, TN, with over 8,000 patients treated, 200+ five-star Google ratings, and a full menu that combines aesthetics with medical wellness — Botox, dermal fillers, RF microneedling, CO2 laser resurfacing, medical weight loss (Semaglutide and Tirzepatide), bioidentical hormone therapy, and peptide therapy. Our Kingsport clinic is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — and we also have a second location in Jonesborough at 120 South Cherokee St, giving Tri-Cities patients more scheduling flexibility.",
+  },
+  {
+    q: "Where is Balanced Wellness Medical Spa located in Kingsport, TN?",
+    a: "Our Kingsport location is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Call (423) 765-1393 to book. Hours are Monday through Friday, 9 AM to 5 PM. We also have a Jonesborough location at 120 South Cherokee St, Jonesborough, TN 37659 — (423) 646-2169.",
   },
   {
     q: "How much does Botox cost in Kingsport TN?",
@@ -59,12 +63,12 @@ const homeFaqs = [
 export default function Home() {
   const { open: openBookingChooser } = useBookingChooser();
   const featuredTreatments = [
-    { name: "Botox / Dysport / Daxxify", desc: "Smooth wrinkles and prevent new lines with premium neurotoxins. Starting at $200–$600 depending on treatment areas.", icon: <Sparkles className="w-5 h-5" />, href: "/injectables", badge: "Most Popular" },
-    { name: "Lip Filler", desc: "Enhance volume, shape, and symmetry for naturally beautiful lips with premium hyaluronic acid fillers.", icon: <HeartPulse className="w-5 h-5" />, href: "/injectables" },
-    { name: "CO2 Laser Resurfacing", desc: "Reverse sun damage, reduce deep wrinkles, and reveal radiant skin. Starting at $800–$2,500 per treatment area.", icon: <Zap className="w-5 h-5" />, href: "/laser-treatments" },
-    { name: "RF Microneedling", desc: "Stimulate collagen and tighten skin with Scarlet RF radiofrequency microneedling for lasting results.", icon: <Stethoscope className="w-5 h-5" />, href: "/laser-treatments" },
-    { name: "Medical Weight Loss", desc: "Semaglutide and Tirzepatide programs supervised by medical experts. Free consultation — no commitment required.", icon: <Scale className="w-5 h-5" />, href: "/weight-loss", badge: "Free Consult" },
-    { name: "Hormone Optimization", desc: "Restore energy, vitality, and balance with bioidentical hormone therapy and peptide protocols.", icon: <Dna className="w-5 h-5" />, href: "/hormone-optimization" },
+    { name: "Botox in Kingsport TN", desc: "Smooth wrinkles and prevent new lines with premium neurotoxins. 10–15 min, no downtime. Starting at $200–$600 depending on areas treated.", icon: <Sparkles className="w-5 h-5" />, href: "/botox-kingsport-tn", badge: "Most Popular" },
+    { name: "Lip Filler", desc: "Enhance volume, shape, and symmetry for naturally beautiful lips with premium hyaluronic acid fillers.", icon: <HeartPulse className="w-5 h-5" />, href: "/lip-filler-kingsport-tn" },
+    { name: "CO2 Laser Resurfacing", desc: "Reverse sun damage, reduce deep wrinkles, and reveal radiant skin. Starting at $800–$2,500 per treatment area.", icon: <Zap className="w-5 h-5" />, href: "/laser-skin-rejuvenation-kingsport-tn" },
+    { name: "RF Microneedling in Kingsport TN", desc: "Tighten skin, smooth acne scars, and refine pores with radiofrequency microneedling. Safe for all skin tones; series of 3 recommended.", icon: <Stethoscope className="w-5 h-5" />, href: "/rf-microneedling-kingsport-tn" },
+    { name: "Medical Weight Loss in Kingsport TN", desc: "Semaglutide and Tirzepatide GLP-1 programs supervised by our medical team. Free consultation — no commitment required.", icon: <Scale className="w-5 h-5" />, href: "/medical-weight-loss-kingsport-tn", badge: "Free Consult" },
+    { name: "Hormone Therapy in Kingsport TN", desc: "Bioidentical HRT for men and women — restore energy, mood, libido, and metabolic health with personalized protocols.", icon: <Dna className="w-5 h-5" />, href: "/hormone-therapy-kingsport-tn" },
   ];
 
   const reviews = [

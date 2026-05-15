@@ -1,5 +1,12 @@
 import { useEffect } from "react";
 
+const WEEKDAY_HOURS = {
+  "@type": "OpeningHoursSpecification",
+  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  opens: "09:00",
+  closes: "17:00",
+} as const;
+
 export function LocalBusinessSchema() {
   useEffect(() => {
     const schema = {
@@ -7,29 +14,24 @@ export function LocalBusinessSchema() {
       "@type": "MedicalBusiness",
       "@id": "https://www.balancedmedicalspa.com/#organization",
       name: "Balanced Wellness Medical Spa",
-      description: "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and more in Kingsport & Jonesborough, TN. Board-certified providers delivering natural-looking results.",
+      description: "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and Hormone Optimization in Kingsport & Jonesborough, TN. Two convenient Tri-Cities locations, board-certified providers, 8,000+ patients treated, 200+ five-star reviews.",
       url: "https://www.balancedmedicalspa.com",
-      telephone: "+1-423-646-2169",
+      telephone: "+1-423-765-1393",
       image: "https://www.balancedmedicalspa.com/images/logo.jpeg",
       logo: "https://www.balancedmedicalspa.com/images/logo.jpeg",
       priceRange: "$$",
       currenciesAccepted: "USD",
-      paymentAccepted: "Cash, Credit Card, Debit Card",
+      paymentAccepted: "Cash, Credit Card, Debit Card, CareCredit, Cherry Financing",
       medicalSpecialty: [
         "Botox",
         "Dermal Fillers",
         "RF Microneedling",
         "CO2 Laser Resurfacing",
         "Medical Weight Loss",
+        "Hormone Replacement Therapy",
+        "Peptide Therapy",
       ],
-      openingHoursSpecification: [
-        {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          opens: "09:00",
-          closes: "17:00",
-        },
-      ],
+      openingHoursSpecification: [WEEKDAY_HOURS],
       sameAs: [
         "https://www.facebook.com/balancedwellnessmedspa",
         "https://www.instagram.com/balancedwellnessmedspa",
@@ -46,6 +48,7 @@ export function LocalBusinessSchema() {
         { "@type": "City", name: "Jonesborough" },
         { "@type": "City", name: "Johnson City" },
         { "@type": "City", name: "Bristol" },
+        { "@type": "City", name: "Greeneville" },
         { "@type": "State", name: "Tennessee" },
       ],
       founder: {
@@ -56,8 +59,11 @@ export function LocalBusinessSchema() {
       department: [
         {
           "@type": "MedicalBusiness",
+          "@id": "https://www.balancedmedicalspa.com/medical-spa-jonesborough-tn#location",
           name: "Balanced Wellness Medical Spa - Jonesborough",
+          url: "https://www.balancedmedicalspa.com/medical-spa-jonesborough-tn",
           telephone: "+1-423-646-2169",
+          openingHoursSpecification: [WEEKDAY_HOURS],
           address: {
             "@type": "PostalAddress",
             streetAddress: "120 Cherokee St",
@@ -83,8 +89,11 @@ export function LocalBusinessSchema() {
         },
         {
           "@type": "MedicalBusiness",
+          "@id": "https://www.balancedmedicalspa.com/medical-spa-kingsport-tn#location",
           name: "Balanced Wellness Medical Spa - Kingsport",
+          url: "https://www.balancedmedicalspa.com/medical-spa-kingsport-tn",
           telephone: "+1-423-765-1393",
+          openingHoursSpecification: [WEEKDAY_HOURS],
           address: {
             "@type": "PostalAddress",
             streetAddress: "1309 S John B Dennis Hwy, Ste 104",
@@ -133,10 +142,12 @@ export function LocalBusinessSchema() {
 interface ServiceSchemaProps {
   serviceName: string;
   description: string;
+  canonicalUrl?: string;
   faqs?: { q: string; a: string }[];
+  breadcrumbs?: { name: string; url: string }[];
 }
 
-export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaProps) {
+export function ServiceSchema({ serviceName, description, canonicalUrl, faqs, breadcrumbs }: ServiceSchemaProps) {
   useEffect(() => {
     const schemas: object[] = [
       {
@@ -144,6 +155,7 @@ export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaP
         "@type": "MedicalProcedure",
         name: serviceName,
         description,
+        url: canonicalUrl,
         procedureType: "Noninvasive",
         followup: "Follow-up appointment recommended 2–4 weeks after treatment.",
         preparation: "Consultation required prior to treatment.",
@@ -152,6 +164,7 @@ export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaP
           "@type": "Organization",
           name: "American Medical Association",
         },
+        provider: { "@id": "https://www.balancedmedicalspa.com/#organization" },
       },
     ];
 
@@ -159,6 +172,7 @@ export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaP
       schemas.push({
         "@context": "https://schema.org",
         "@type": "FAQPage",
+        url: canonicalUrl,
         mainEntity: faqs.map((faq) => ({
           "@type": "Question",
           name: faq.q,
@@ -166,6 +180,19 @@ export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaP
             "@type": "Answer",
             text: faq.a,
           },
+        })),
+      });
+    }
+
+    if (breadcrumbs && breadcrumbs.length > 0) {
+      schemas.push({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: breadcrumbs.map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.name,
+          item: b.url,
         })),
       });
     }
@@ -184,7 +211,7 @@ export function ServiceSchema({ serviceName, description, faqs }: ServiceSchemaP
       const el = document.getElementById("service-schema");
       if (el) el.remove();
     };
-  }, [serviceName, description]);
+  }, [serviceName, description, canonicalUrl, faqs, breadcrumbs]);
 
   return null;
 }

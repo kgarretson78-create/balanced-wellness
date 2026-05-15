@@ -2,14 +2,19 @@ import { SEOServicePage } from "@/components/SEOServicePage";
 
 const data = {
   seo: {
-    title: "Botox Kingsport TN | Balanced Wellness Medical Spa",
-    description: "Get expert Botox injections in Kingsport TN at Balanced Wellness Medical Spa. Smooth wrinkles, prevent new lines, and look naturally refreshed. Board-certified providers. Book a free consultation.",
-    keywords: "Botox Kingsport TN, Botox near me Kingsport, Botox injections Kingsport Tennessee, cosmetic Botox Kingsport, Botox treatment Tri-Cities TN, neurotoxin injections Kingsport",
+    title: "Botox in Kingsport TN | Pricing, Units & Free Consult | Balanced Wellness",
+    description: "Botox in Kingsport TN at Balanced Wellness Medical Spa. Conservative, natural-looking results from experienced medical injectors. 10–15 minute treatments, no downtime, results in 3–7 days. Free consultation — call (423) 765-1393.",
+    keywords: "Botox Kingsport TN, Botox near me Kingsport, Botox injections Kingsport Tennessee, cosmetic Botox Kingsport, Botox treatment Tri-Cities TN, neurotoxin injections Kingsport, best Botox Kingsport TN, Botox cost Kingsport",
+    canonicalPath: "/botox-kingsport-tn",
   },
   hero: {
     badge: "Injectable Treatments — Kingsport TN",
     h1: "Botox in Kingsport TN",
-    subheadline: "Natural, refreshed results from board-certified injectors at Balanced Wellness Medical Spa. Serving Kingsport, Johnson City, Bristol, and the Tri-Cities area.",
+    subheadline: "Natural, refreshed results from experienced medical injectors at Balanced Wellness Medical Spa. Two Tri-Cities locations serving Kingsport, Johnson City, Bristol, and Jonesborough.",
+  },
+  shortAnswer: {
+    q: "Where can I get Botox in Kingsport, TN?",
+    a: "You can get Botox in Kingsport, TN at Balanced Wellness Medical Spa, located at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Treatments are performed by experienced medical injectors, take 10–15 minutes, require no downtime, and start showing results in 3–7 days with full effect by day 14. Call (423) 765-1393 to book a free consultation, or visit our Jonesborough location at 120 South Cherokee St.",
   },
   intro: {
     h2: "What Is Botox & How Does It Work in Kingsport TN?",
@@ -82,26 +87,50 @@ const data = {
       ],
     },
   ],
+  comparison: {
+    h2: "Botox vs. Dysport vs. Daxxify — Quick Comparison",
+    columns: ["Botox", "Dysport", "Daxxify"],
+    rows: [
+      { label: "Onset of results", values: ["3–7 days", "2–4 days", "3–5 days"] },
+      { label: "Typical duration", values: ["3–4 months", "3–4 months", "Up to 6+ months"] },
+      { label: "Best for", values: ["Precise small-area treatment (11s, crow's feet)", "Larger areas like the forehead, faster onset", "Patients who want fewer visits per year"] },
+      { label: "Spread pattern", values: ["Localized", "Slightly wider diffusion", "Localized"] },
+      { label: "FDA-approved", values: ["Yes", "Yes", "Yes"] },
+    ],
+    note: "Your injector will recommend the right product after assessing your facial anatomy and goals. All three are available at our Kingsport, TN location.",
+  },
   faqs: [
     {
       q: "How much does Botox cost in Kingsport TN?",
-      a: "Botox pricing at Balanced Wellness Medical Spa is competitive with the Tri-Cities market. We price per unit, and most treatment areas require 10–30 units. We offer membership pricing that can significantly reduce your per-unit cost. Contact us for a personalized quote.",
+      a: "Botox at Balanced Wellness Medical Spa in Kingsport is priced per unit, so the total depends on the areas treated. Most patients use 10–30 units per session: forehead lines typically take 10–20 units, frown lines (the '11s') 15–25 units, and crow's feet 6–12 units per side. Per-treatment costs generally range from $200–$600. Our Gold, Platinum, and Diamond memberships reduce the per-unit cost. Call (423) 765-1393 for a personalized quote.",
     },
     {
       q: "How long does Botox last?",
-      a: "Most patients enjoy results for 3–4 months. First-time patients may metabolize the product faster. Over time and with consistent treatments, many patients find their results last longer.",
+      a: "Most patients enjoy results for 3–4 months. First-time patients may metabolize the product faster. Over time and with consistent treatments, many patients find their results last longer because the underlying muscles become trained to relax.",
     },
     {
       q: "Will Botox make me look frozen?",
-      a: "Not when performed by skilled injectors. At Balanced Wellness, we take a conservative, artful approach. Our goal is to soften your expression — not erase it. We use precise dosing to ensure natural movement and expression are preserved.",
+      a: "Not when performed by skilled injectors. At Balanced Wellness, we take a conservative, artful approach in Kingsport — our goal is to soften your expression, not erase it. We use precise dosing to ensure natural movement and expression are preserved.",
     },
     {
       q: "Is there downtime after Botox?",
-      a: "There is no downtime. You can return to work immediately. We recommend avoiding strenuous exercise and staying upright for 4 hours post-treatment.",
+      a: "There is no downtime. You can return to work and most daily activities immediately after your Botox appointment. We recommend avoiding strenuous exercise, intense heat (sauna, hot yoga), and lying flat for 4 hours after treatment, and not rubbing the injection sites for 24 hours.",
     },
     {
       q: "What's the difference between Botox and Dysport or Daxxify?",
-      a: "All three are FDA-approved botulinum toxin products. Dysport may spread slightly and kick in faster. Daxxify is the newest and can last up to 6+ months. Our providers will recommend the best option for your goals.",
+      a: "All three are FDA-approved botulinum toxin products. Botox is the most familiar and the most precise for small areas. Dysport spreads slightly more and kicks in faster (2–4 days), which can be efficient for larger areas like the forehead. Daxxify is the newest and lasts the longest — up to 6+ months — making it appealing for patients who want fewer maintenance visits. Our providers will recommend the best option based on your anatomy and goals.",
+    },
+    {
+      q: "How old do you need to be for Botox in Kingsport, TN?",
+      a: "Botox is FDA-approved for adults 18 and older for medical uses and is typically used cosmetically starting in the late 20s or early 30s. Many patients pursue 'preventive Botox' in their late 20s to delay the formation of dynamic wrinkles. Anyone under 18 will not be treated cosmetically at Balanced Wellness.",
+    },
+    {
+      q: "Is Botox safe?",
+      a: "Botox has been FDA-approved since 2002 for cosmetic use and is one of the most-studied aesthetic treatments in medicine. Side effects when administered by trained medical injectors are typically minor and short-lived — small bruising, mild headache, or temporary tenderness. Serious side effects are rare. Always disclose your medications and medical history at your consultation.",
+    },
+    {
+      q: "How do I book Botox in Kingsport or Jonesborough?",
+      a: "Click 'Book a Consultation' on this page to choose between our Kingsport location (1309 S John B Dennis Hwy, Ste 104, Kingsport, TN 37660) and our Jonesborough location (120 S Cherokee St, Jonesborough, TN 37659). You can also call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169.",
     },
   ],
   relatedLinks: [

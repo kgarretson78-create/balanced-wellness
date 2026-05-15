@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "RF Microneedling in Kingsport TN | Skin Tightening & Acne Scars | Balanced Wellness",
     description: "RF microneedling in Kingsport TN at Balanced Wellness Medical Spa. Radiofrequency microneedling for skin tightening, acne scars, pore minimization, and anti-aging. Safe for all skin tones. Free consultation — call (423) 765-1393.",

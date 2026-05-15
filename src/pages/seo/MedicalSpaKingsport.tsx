@@ -1,6 +1,6 @@
 import { LocalSEOPage } from "@/components/LocalSEOPage";
 
-const data = {
+export const data = {
   seo: {
     title: "Medical Spa Kingsport TN | Balanced Wellness Medical Spa",
     description: "Kingsport TN's premier medical spa — Balanced Wellness Medical Spa offers Botox, fillers, laser treatments, medical weight loss, hormone therapy, and IV therapy. Board-certified providers. Book a free consultation.",

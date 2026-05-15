@@ -8,7 +8,8 @@
     "dev:server": "tsx watch server/index.ts",
     "build:client": "vite build --config vite.config.ts",
     "build:server": "tsc -p tsconfig.server.json",
-    "build": "npm run build:client && npm run build:server",
+    "prerender": "tsx scripts/prerender.ts",
+    "build": "npm run build:client && npm run prerender && npm run build:server",
     "ensure-build": "node scripts/ensure-build.mjs",
     "start": "npm run ensure-build && node dist-server/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"

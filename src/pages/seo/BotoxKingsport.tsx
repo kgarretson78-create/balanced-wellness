@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Botox in Kingsport TN | Pricing, Units & Free Consult | Balanced Wellness",
     description: "Botox in Kingsport TN at Balanced Wellness Medical Spa. Conservative, natural-looking results from experienced medical injectors. 10–15 minute treatments, no downtime, results in 3–7 days. Free consultation — call (423) 765-1393.",

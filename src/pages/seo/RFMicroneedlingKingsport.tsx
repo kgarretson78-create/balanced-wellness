@@ -2,14 +2,19 @@ import { SEOServicePage } from "@/components/SEOServicePage";
 
 const data = {
   seo: {
-    title: "RF Microneedling Kingsport TN | Morpheus8 | Balanced Wellness Medical Spa",
-    description: "RF Microneedling in Kingsport TN at Balanced Wellness Medical Spa. Radiofrequency microneedling for skin tightening, texture improvement, acne scar reduction, and anti-aging. Book a free consultation.",
-    keywords: "RF microneedling Kingsport TN, radiofrequency microneedling Kingsport Tennessee, Morpheus8 Kingsport, skin tightening microneedling Tri-Cities TN, collagen induction Kingsport, acne scar treatment Kingsport",
+    title: "RF Microneedling in Kingsport TN | Skin Tightening & Acne Scars | Balanced Wellness",
+    description: "RF microneedling in Kingsport TN at Balanced Wellness Medical Spa. Radiofrequency microneedling for skin tightening, acne scars, pore minimization, and anti-aging. Safe for all skin tones. Free consultation — call (423) 765-1393.",
+    keywords: "RF microneedling Kingsport TN, radiofrequency microneedling Kingsport Tennessee, Morpheus8 Kingsport, Scarlet RF Kingsport, skin tightening microneedling Tri-Cities TN, collagen induction Kingsport, acne scar treatment Kingsport, RF microneedling cost Kingsport",
+    canonicalPath: "/rf-microneedling-kingsport-tn",
   },
   hero: {
     badge: "Advanced Skin Treatments — Kingsport TN",
     h1: "RF Microneedling in Kingsport TN",
-    subheadline: "Radiofrequency microneedling for deep collagen remodeling, skin tightening, and transformative texture improvement at Balanced Wellness Medical Spa.",
+    subheadline: "Radiofrequency microneedling for deep collagen remodeling, skin tightening, and transformative texture improvement at Balanced Wellness Medical Spa. Two Tri-Cities locations.",
+  },
+  shortAnswer: {
+    q: "What is RF microneedling and where can I get it in Kingsport, TN?",
+    a: "RF (radiofrequency) microneedling combines microneedling with radiofrequency energy delivered through the needles to heat the deep dermis and stimulate collagen and elastin remodeling. It tightens skin, smooths acne scars, minimizes pores, and improves texture — safely on all skin tones. At Balanced Wellness Medical Spa in Kingsport, TN (1309 S John B Dennis Hwy, Ste 104), we recommend a series of 3 treatments spaced 4–6 weeks apart, with full results visible at 3–6 months. Call (423) 765-1393 for a free consultation.",
   },
   intro: {
     h2: "What Is RF Microneedling & Why Is It So Effective?",
@@ -84,22 +89,46 @@ const data = {
       ],
     },
   ],
+  comparison: {
+    h2: "RF Microneedling vs. Standard Microneedling vs. CO2 Laser",
+    columns: ["RF Microneedling", "Standard Microneedling", "CO2 Laser Resurfacing"],
+    rows: [
+      { label: "How it works", values: ["Micro-needles + radiofrequency heat in the deep dermis", "Micro-needles only — surface and mid-dermis injury", "Ablative laser energy removes the top skin layers"] },
+      { label: "Best for", values: ["Skin laxity, acne scars, pores, texture, fine lines — all skin tones", "Tone, texture, fine lines (milder)", "Deep wrinkles, sun damage, advanced photoaging"] },
+      { label: "Downtime", values: ["2–5 days redness/swelling", "1–3 days redness", "5–10 days peeling and recovery"] },
+      { label: "Safe for darker skin tones (Fitz IV–VI)", values: ["Yes", "Yes", "Higher pigmentation risk — careful patient selection"] },
+      { label: "Recommended sessions", values: ["Series of 3, 4–6 weeks apart", "Series of 3–6", "Often a single treatment with periodic maintenance"] },
+    ],
+    note: "Many patients combine RF microneedling with Botox or fillers (spaced 2 weeks apart) for full-face rejuvenation.",
+  },
   faqs: [
     {
+      q: "How much does RF microneedling cost in Kingsport, TN?",
+      a: "Pricing varies by treatment area and the size of your series. Most full-face RF microneedling sessions in the Tri-Cities range from approximately $600–$1,200 per treatment, and a series of 3 is the standard recommendation. Balanced Wellness offers package and VIP membership pricing — call (423) 765-1393 for a personalized quote at our Kingsport clinic.",
+    },
+    {
       q: "How many RF microneedling sessions will I need?",
-      a: "Most patients see significant improvement after a series of 3 treatments spaced 4–6 weeks apart. Maintenance treatments every 6–12 months extend results.",
+      a: "Most patients see significant improvement after a series of 3 treatments spaced 4–6 weeks apart. Acne scarring and stretch marks may need 4–6 sessions. Maintenance treatments every 6–12 months extend results.",
     },
     {
       q: "Is RF microneedling painful?",
-      a: "With proper numbing cream, most patients rate the discomfort a 2–4 out of 10. You'll feel warmth and pressure, but the treatment is very manageable.",
+      a: "With proper topical numbing cream (applied 30–45 minutes before treatment), most patients rate the discomfort a 2–4 out of 10. You'll feel warmth and pressure, but the treatment is very manageable.",
     },
     {
       q: "How long do RF microneedling results last?",
-      a: "With a complete series of 3 treatments, results typically last 1–2 years. The skin continues improving for up to 6 months post-treatment as new collagen develops.",
+      a: "With a complete series of 3 treatments, results typically last 1–2 years. The skin continues improving for up to 6 months post-treatment as new collagen develops. Maintenance sessions every 6–12 months extend results indefinitely.",
     },
     {
       q: "Can I combine RF microneedling with Botox or fillers?",
-      a: "Yes. In fact, this combination delivers exceptional results. We typically recommend doing injectables 2 weeks before or 2 weeks after RF microneedling sessions.",
+      a: "Yes. In fact, this combination delivers exceptional results. We typically recommend doing injectables 2 weeks before or 2 weeks after RF microneedling sessions to avoid heat and pressure on freshly placed product.",
+    },
+    {
+      q: "Is RF microneedling safe for darker skin tones?",
+      a: "Yes. Because the energy delivery bypasses the surface pigment and works in the deeper dermis, RF microneedling is safe and effective for all Fitzpatrick skin types (I–VI). This is a key advantage over many ablative lasers.",
+    },
+    {
+      q: "What's the downtime after RF microneedling?",
+      a: "Plan for 2–5 days of social downtime. Most patients have redness and mild swelling for 24–72 hours that feels and looks like a sunburn, plus possible pinpoint scabbing for a few days. Mineral makeup can be worn after 24 hours, and strict sun protection is required for 2 weeks.",
     },
   ],
   relatedLinks: [

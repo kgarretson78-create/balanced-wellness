@@ -29,16 +29,27 @@ export interface FAQItem {
   a: string;
 }
 
+export interface ComparisonRow {
+  label: string;
+  values: string[];
+}
+
 export interface SEOServicePageProps {
   seo: {
     title: string;
     description: string;
     keywords: string;
+    canonicalPath?: string;
   };
   hero: {
     badge: string;
     h1: string;
     subheadline: string;
+  };
+  /** Short, direct answer to the page's primary question (Answer Engine Optimization lead). */
+  shortAnswer?: {
+    q: string;
+    a: string;
   };
   intro: {
     h2: string;
@@ -50,10 +61,28 @@ export interface SEOServicePageProps {
     notFor: string[];
   };
   expectations: ExpectationCard[];
+  /** Optional comparison block (e.g., Botox vs Dysport vs Daxxify) for AEO comparison snippets. */
+  comparison?: {
+    h2: string;
+    columns: string[];
+    rows: ComparisonRow[];
+    note?: string;
+  };
   faqs: FAQItem[];
   relatedLinks: RelatedLink[];
   schemaDescription: string;
 }
+
+const CANONICAL_ORIGIN = "https://www.balancedmedicalspa.com";
+
+const DIFFERENTIATORS = [
+  { title: "Two convenient TN locations", desc: "Kingsport (1309 S John B Dennis Hwy, Ste 104) and Jonesborough (120 S Cherokee St) — pick whichever is closer or fits your schedule." },
+  { title: "8,000+ patients treated", desc: "A high-volume aesthetic and wellness practice across the Tri-Cities, not a side service." },
+  { title: "200+ five-star reviews", desc: "Sustained five-star feedback from real patients in Kingsport, Jonesborough, and the surrounding region." },
+  { title: "Aesthetics + medical wellness under one roof", desc: "Injectables, lasers, RF microneedling, medical weight loss, hormone therapy, peptide therapy, and IV therapy together — not separate clinics." },
+  { title: "KelliAI 24/7 patient guidance", desc: "Our in-house AI concierge answers questions and helps you choose a treatment any time, day or night." },
+  { title: "Free, no-pressure consultations", desc: "Every new patient starts with a complimentary consultation so the plan fits your goals, anatomy, and budget." },
+];
 
 const LOCATIONS = [
   {
@@ -73,17 +102,29 @@ const LOCATIONS = [
 ];
 
 export function SEOServicePage(props: SEOServicePageProps) {
-  const { seo, hero, intro, benefits, candidates, expectations, faqs, relatedLinks, schemaDescription } = props;
+  const { seo, hero, shortAnswer, intro, benefits, candidates, expectations, comparison, faqs, relatedLinks, schemaDescription } = props;
   const { open: openBookingChooser } = useBookingChooser();
+  const canonicalPath = seo.canonicalPath ?? (typeof window !== "undefined" ? window.location.pathname : undefined);
+  const canonicalUrl = canonicalPath
+    ? `${CANONICAL_ORIGIN}${canonicalPath === "/" ? "/" : canonicalPath.replace(/\/$/, "")}`
+    : undefined;
+
+  const breadcrumbs = [
+    { name: "Home", url: `${CANONICAL_ORIGIN}/` },
+    { name: "Services", url: `${CANONICAL_ORIGIN}/services` },
+    ...(canonicalUrl ? [{ name: hero.h1, url: canonicalUrl }] : []),
+  ];
 
   return (
     <PageLayout>
-      <SEO title={seo.title} description={seo.description} keywords={seo.keywords} />
+      <SEO title={seo.title} description={seo.description} keywords={seo.keywords} canonicalPath={seo.canonicalPath} />
       <LocalBusinessSchema />
       <ServiceSchema
         serviceName={hero.h1}
         description={schemaDescription}
+        canonicalUrl={canonicalUrl}
         faqs={faqs}
+        breadcrumbs={breadcrumbs}
       />
 
       {/* Hero */}
@@ -137,6 +178,19 @@ export function SEOServicePage(props: SEOServicePageProps) {
           </nav>
         </div>
       </div>
+
+      {/* Short Answer (AEO lead) */}
+      {shortAnswer && (
+        <section className="bg-primary/5 border-b border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+            <div className="bg-white rounded-2xl border border-primary/15 p-6 md:p-7 luxury-shadow">
+              <p className="text-[11px] uppercase tracking-widest text-primary font-semibold mb-2">Quick Answer</p>
+              <h2 className="text-lg md:text-xl font-serif font-bold text-foreground mb-3 leading-snug">{shortAnswer.q}</h2>
+              <p className="text-sm md:text-base text-foreground/75 leading-relaxed">{shortAnswer.a}</p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Introduction */}
       <section className="py-16 md:py-20 bg-white">
@@ -275,6 +329,72 @@ export function SEOServicePage(props: SEOServicePageProps) {
                     </li>
                   ))}
                 </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison snippet (AEO) */}
+      {comparison && comparison.rows.length > 0 && (
+        <section className="py-16 md:py-20 bg-white">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10">
+              <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-2">At a Glance</p>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{comparison.h2}</h2>
+            </div>
+            <div className="overflow-x-auto rounded-2xl border border-border">
+              <table className="w-full text-sm">
+                <thead className="bg-secondary">
+                  <tr>
+                    <th className="text-left p-4 font-semibold text-foreground/70 text-xs uppercase tracking-wider">Feature</th>
+                    {comparison.columns.map((col) => (
+                      <th key={col} className="text-left p-4 font-semibold text-foreground text-xs uppercase tracking-wider">{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparison.rows.map((row, i) => (
+                    <tr key={i} className="border-t border-border">
+                      <td className="p-4 font-semibold text-foreground/80 align-top">{row.label}</td>
+                      {row.values.map((val, j) => (
+                        <td key={j} className="p-4 text-foreground/65 align-top">{val}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {comparison.note && (
+              <p className="text-xs text-foreground/50 mt-4 italic text-center">{comparison.note}</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Why Balanced — differentiators (no competitor naming) */}
+      <section className="py-16 md:py-20 bg-secondary">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-2">Why Balanced Wellness</p>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
+              Why Choose Balanced Wellness for {hero.h1.replace(/ in Kingsport.*/, "").replace(/ Kingsport.*/, "")} in the Tri-Cities
+            </h2>
+            <p className="text-foreground/55 text-sm mt-3 max-w-2xl mx-auto">
+              We're a full-service medical aesthetics and wellness practice — not a single-location med spa. Here's what that means for you.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {DIFFERENTIATORS.map((d, i) => (
+              <motion.div
+                key={i}
+                {...fadeUp}
+                transition={{ delay: i * 0.05 }}
+                className="bg-white rounded-2xl p-6 border border-border hover:luxury-shadow transition-all"
+              >
+                <CheckCircle2 className="w-5 h-5 text-primary mb-3" />
+                <h3 className="font-bold text-foreground mb-1.5 text-sm">{d.title}</h3>
+                <p className="text-xs text-foreground/60 leading-relaxed">{d.desc}</p>
               </motion.div>
             ))}
           </div>

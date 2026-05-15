@@ -53,10 +53,22 @@ export interface LocalSEOPageProps {
   };
   faqs: { q: string; a: string }[];
   relatedLinks: { name: string; path: string; desc: string }[];
+  trust?: {
+    headline: string;
+    intro: string;
+    proofCards: { title: string; body: string }[];
+    googleReviewsUrl?: string;
+    ctaText?: string;
+  };
+  locationDetails?: {
+    headline?: string;
+    paragraphs?: string[];
+    points?: string[];
+  };
 }
 
 export function LocalSEOPage(props: LocalSEOPageProps) {
-  const { seo, hero, intro, services, whyUs, nearbyAreas, primaryLocation, secondaryLocation, faqs, relatedLinks } = props;
+  const { seo, hero, intro, services, whyUs, nearbyAreas, primaryLocation, secondaryLocation, faqs, relatedLinks, trust, locationDetails } = props;
   const primaryLocId = cityToLocationId(primaryLocation.city);
   const primaryBookingUrl = LOCATIONS[primaryLocId].bookingUrl;
   const handlePrimaryBooking = () => setPreferredLocation(primaryLocId);
@@ -235,6 +247,90 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
           </div>
         </div>
       </section>
+
+      {/* Trust / Patient Experience */}
+      {trust && (
+        <section className="py-16 md:py-20 bg-secondary/40 border-t border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+              <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Patient Experience</p>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4">{trust.headline}</h2>
+              <p className="text-foreground/65 leading-relaxed">{trust.intro}</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+              {trust.proofCards.map((card, i) => (
+                <motion.div
+                  key={i}
+                  {...fadeUp}
+                  transition={{ delay: i * 0.06 }}
+                  className="bg-white rounded-2xl border border-border p-6 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex gap-0.5 mb-3" aria-hidden="true">
+                    {[0, 1, 2, 3, 4].map((j) => (
+                      <Star key={j} className="w-4 h-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <h3 className="font-bold text-foreground text-sm mb-2">{card.title}</h3>
+                  <p className="text-sm text-foreground/65 leading-relaxed">{card.body}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              {trust.googleReviewsUrl ? (
+                <a
+                  href={trust.googleReviewsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm"
+                >
+                  <Star className="w-4 h-4 text-primary fill-primary" />
+                  {trust.ctaText ?? "Read Google Reviews"}
+                </a>
+              ) : (
+                <p className="text-xs text-foreground/55 text-center">
+                  {trust.ctaText ?? "Search “Balanced Wellness Medical Spa” on Google to read recent reviews."}
+                </p>
+              )}
+              <Link
+                href={primaryBookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={handlePrimaryBooking}
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors text-sm"
+              >
+                <Calendar className="w-4 h-4" />
+                Book a Free Consultation
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Visiting / Location Details */}
+      {locationDetails && (locationDetails.paragraphs?.length || locationDetails.points?.length) && (
+        <section className="py-16 md:py-20 bg-white border-t border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-5">
+                {locationDetails.headline ?? `Visiting Our ${primaryLocation.city} Clinic`}
+              </h2>
+              {locationDetails.paragraphs?.map((p, i) => (
+                <p key={i} className="text-foreground/65 leading-relaxed mb-4">{p}</p>
+              ))}
+            </div>
+            {locationDetails.points?.length ? (
+              <ul className="space-y-3.5 lg:pt-12">
+                {locationDetails.points.map((pt, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                    <span className="text-foreground/70 text-sm leading-relaxed">{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="py-16 md:py-20 bg-secondary">

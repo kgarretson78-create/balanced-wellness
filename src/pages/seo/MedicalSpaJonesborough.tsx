@@ -69,7 +69,7 @@ export const data = {
     },
     {
       q: "What treatments are available at the Jonesborough location?",
-      a: "Our Jonesborough clinic offers the full range of Balanced Wellness services including Botox, fillers, laser treatments, RF microneedling, medical weight loss, hormone therapy, and wellness programs.",
+      a: "Our Jonesborough clinic offers the full range of Balanced Wellness services including Botox, Dysport, Daxxify, lip and dermal fillers, IPL photofacials, laser skin rejuvenation, RF microneedling, skin tightening, medical weight loss (Semaglutide / Tirzepatide), bioidentical hormone therapy, peptide therapy, IV therapy, and VIP memberships.",
     },
     {
       q: "How far is the Jonesborough med spa from Johnson City?",
@@ -79,15 +79,75 @@ export const data = {
       q: "Do I need an appointment for the Jonesborough clinic?",
       a: "Yes, we require appointments to ensure proper consultation time and provider availability. Call (423) 646-2169 or book online for your complimentary consultation.",
     },
+    {
+      q: "Do you see patients from Kingsport, Johnson City, or Bristol at the Jonesborough clinic?",
+      a: "Yes. Our Jonesborough clinic regularly sees patients from Johnson City, Erwin, Greeneville, Kingsport, and Bristol. For patients closer to Sullivan County, our Kingsport clinic at 1309 S John B Dennis Hwy may be more convenient.",
+    },
+    {
+      q: "How do I book at the Jonesborough medical spa?",
+      a: "Book online at /book and choose the Jonesborough location, or call (423) 646-2169. New patients always start with a complimentary consultation before any treatment is performed.",
+    },
+    {
+      q: "What should I expect at my first visit in Jonesborough?",
+      a: "Your first visit is a no-pressure consultation. We review your goals, medical history, and any aesthetic or wellness concerns, then walk through realistic treatment options, timelines, and pricing. When appropriate, treatment can usually be performed the same day — but you're never obligated to book one at the consult.",
+    },
   ],
   relatedLinks: [
     { name: "Botox in Kingsport TN", path: "/botox-kingsport-tn", desc: "Neurotoxin treatments at both locations." },
+    { name: "RF Microneedling", path: "/rf-microneedling-kingsport-tn", desc: "Collagen remodeling for texture and tightening." },
+    { name: "Laser Skin Rejuvenation", path: "/laser-skin-rejuvenation-kingsport-tn", desc: "IPL and laser for tone, sun damage, and texture." },
     { name: "Medical Spa Kingsport TN", path: "/medical-spa-kingsport-tn", desc: "Our Kingsport flagship location." },
-    { name: "Weight Loss Clinic Kingsport", path: "/weight-loss-clinic-kingsport-tn", desc: "Semaglutide weight loss programs." },
+    { name: "Weight Loss Clinic Kingsport", path: "/weight-loss-clinic-kingsport-tn", desc: "Semaglutide / Tirzepatide weight loss programs." },
     { name: "Hormone Therapy Kingsport", path: "/hormone-therapy-kingsport-tn", desc: "Bioidentical HRT programs." },
     { name: "VIP Memberships", path: "/memberships", desc: "Membership benefits at both locations." },
     { name: "Book Consultation", path: "/book", desc: "Schedule at either location." },
   ],
+  trust: {
+    headline: "Trusted by 8,000+ Tri-Cities Patients",
+    intro: "Balanced Wellness Medical Spa has earned 200+ five-star Google reviews and treated more than 8,000 patients across Jonesborough, Johnson City, Kingsport, and the surrounding Tri-Cities region. Patients consistently describe a calm, unhurried visit with results that look like them — only refreshed.",
+    proofCards: [
+      {
+        title: "Natural-looking results",
+        body: "Patients often mention that Botox, lip filler, and laser work at Balanced Wellness look natural — never overdone — because we plan conservatively and refine over follow-up visits.",
+      },
+      {
+        title: "Friendly, judgment-free care",
+        body: "First-time visitors frequently note how welcoming the team is, especially for patients who have never had Botox, weight loss medication, or hormone therapy before.",
+      },
+      {
+        title: "Clear, honest treatment plans",
+        body: "We walk you through realistic options, pricing, and timelines before anything is scheduled — no high-pressure consults, no surprise fees.",
+      },
+      {
+        title: "Medical-grade safety",
+        body: "Every treatment is performed or supervised by licensed medical providers — nurse practitioners and physicians — not unlicensed technicians.",
+      },
+      {
+        title: "Convenient for Washington County",
+        body: "Patients from Johnson City, Erwin, Greeneville, and surrounding Washington County communities choose our Jonesborough location for its closer drive.",
+      },
+      {
+        title: "Two locations, one standard of care",
+        body: "Same providers, same protocols, same pricing — whether you visit Jonesborough or our Kingsport flagship.",
+      },
+    ],
+    googleReviewsUrl: "https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa",
+    ctaText: "Read our Google reviews",
+  },
+  locationDetails: {
+    headline: "Visiting Our Jonesborough Medical Spa",
+    paragraphs: [
+      "Our Jonesborough clinic is on South Cherokee Street in historic downtown Jonesborough, a short drive from Johnson City, Erwin, and Greeneville. Most patients find us within 10–15 minutes of downtown Johnson City. We schedule generous appointment lengths so you have time to ask questions before, during, and after treatment.",
+      "If our Jonesborough schedule is full or you're closer to Sullivan County, we can usually offer the same treatment at our Kingsport clinic (1309 S John B Dennis Hwy, Suite 104) within a similar timeframe.",
+    ],
+    points: [
+      "Address: 120 South Cherokee St, Jonesborough, TN 37659",
+      "Phone: (423) 646-2169 — call or text for help choosing the right appointment",
+      "Easy access from Johnson City, Erwin, and Greeneville; parking available nearby in downtown Jonesborough",
+      "Serves Jonesborough, Johnson City, Erwin, Greeneville, Kingsport, Bristol, Gray, and Limestone",
+      "Second location: 1309 S John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — about 25 minutes north",
+    ],
+  },
 };
 
 export default function MedicalSpaJonesborough() {

@@ -1,6 +1,6 @@
 import { LocalSEOPage } from "@/components/LocalSEOPage";
 
-const data = {
+export const data = {
   seo: {
     title: "Medical Spa Jonesborough TN | Balanced Wellness Medical Spa",
     description: "Medical spa in Jonesborough TN — Balanced Wellness offers Botox, fillers, laser treatments, medical weight loss, and hormone therapy. Located at 120 S Cherokee St. Free consultations.",

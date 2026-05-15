@@ -89,9 +89,37 @@ app.get("/sitemap.xml", (_req, res) => {
   res.type("application/xml").sendFile(path.join(distPath, "sitemap.xml"));
 });
 
-// Serve React build (Vite outputs to /dist)
+// Prerendered route handler — registered BEFORE express.static so the static
+// middleware never sees these paths and never auto-redirects them to a
+// trailing-slash URL. For each request, if a file at dist/<slug>/index.html
+// exists and the slug is a safe ASCII path, we serve that page-specific HTML.
+// Otherwise the request continues to express.static (for assets) and finally
+// to the SPA fallback below.
+app.get("*", (req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  if (req.path.startsWith("/api/")) return next();
+  if (!distFound) return next();
+  // Skip if the request already has a file extension — those are real assets
+  // served by express.static.
+  if (/\.[a-z0-9]+$/i.test(req.path)) return next();
+
+  const slug = req.path.replace(/^\/+/, "").replace(/\/+$/, "");
+  if (!slug || !/^[a-z0-9][a-z0-9-/]*$/i.test(slug)) return next();
+
+  const candidate = path.join(distPath, slug, "index.html");
+  if (!candidate.startsWith(distPath + path.sep)) return next();
+  if (!fs.existsSync(candidate)) return next();
+
+  res.setHeader("Cache-Control", "no-cache");
+  res.sendFile(candidate);
+});
+
+// Serve React build (Vite outputs to /dist). `redirect: false` prevents
+// express.static from issuing a trailing-slash redirect when a request maps
+// to one of our prerendered route directories.
 app.use(express.static(distPath, {
   index: false,
+  redirect: false,
   setHeaders: (res, filePath) => {
     // Long cache for hashed Vite assets
     if (filePath.includes(`${path.sep}assets${path.sep}`)) {
@@ -100,7 +128,9 @@ app.use(express.static(distPath, {
   },
 }));
 
-// React Router catch-all — serve index.html for all non-API routes
+// SPA fallback — serve the bundled index.html for any non-API, non-asset
+// route that didn't match a prerendered file above. React Router takes over
+// from there on the client.
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api/")) {
     res.status(404).json({ error: "Not found" });

@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Medical Weight Loss in Kingsport TN | Semaglutide & Tirzepatide | Balanced Wellness",
     description: "Medical weight loss in Kingsport TN at Balanced Wellness Medical Spa. Semaglutide and Tirzepatide GLP-1 programs with physician supervision, lab monitoring, and nutritional coaching. Free consultation — call (423) 765-1393.",

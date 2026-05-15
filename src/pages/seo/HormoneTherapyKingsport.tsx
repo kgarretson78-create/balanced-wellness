@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Hormone Therapy in Kingsport TN | Bioidentical HRT for Men & Women | Balanced Wellness",
     description: "Hormone therapy in Kingsport TN at Balanced Wellness Medical Spa. Bioidentical hormone replacement (BHRT) for women in perimenopause and menopause and for men with low testosterone. Comprehensive lab testing, personalized protocols, and ongoing monitoring. Free consultation — call (423) 765-1393.",

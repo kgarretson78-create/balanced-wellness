@@ -23,7 +23,7 @@ const data = {
     { name: "Hormone Optimization", desc: "Bioidentical HRT for men and women — testosterone, estrogen, thyroid.", link: "/hormone-therapy-kingsport-tn" },
     { name: "Peptide Therapy", desc: "BPC-157, CJC/Ipamorelin, Thymosin, and targeted longevity protocols.", link: "/peptide-therapy-kingsport-tn" },
     { name: "Medical Weight Loss", desc: "Semaglutide and Tirzepatide physician-supervised programs.", link: "/medical-weight-loss-kingsport-tn" },
-    { name: "IV Nutrient Therapy", desc: "Myers Cocktail, Vitamin C, NAD+, and custom formulations.", link: "/wellness" },
+    { name: "IV Nutrient Therapy", desc: "Myers Cocktail, Get-Up and Go, Recovery, Brainstorm, and more in our IV Lounge.", link: "/iv-lounge-kingsport-tn" },
     { name: "Advanced Lab Testing", desc: "Comprehensive metabolic, hormonal, and nutrient panels.", link: "/wellness" },
     { name: "Nutritional Coaching", desc: "Evidence-based dietary optimization for your goals.", link: "/wellness" },
     { name: "Aesthetic Treatments", desc: "Botox, fillers, laser, and skin treatments for total renewal.", link: "/services" },
@@ -84,6 +84,7 @@ const data = {
     },
   ],
   relatedLinks: [
+    { name: "IV Lounge Kingsport TN", path: "/iv-lounge-kingsport-tn", desc: "IV hydration menu, drips, and pricing." },
     { name: "Hormone Therapy Kingsport TN", path: "/hormone-therapy-kingsport-tn", desc: "Bioidentical HRT for energy and vitality." },
     { name: "Peptide Therapy Kingsport TN", path: "/peptide-therapy-kingsport-tn", desc: "Advanced longevity peptide protocols." },
     { name: "Medical Weight Loss Kingsport", path: "/medical-weight-loss-kingsport-tn", desc: "Physician-supervised weight loss." },

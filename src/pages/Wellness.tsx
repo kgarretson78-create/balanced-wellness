@@ -46,7 +46,10 @@ export default function Wellness() {
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+          <Link href="/iv-lounge-kingsport-tn" className="inline-block px-8 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors">
+            See the IV Lounge Menu
+          </Link>
           <Link href="/hormone-optimization" className="inline-block px-8 py-3 border-2 border-primary text-primary font-semibold rounded-full hover:bg-primary hover:text-white transition-colors">
             Explore Hormone Optimization
           </Link>

@@ -47,6 +47,7 @@ import WeightLossClinicKingsport from "./pages/seo/WeightLossClinicKingsport";
 import WellnessClinicKingsport from "./pages/seo/WellnessClinicKingsport";
 import KingsportMedSpa from "./pages/seo/KingsportMedSpa";
 import JonesboroughMedSpa from "./pages/seo/JonesboroughMedSpa";
+import IVLoungeKingsport from "./pages/seo/IVLoungeKingsport";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +93,10 @@ function Router() {
       <Route path="/wellness-clinic-kingsport-tn" component={WellnessClinicKingsport} />
       <Route path="/kingsport-med-spa" component={KingsportMedSpa} />
       <Route path="/jonesborough-med-spa" component={JonesboroughMedSpa} />
+
+      {/* IV Lounge */}
+      <Route path="/iv-lounge-kingsport-tn" component={IVLoungeKingsport} />
+      <Route path="/iv-hydration-kingsport-tn" component={IVLoungeKingsport} />
 
       <Route component={NotFound} />
     </Switch>

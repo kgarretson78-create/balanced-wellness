@@ -24,6 +24,7 @@ import { data as weightLossData } from "../src/pages/seo/MedicalWeightLossKingsp
 import { data as hormoneData } from "../src/pages/seo/HormoneTherapyKingsport.tsx";
 import { data as kingsportSpaData } from "../src/pages/seo/MedicalSpaKingsport.tsx";
 import { data as jonesboroughSpaData } from "../src/pages/seo/MedicalSpaJonesborough.tsx";
+import { data as ivLoungeData } from "../src/pages/seo/IVLoungeKingsport.tsx";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -119,6 +120,35 @@ interface ServicePageData {
     rows: { label: string; values: string[] }[];
     note?: string;
   };
+  faqs: FAQ[];
+  relatedLinks: { name: string; path: string; desc: string }[];
+  schemaDescription: string;
+}
+interface IVMenuItem {
+  name: string;
+  tagline: string;
+  price: number;
+  duration: string;
+  desc: string;
+}
+interface IVAddOn {
+  name: string;
+  tagline: string;
+  price: number;
+  desc: string;
+}
+interface IVLoungePageData {
+  seo: { title: string; description: string; keywords: string; canonicalPath?: string };
+  hero: { badge: string; h1: string; subheadline: string };
+  shortAnswer: { q: string; a: string };
+  intro: { h2: string; body: string[] };
+  benefits: { title: string; desc: string }[];
+  whatIsIV: { h2: string; body: string[] };
+  experience: { h2: string; body: string[] };
+  expectations: { phase: string; icon: string; items: string[] }[];
+  ivMenu: IVMenuItem[];
+  ivAddOns: IVAddOn[];
+  membership: { name: string; price: number; duration: string; desc: string };
   faqs: FAQ[];
   relatedLinks: { name: string; path: string; desc: string }[];
   schemaDescription: string;
@@ -466,6 +496,167 @@ function renderLocalBody(d: LocalPageData, canonicalUrl: string): string {
   `;
 }
 
+function renderIVLoungeBody(d: IVLoungePageData, canonicalUrl: string): string {
+  const benefits = d.benefits
+    .map((b) => `<li><strong>${escapeHtml(b.title)}</strong> — ${escapeHtml(b.desc)}</li>`)
+    .join("\n        ");
+  const expectations = d.expectations
+    .map(
+      (e) => `
+        <div>
+          <h3>${escapeHtml(e.phase)}</h3>
+          <ul>
+            ${e.items.map((it) => `<li>${escapeHtml(it)}</li>`).join("\n            ")}
+          </ul>
+        </div>`,
+    )
+    .join("");
+  const menu = d.ivMenu
+    .map(
+      (m) => `
+        <li>
+          <strong>${escapeHtml(m.name)}</strong> — ${escapeHtml(m.tagline)}<br>
+          <span>$${m.price} · ${escapeHtml(m.duration)}</span>
+          <p>${escapeHtml(m.desc)}</p>
+        </li>`,
+    )
+    .join("");
+  const addons = d.ivAddOns
+    .map(
+      (a) =>
+        `<li><strong>${escapeHtml(a.name)}</strong> (+$${a.price}) — ${escapeHtml(a.desc)}</li>`,
+    )
+    .join("\n          ");
+  const faqs = d.faqs
+    .map(
+      (f) => `
+        <div>
+          <h3>${escapeHtml(f.q)}</h3>
+          <p>${escapeHtml(f.a)}</p>
+        </div>`,
+    )
+    .join("");
+  const related = d.relatedLinks
+    .map(
+      (l) =>
+        `<li><a href="${escapeAttr(l.path)}">${escapeHtml(l.name)}</a> — ${escapeHtml(l.desc)}</li>`,
+    )
+    .join("\n          ");
+
+  return `
+    <div id="prerender-content" data-prerender>
+      <nav aria-label="Breadcrumb">
+        <a href="/">Home</a> / <a href="/wellness">Wellness</a> / <span>${escapeHtml(d.hero.h1)}</span>
+      </nav>
+      <header>
+        <p>${escapeHtml(d.hero.badge)}</p>
+        <h1>${escapeHtml(d.hero.h1)}</h1>
+        <p>${escapeHtml(d.hero.subheadline)}</p>
+        <p><a href="/book">Book Your IV Session</a> · <a href="tel:423-765-1393">Call (423) 765-1393</a></p>
+      </header>
+      <section aria-label="Quick Answer">
+        <h2>${escapeHtml(d.shortAnswer.q)}</h2>
+        <p>${escapeHtml(d.shortAnswer.a)}</p>
+      </section>
+      <section>
+        <h2>${escapeHtml(d.intro.h2)}</h2>
+        ${d.intro.body.map((p) => `<p>${escapeHtml(p)}</p>`).join("\n        ")}
+      </section>
+      <section>
+        <h2>Benefits of IV Hydration</h2>
+        <ul>
+        ${benefits}
+        </ul>
+      </section>
+      <section>
+        <h2>${escapeHtml(d.whatIsIV.h2)}</h2>
+        ${d.whatIsIV.body.map((p) => `<p>${escapeHtml(p)}</p>`).join("\n        ")}
+      </section>
+      <section>
+        <h2>${escapeHtml(d.experience.h2)}</h2>
+        ${d.experience.body.map((p) => `<p>${escapeHtml(p)}</p>`).join("\n        ")}
+      </section>
+      <section>
+        <h2>What to Expect</h2>${expectations}
+      </section>
+      <section>
+        <h2>IV Lounge Drip Menu</h2>
+        <p>Each drip is about 45 minutes and is recommended after a brief health screening.</p>
+        <ul>${menu}
+        </ul>
+        <h3>Boosters</h3>
+        <ul>
+          ${addons}
+        </ul>
+        <h3>${escapeHtml(d.membership.name)}</h3>
+        <p>${escapeHtml(d.membership.desc)} — $${d.membership.price}/${escapeHtml(d.membership.duration)}</p>
+        <p><em>* IV therapy may support hydration, energy, recovery, and general wellness goals. Not a treatment for any specific disease. Health screening required.</em></p>
+      </section>
+      <section>
+        <h2>Frequently Asked Questions</h2>${faqs}
+      </section>
+      <section>
+        <h2>Visit Our IV Lounge — Kingsport & the Johnson City / Jonesborough Area</h2>
+        <address>
+          <strong>Kingsport</strong><br>
+          1309 South John B Dennis Hwy, Suite 104<br>
+          Kingsport, TN 37660<br>
+          <a href="tel:423-765-1393">(423) 765-1393</a>
+        </address>
+        <address>
+          <strong>Jonesborough</strong><br>
+          120 South Cherokee St<br>
+          Jonesborough, TN 37659<br>
+          <a href="tel:423-646-2169">(423) 646-2169</a>
+        </address>
+      </section>
+      <section>
+        <h2>Related Wellness Services</h2>
+        <ul>
+          ${related}
+        </ul>
+      </section>
+      <p><a href="${escapeAttr(canonicalUrl)}">${escapeHtml(d.hero.h1)} — Balanced Wellness Medical Spa</a></p>
+    </div>
+  `;
+}
+
+function breadcrumbsForIVLounge(h1: string, canonicalUrl: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${ORIGIN}/` },
+      { "@type": "ListItem", position: 2, name: "Wellness", item: `${ORIGIN}/wellness` },
+      { "@type": "ListItem", position: 3, name: h1, item: canonicalUrl },
+    ],
+  };
+}
+
+function ivOfferCatalogSchema(d: IVLoungePageData, canonicalUrl: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "OfferCatalog",
+    name: "IV Lounge Drip Menu",
+    url: canonicalUrl,
+    itemListElement: d.ivMenu.map((m) => ({
+      "@type": "Offer",
+      name: m.name,
+      description: m.desc,
+      price: m.price.toFixed(2),
+      priceCurrency: "USD",
+      url: `${canonicalUrl}#iv-menu`,
+      itemOffered: {
+        "@type": "MedicalProcedure",
+        name: `IV Hydration — ${m.name}`,
+        procedureType: "Noninvasive",
+        howPerformed:
+          "Administered intravenously by licensed medical providers at Balanced Wellness Medical Spa.",
+      },
+    })),
+  };
+}
+
 // ---------------------------------------------------------------------------
 // JSON-LD builders
 // ---------------------------------------------------------------------------
@@ -590,6 +781,30 @@ async function prerenderLocalRoute(
   await writeRoute(routePath, html);
 }
 
+async function prerenderIVLoungeRoute(
+  routePath: string,
+  d: IVLoungePageData,
+  template: string,
+) {
+  const canonicalUrl = `${ORIGIN}${routePath}`;
+  const jsonLd = [
+    LOCAL_BUSINESS_SCHEMA,
+    medicalProcedureSchema(d.hero.h1, d.schemaDescription, canonicalUrl),
+    ivOfferCatalogSchema(d, canonicalUrl),
+    faqPageSchema(d.faqs, canonicalUrl),
+    breadcrumbsForIVLounge(d.hero.h1, canonicalUrl),
+  ];
+  let html = applyHeadToTemplate(template, {
+    title: d.seo.title,
+    description: d.seo.description,
+    keywords: d.seo.keywords,
+    canonicalUrl,
+    jsonLd,
+  });
+  html = injectBody(html, renderIVLoungeBody(d, canonicalUrl));
+  await writeRoute(routePath, html);
+}
+
 async function main() {
   const templatePath = path.join(DIST, "index.html");
   const template = await fs.readFile(templatePath, "utf8");
@@ -623,6 +838,11 @@ async function main() {
   await prerenderLocalRoute(
     "/medical-spa-jonesborough-tn",
     jonesboroughSpaData as LocalPageData,
+    template,
+  );
+  await prerenderIVLoungeRoute(
+    "/iv-lounge-kingsport-tn",
+    ivLoungeData as IVLoungePageData,
     template,
   );
 

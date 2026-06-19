@@ -46,6 +46,8 @@ In Railway dashboard → your service → Variables tab:
 | `VITE_PODIUM_BOOKING_URL_KINGSPORT` | **Build-time only.** Optional override for the Kingsport Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/01930831-564b-7342-98d8-620e43a707e7` (hardcoded in `src/lib/booking.ts`). |
 | `VITE_PODIUM_BOOKING_URL_JONESBOROUGH` | **Build-time only.** Optional override for the Jonesborough Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505` (hardcoded in `src/lib/booking.ts`). |
 | `VITE_PODIUM_BOOKING_URL` | **Build-time only.** Optional shared/fallback scheduling URL. Used only if a location has no per-location default and no per-location env var. |
+| `VITE_REFILL_PORTAL_URL` | **Build-time only.** Exact Balanced Wellness Refill.co telehealth portal URL. **No hardcoded default** — until this is set, telehealth CTAs route to `/contact`. |
+| `VITE_REFILL_PORTAL_ENABLED` | **Build-time only.** Optional. Defaults to enabled when a valid `VITE_REFILL_PORTAL_URL` is set. Set to `false` to disable the portal CTAs without removing the URL. |
 
 Railway sets PORT automatically — do not set it manually.
 
@@ -72,6 +74,37 @@ Resolution order per location:
 To swap a location's URL without a code change, set the corresponding per-location
 env var in Railway → Variables and redeploy (these are build-time, so a rebuild is
 required).
+
+#### Social booking link
+
+`/book-now` (alias `/social-booking`) is a mobile-first landing page that shows the
+Kingsport / Jonesborough chooser and routes each card straight to that location's
+Podium scheduler. It also forwards any UTM/query params from the social link through
+to Podium so attribution is preserved. Use this as the Instagram / Facebook / TikTok
+bio link:
+
+```
+https://www.balancedmedicalspa.com/book-now
+```
+
+### Telehealth (Refill.co)
+
+The online telehealth portal is wired through `VITE_REFILL_PORTAL_URL`. There is **no
+hardcoded default on purpose** — until the exact Balanced-specific Refill.co URL is set
+in Railway, all telehealth CTAs (the `/book-now` card, weight loss / hormone / wellness
+pages, and the `/telehealth` page) safely route users to `/contact` rather than guessing
+a portal URL.
+
+To enable:
+
+1. In Railway → Variables set `VITE_REFILL_PORTAL_URL=<exact Refill.co portal URL>`.
+2. (Optional) set `VITE_REFILL_PORTAL_ENABLED=false` to temporarily hide the CTAs.
+3. Redeploy (build-time vars require a rebuild).
+
+`/telehealth` (alias `/online-telehealth`) auto-redirects to the portal once configured.
+All telehealth copy is intentionally conservative: "online telehealth portal for eligible
+telehealth services and refills, provider review required" — no promises of prescriptions,
+eligibility, or same-day medication.
 
 ### KelliAI integration
 

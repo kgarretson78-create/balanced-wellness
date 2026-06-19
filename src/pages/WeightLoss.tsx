@@ -2,6 +2,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTA } from "@/components/ui/CTA";
 import { Section } from "@/components/ui/Section";
 import { SEO } from "@/components/SEO";
+import { TelehealthBand } from "@/components/booking/TelehealthCTA";
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -61,6 +62,10 @@ export default function WeightLoss() {
             *Weight loss results vary by individual. Prescription medications are provided only if deemed medically appropriate after thorough evaluation.
           </div>
         </div>
+      </Section>
+
+      <Section className="pt-0">
+        <TelehealthBand />
       </Section>
 
       <CTA subtitle="Schedule a weight loss consultation and take the first step toward a healthier you." />

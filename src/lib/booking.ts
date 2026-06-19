@@ -120,3 +120,49 @@ export function setPreferredLocation(id: LocationId): void {
  */
 export const ANY_DEDICATED_BOOKING_URL =
   LOCATIONS.kingsport.hasDedicatedUrl || LOCATIONS.jonesborough.hasDedicatedUrl;
+
+/**
+ * Refill.co online telehealth portal.
+ *
+ * The exact Balanced-specific portal URL is configured at build time via
+ * Railway → Variables:
+ *   VITE_REFILL_PORTAL_URL=<exact Refill.co portal URL>
+ *   VITE_REFILL_PORTAL_ENABLED=true   (optional; defaults to enabled when a valid URL is set)
+ *
+ * IMPORTANT: there is intentionally NO hardcoded portal URL. Until the exact
+ * URL is set, `REFILL_PORTAL.enabled` is false and telehealth CTAs route users
+ * to /contact instead of sending them to a wrong or guessed site.
+ */
+const REFILL_URL_RAW = (env.VITE_REFILL_PORTAL_URL as string | undefined)?.trim();
+const REFILL_ENABLED_RAW = (env.VITE_REFILL_PORTAL_ENABLED as string | undefined)?.trim();
+
+function isValidHttpUrl(value: string | undefined): boolean {
+  if (!value) return false;
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" || u.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+const refillUrlValid = isValidHttpUrl(REFILL_URL_RAW);
+// An explicit "false" disables the portal even when a URL is present; otherwise
+// the presence of a valid URL is what turns the portal on.
+const refillEnabled =
+  refillUrlValid && REFILL_ENABLED_RAW?.toLowerCase() !== "false";
+
+export interface RefillPortal {
+  /** True only when a valid portal URL is configured and not explicitly disabled. */
+  enabled: boolean;
+  /** The portal URL when enabled, otherwise an empty string. */
+  url: string;
+  /** Where telehealth CTAs send users when the portal is not configured. */
+  fallbackPath: string;
+}
+
+export const REFILL_PORTAL: RefillPortal = {
+  enabled: refillEnabled,
+  url: refillEnabled ? (REFILL_URL_RAW as string) : "",
+  fallbackPath: "/contact",
+};

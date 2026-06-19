@@ -14,6 +14,8 @@ import Memberships from "./pages/Memberships";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Book from "./pages/Book";
+import BookNow from "./pages/BookNow";
+import Telehealth from "./pages/Telehealth";
 import Contact from "./pages/Contact";
 import SkinAnalyzer from "./pages/SkinAnalyzer";
 import AdminLeads from "./pages/AdminLeads";
@@ -70,6 +72,10 @@ function Router() {
       <Route path="/gallery" component={Gallery} />
       <Route path="/about" component={About} />
       <Route path="/book" component={Book} />
+      <Route path="/book-now" component={BookNow} />
+      <Route path="/social-booking" component={BookNow} />
+      <Route path="/telehealth" component={Telehealth} />
+      <Route path="/online-telehealth" component={Telehealth} />
       <Route path="/contact" component={Contact} />
       <Route path="/skin-analyzer" component={SkinAnalyzer} />
       <Route path="/flexible-payments" component={FlexiblePayments} />

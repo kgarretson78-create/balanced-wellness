@@ -2,6 +2,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTA } from "@/components/ui/CTA";
 import { Section } from "@/components/ui/Section";
 import { SEO } from "@/components/SEO";
+import { TelehealthBand } from "@/components/booking/TelehealthCTA";
 import { CheckCircle2, Dna, Droplet, HeartPulse, Shield, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -81,6 +82,10 @@ export default function HormoneOptimization() {
             *Hormone therapy requires thorough medical evaluation, lab testing, and ongoing monitoring. Treatment is prescribed only when medically appropriate.
           </div>
         </div>
+      </Section>
+
+      <Section className="pt-0">
+        <TelehealthBand />
       </Section>
 
       <CTA subtitle="Book a comprehensive hormone panel and consultation to discover your optimization path." />

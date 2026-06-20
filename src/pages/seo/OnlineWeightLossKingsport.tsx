@@ -113,7 +113,7 @@ export const data = {
   assessmentCategory: "weight-loss" as const,
   assessmentIntro: {
     h2: "Start Online Weight Loss Care",
-    body: "Online weight loss intake is being finalized. In the meantime, book a consultation and a Balanced Wellness provider will guide your next steps — eligibility for any medication is determined after evaluation and is never guaranteed.",
+    body: "Begin with the weight-loss goal assessment, or choose a specific medication if your provider has already discussed one with you. A Balanced Wellness provider reviews every submission — eligibility for any medication is determined after evaluation and is never guaranteed.",
   },
 };
 

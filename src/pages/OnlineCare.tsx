@@ -15,8 +15,20 @@ import { Section } from "@/components/ui/Section";
 import { SEO } from "@/components/SEO";
 import {
   ONLINE_CARE_CATEGORIES,
+  type OnlineCareCategory,
   type OnlineCareCategoryId,
 } from "@/lib/booking";
+
+/**
+ * Options to show on the hub card: the broad "start here" (primary) assessments,
+ * capped at 3 to keep the hub scannable. If a category only has secondary
+ * options (e.g. an env-only override), fall back to its first option so the
+ * card never renders empty. Full lists live on the category page.
+ */
+function hubOptions(cat: OnlineCareCategory) {
+  const primary = cat.primaryOptions.slice(0, 3);
+  return primary.length > 0 ? primary : cat.options.slice(0, 1);
+}
 
 /**
  * Guided online care hub (Refill.co assessments).
@@ -74,28 +86,39 @@ export default function OnlineCare() {
                 <p className="text-sm text-foreground/60 leading-relaxed mb-4">{cat.who}</p>
 
                 {cat.hasAssessment ? (
-                  <ul className="space-y-2 mb-3">
-                    {cat.options.map((opt) => (
-                      <li key={opt.url}>
-                        <a
-                          href={opt.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex items-start gap-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 px-3 py-2.5 transition-colors"
-                        >
-                          <ArrowRight className="w-3.5 h-3.5 text-primary mt-1 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                          <span>
-                            <span className="block text-sm font-semibold text-foreground leading-snug">
-                              {opt.label}
+                  <>
+                    <ul className="space-y-2 mb-3">
+                      {hubOptions(cat).map((opt) => (
+                        <li key={opt.url}>
+                          <a
+                            href={opt.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-start gap-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 px-3 py-2.5 transition-colors"
+                          >
+                            <ArrowRight className="w-3.5 h-3.5 text-primary mt-1 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                            <span>
+                              <span className="block text-sm font-semibold text-foreground leading-snug">
+                                {opt.label}
+                              </span>
+                              <span className="block text-[12px] text-foreground/55 leading-snug">
+                                {opt.description}
+                              </span>
                             </span>
-                            <span className="block text-[12px] text-foreground/55 leading-snug">
-                              {opt.description}
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    {cat.options.length > hubOptions(cat).length && (
+                      <Link
+                        href={cat.learnMorePath}
+                        className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary mb-3 hover:underline"
+                      >
+                        See all {cat.options.length} {cat.title} assessments
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
+                  </>
                 ) : (
                   <Link
                     href={cat.fallbackPath}

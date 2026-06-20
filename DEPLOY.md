@@ -99,27 +99,50 @@ one card per service category — **Online Weight Loss, Peptide Therapy, Online 
 Women's Health, Men's Health**. Every generic telehealth CTA across the site routes to
 `/online-care`, which is always a safe internal destination.
 
-Each card can list **multiple** Refill.co assessment options (e.g. Peptide Therapy offers
-the Peptide Wellness intake, CJC-1295/Ipamorelin, and AOD-9604/MOTS-C/Tesamorelin/Ipamorelin).
-The options are grouped per category in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`).
+Each card can list **multiple** Refill.co assessment options, grouped in
+`src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`). Every option is tagged
+`primary` or `secondary`:
+
+- **primary** = a broad goal/intake assessment ("start here"). The `/online-care`
+  hub shows **only** the primary options (max 3 per card) plus a "See all …
+  assessments" link to the category page, so the hub stays simple.
+- **secondary** = a medication- or product-specific drill-down. These appear on
+  the category page under an "Already know what you need?" heading.
+
 Assessment options are resolved at build time per category:
 
-1. `VITE_REFILL_ASSESSMENT_<CATEGORY>` env var (prepended as the category's first option)
+1. `VITE_REFILL_ASSESSMENT_<CATEGORY>` env var (prepended as a primary option)
 2. The hardcoded options in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`)
 3. No valid option → the card falls back to `/book-now`
 
-Currently configured (hardcoded, practice-provided):
+Duplicate links (same URL, or the same product provided twice) are de-duped; where
+the practice provided two links for the same product, the newest/clearest one is kept.
 
-- **Peptide Therapy** — Peptide Wellness intake; CJC-1295/Ipamorelin; AOD-9604/MOTS-C/Tesamorelin/Ipamorelin
-- **Online Skincare & Topicals** — Skin/Face goal assessment; GHK-Cu (Aquabiome+); Stella+ (postmenopausal skin aging); Brilliance; Hair Revive; Lock Lux; Raven; Willow; Ivy
-- **Men's Health** — Enclomiphene new patient assessment
-- **Women's Health** — Stella+ topical cross-link (no women's hormone assessment provided yet — hormone concerns fall back to booking)
-- **Online Weight Loss** — none yet (no GLP-1 assessment provided); falls back to `/book-now`
+Currently configured (hardcoded, practice-provided). **Primary** in bold:
 
-Branded product/protocol names (Lock Lux, Raven, Willow, Ivy, Brilliance, etc.) are shown
-with plain-language descriptions because the names are not self-explanatory to patients. To
-add a future link, append an entry to the relevant category in `ASSESSMENT_DEFAULTS` **or**
-set the matching env var.
+- **Online Weight Loss** — **Weight Loss goal assessment**, **Comprehensive GLP-1**;
+  then Semaglutide, Tirzepatide, Retatrutide, Lipotropic (medication-specific)
+- **Peptide Therapy** — **Peptide Interest & Goal**; then CJC-1295/Ipamorelin,
+  AOD-9604/MOTS-C/Tesamorelin/Ipamorelin, MOTS-c, Tesamorelin, Sermorelin, BPC-157
+  (injection & oral), TB-500, Wolverine Blend, NAD+, Glutathione, Semax & Selank,
+  Kisspeptin, Epithalon, Dihexa, SLU-PP-332, Elamipretide, KLOW, Glow Blend injection,
+  GHK-Cu injection, Peptide Life stack
+- **Online Skincare & Topicals** — **Hair & Skin Treatment Goal**, **Skin/Face Goal**;
+  then GHK-Cu (Aquabiome+), Glow Blend/Stella+/Vitality topical, Stella+, Oral GHK-Cu,
+  GHK-Cu safety/intake, Brilliance, Cedar Oral Hair Tablet, Cashmere, Hair Revive,
+  Lock Lux, Raven, Willow, Ivy
+- **Men's Health** — **Enclomiphene new patient assessment**
+- **Women's Health** — **Vitality Plus** (general wellness intake, not hormone therapy);
+  then Stella+ topical. Hormone concerns are provider-led → book a consultation.
+
+Branded product/protocol names (Lock Lux, Raven, Willow, Ivy, Brilliance, Cashmere,
+etc.) are shown with plain-language descriptions because the names are not
+self-explanatory to patients. To add a future link, append an entry (with a `tier`)
+to the relevant category in `ASSESSMENT_DEFAULTS` **or** set the matching env var.
+
+> Note: the "Hair Force One (Oral Vitamin)" link the practice provided had a malformed
+> URL and is intentionally **not** included until a corrected link is supplied. The
+> "Check-in" assessment is for existing patients and is not surfaced as a public CTA.
 
 The legacy `VITE_REFILL_PORTAL_URL` still drives any generic single-portal redirect, but
 the primary entry point is now the `/online-care` hub.

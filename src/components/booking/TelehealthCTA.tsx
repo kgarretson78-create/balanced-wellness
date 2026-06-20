@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Stethoscope, ArrowRight, ShieldCheck } from "lucide-react";
 import {
   getOnlineCareCategory,
+  type AssessmentOption,
   type OnlineCareCategoryId,
 } from "@/lib/booking";
 
@@ -148,34 +149,67 @@ export function AssessmentOptions({
     );
   }
 
+  const { primaryOptions, secondaryOptions } = category;
+  // If everything is untagged/secondary (e.g. env-only), still show it under
+  // "Start here" so the page never renders an empty primary group.
+  const startHere =
+    primaryOptions.length > 0 ? primaryOptions : secondaryOptions;
+  const moreOptions =
+    primaryOptions.length > 0 ? secondaryOptions : [];
+
   return (
     <div className={className}>
+      <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">
+        Start here
+      </p>
       <ul className="grid gap-3 sm:grid-cols-2">
-        {category.options.map((opt) => (
+        {startHere.map((opt) => (
           <li key={opt.url}>
-            <a
-              href={opt.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex h-full items-start gap-2.5 rounded-2xl border border-border bg-white px-4 py-3.5 hover:border-primary/40 hover:shadow-md transition-all"
-            >
-              <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
-              <span>
-                <span className="block text-sm font-semibold text-foreground leading-snug">
-                  {opt.label}
-                </span>
-                <span className="block text-xs text-foreground/55 leading-snug mt-0.5">
-                  {opt.description}
-                </span>
-              </span>
-            </a>
+            <OptionLink opt={opt} />
           </li>
         ))}
       </ul>
-      <p className="mt-3 flex items-center gap-1.5 text-[12px] text-foreground/50">
+
+      {moreOptions.length > 0 && (
+        <>
+          <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-foreground/50 mb-2">
+            Already know what you need?
+          </p>
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {moreOptions.map((opt) => (
+              <li key={opt.url}>
+                <OptionLink opt={opt} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <p className="mt-4 flex items-center gap-1.5 text-[12px] text-foreground/50">
         <ShieldCheck className="w-3.5 h-3.5 text-primary" />
         Secure assessment · Provider review required · No diagnosis or eligibility guaranteed
       </p>
     </div>
+  );
+}
+
+function OptionLink({ opt }: { opt: AssessmentOption }) {
+  return (
+    <a
+      href={opt.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex h-full items-start gap-2.5 rounded-2xl border border-border bg-white px-4 py-3.5 hover:border-primary/40 hover:shadow-md transition-all"
+    >
+      <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+      <span>
+        <span className="block text-sm font-semibold text-foreground leading-snug">
+          {opt.label}
+        </span>
+        <span className="block text-xs text-foreground/55 leading-snug mt-0.5">
+          {opt.description}
+        </span>
+      </span>
+    </a>
   );
 }

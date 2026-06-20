@@ -113,7 +113,7 @@ export const data = {
   assessmentCategory: "womens-health" as const,
   assessmentIntro: {
     h2: "Start Women's Health Care Online",
-    body: "A dedicated women's hormone assessment is coming soon. For hormone concerns, book a consultation and a provider will guide you. The topical option below is available now — a provider reviews every submission, and nothing is diagnosed or guaranteed online.",
+    body: "Start with a general wellness intake, or choose the topical option below. These are not hormone-therapy assessments — for hormone concerns, book a consultation and a provider will guide you. A provider reviews every submission, and nothing is diagnosed or guaranteed online.",
   },
 };
 

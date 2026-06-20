@@ -1,15 +1,20 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Peptide Therapy Kingsport TN | Anti-Aging & Recovery | Balanced Wellness",
-    description: "Peptide therapy in Kingsport TN at Balanced Wellness Medical Spa. BPC-157, CJC-1295, Ipamorelin, and targeted peptide protocols for anti-aging, recovery, sleep, and vitality. Book a free consultation.",
+    description: "Peptide therapy in Kingsport TN at Balanced Wellness Medical Spa. BPC-157, CJC-1295, Ipamorelin, and targeted peptide protocols for anti-aging, recovery, sleep, and vitality. Start the online interest & goal assessment.",
     keywords: "peptide therapy Kingsport TN, BPC-157 Kingsport Tennessee, CJC Ipamorelin Kingsport, anti-aging peptides Tri-Cities TN, peptide injections Kingsport, longevity medicine Kingsport TN",
+    canonicalPath: "/peptide-therapy-kingsport-tn",
   },
   hero: {
-    badge: "Longevity Medicine — Kingsport TN",
+    badge: "Longevity Medicine — Kingsport & Jonesborough TN",
     h1: "Peptide Therapy in Kingsport TN",
-    subheadline: "Targeted peptide protocols for tissue repair, anti-aging, improved sleep, lean muscle, and cellular regeneration at Balanced Wellness Medical Spa.",
+    subheadline: "Targeted peptide protocols for tissue repair, anti-aging, improved sleep, lean muscle, and cellular regeneration at Balanced Wellness Medical Spa. Trusted by patients in Kingsport and Jonesborough.",
+  },
+  shortAnswer: {
+    q: "How do I start peptide therapy in Kingsport or Jonesborough?",
+    a: "Start by completing the Peptide Wellness Therapy Interest & Goal Assessment online. A Balanced Wellness provider reviews your goals and health history, and may recommend lab work and a personalized protocol. Peptide therapy is provider-led — eligibility is determined after evaluation, and no treatment is guaranteed. Patients across Kingsport, Jonesborough, and the Tri-Cities are welcome.",
   },
   intro: {
     h2: "What Is Peptide Therapy & Why Is It Revolutionizing Longevity Medicine?",
@@ -47,7 +52,7 @@ const data = {
   },
   expectations: [
     {
-      phase: "Before",
+      phase: "Before" as const,
       icon: "🔬",
       items: [
         "Comprehensive consultation to review health goals and history",
@@ -58,7 +63,7 @@ const data = {
       ],
     },
     {
-      phase: "During",
+      phase: "During" as const,
       icon: "💉",
       items: [
         "Most peptides administered via subcutaneous injection at home",
@@ -69,7 +74,7 @@ const data = {
       ],
     },
     {
-      phase: "After",
+      phase: "After" as const,
       icon: "✨",
       items: [
         "Sleep improvements often noticed within 1–2 weeks",
@@ -99,6 +104,7 @@ const data = {
     },
   ],
   relatedLinks: [
+    { name: "Online Care & Telehealth", path: "/online-care", desc: "Start the peptide interest & goal assessment online." },
     { name: "Hormone Therapy Kingsport TN", path: "/hormone-therapy-kingsport-tn", desc: "Pair peptides with comprehensive HRT." },
     { name: "Medical Weight Loss Kingsport TN", path: "/medical-weight-loss-kingsport-tn", desc: "Peptides for enhanced weight loss protocols." },
     { name: "Wellness & Longevity", path: "/wellness", desc: "Complete wellness program overview." },
@@ -107,6 +113,11 @@ const data = {
     { name: "VIP Memberships", path: "/memberships", desc: "Member savings on wellness programs." },
   ],
   schemaDescription: "Peptide therapy in Kingsport TN at Balanced Wellness Medical Spa. Targeted therapeutic peptide protocols for anti-aging, tissue repair, growth hormone optimization, and longevity medicine.",
+  assessmentCategory: "peptides" as const,
+  assessmentIntro: {
+    h2: "Start a Peptide Assessment Online",
+    body: "Pick the peptide assessment that fits your goals. A Balanced Wellness provider reviews every submission — eligibility and protocols are determined after evaluation, and no treatment is guaranteed.",
+  },
 };
 
 export default function PeptideTherapyKingsport() {

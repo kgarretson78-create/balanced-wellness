@@ -2,6 +2,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { CTA } from "@/components/ui/CTA";
 import { Section } from "@/components/ui/Section";
 import { SEO } from "@/components/SEO";
+import { TelehealthBand } from "@/components/booking/TelehealthCTA";
 import { CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
@@ -71,6 +72,10 @@ export default function Wellness() {
             *Wellness therapies require medical evaluation. Treatment plans are customized based on individual lab work and health history.
           </div>
         </div>
+      </Section>
+
+      <Section className="pt-0">
+        <TelehealthBand />
       </Section>
 
       <CTA subtitle="Book lab testing and a wellness consultation today." />

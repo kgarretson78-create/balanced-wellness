@@ -14,6 +14,8 @@ import Memberships from "./pages/Memberships";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Book from "./pages/Book";
+import BookNow from "./pages/BookNow";
+import OnlineCare from "./pages/OnlineCare";
 import Contact from "./pages/Contact";
 import SkinAnalyzer from "./pages/SkinAnalyzer";
 import AdminLeads from "./pages/AdminLeads";
@@ -39,6 +41,12 @@ import MedicalWeightLossKingsport from "./pages/seo/MedicalWeightLossKingsport";
 import HormoneTherapyKingsport from "./pages/seo/HormoneTherapyKingsport";
 import PeptideTherapyKingsport from "./pages/seo/PeptideTherapyKingsport";
 import SkinTighteningKingsport from "./pages/seo/SkinTighteningKingsport";
+
+// Online Care category SEO pages
+import OnlineWeightLossKingsport from "./pages/seo/OnlineWeightLossKingsport";
+import OnlineSkincareKingsport from "./pages/seo/OnlineSkincareKingsport";
+import WomensHealthKingsport from "./pages/seo/WomensHealthKingsport";
+import MensHealthKingsport from "./pages/seo/MensHealthKingsport";
 
 // Local SEO Pages
 import MedicalSpaKingsport from "./pages/seo/MedicalSpaKingsport";
@@ -70,6 +78,11 @@ function Router() {
       <Route path="/gallery" component={Gallery} />
       <Route path="/about" component={About} />
       <Route path="/book" component={Book} />
+      <Route path="/book-now" component={BookNow} />
+      <Route path="/social-booking" component={BookNow} />
+      <Route path="/online-care" component={OnlineCare} />
+      <Route path="/telehealth" component={OnlineCare} />
+      <Route path="/online-telehealth" component={OnlineCare} />
       <Route path="/contact" component={Contact} />
       <Route path="/skin-analyzer" component={SkinAnalyzer} />
       <Route path="/flexible-payments" component={FlexiblePayments} />
@@ -85,6 +98,12 @@ function Router() {
       <Route path="/hormone-therapy-kingsport-tn" component={HormoneTherapyKingsport} />
       <Route path="/peptide-therapy-kingsport-tn" component={PeptideTherapyKingsport} />
       <Route path="/skin-tightening-kingsport-tn" component={SkinTighteningKingsport} />
+
+      {/* Online Care category pages */}
+      <Route path="/online-weight-loss-kingsport-tn" component={OnlineWeightLossKingsport} />
+      <Route path="/online-skincare-kingsport-tn" component={OnlineSkincareKingsport} />
+      <Route path="/womens-health-kingsport-tn" component={WomensHealthKingsport} />
+      <Route path="/mens-health-kingsport-tn" component={MensHealthKingsport} />
 
       {/* Local SEO Pages */}
       <Route path="/medical-spa-kingsport-tn" component={MedicalSpaKingsport} />

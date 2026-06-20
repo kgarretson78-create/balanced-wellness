@@ -25,6 +25,11 @@ import { data as hormoneData } from "../src/pages/seo/HormoneTherapyKingsport.ts
 import { data as kingsportSpaData } from "../src/pages/seo/MedicalSpaKingsport.tsx";
 import { data as jonesboroughSpaData } from "../src/pages/seo/MedicalSpaJonesborough.tsx";
 import { data as ivLoungeData } from "../src/pages/seo/IVLoungeKingsport.tsx";
+import { data as peptideData } from "../src/pages/seo/PeptideTherapyKingsport.tsx";
+import { data as onlineWeightLossData } from "../src/pages/seo/OnlineWeightLossKingsport.tsx";
+import { data as onlineSkincareData } from "../src/pages/seo/OnlineSkincareKingsport.tsx";
+import { data as womensHealthData } from "../src/pages/seo/WomensHealthKingsport.tsx";
+import { data as mensHealthData } from "../src/pages/seo/MensHealthKingsport.tsx";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -843,6 +848,31 @@ async function main() {
   await prerenderIVLoungeRoute(
     "/iv-lounge-kingsport-tn",
     ivLoungeData as IVLoungePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/peptide-therapy-kingsport-tn",
+    peptideData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/online-weight-loss-kingsport-tn",
+    onlineWeightLossData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/online-skincare-kingsport-tn",
+    onlineSkincareData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/womens-health-kingsport-tn",
+    womensHealthData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/mens-health-kingsport-tn",
+    mensHealthData as ServicePageData,
     template,
   );
 

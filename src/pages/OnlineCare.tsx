@@ -15,6 +15,7 @@ import { Section } from "@/components/ui/Section";
 import { SEO } from "@/components/SEO";
 import {
   ONLINE_CARE_CATEGORIES,
+  TELEMEDICINE_CONSULT,
   type OnlineCareCategory,
   type OnlineCareCategoryId,
 } from "@/lib/booking";
@@ -120,13 +121,15 @@ export default function OnlineCare() {
                     )}
                   </>
                 ) : (
-                  <Link
-                    href={cat.fallbackPath}
+                  <a
+                    href={TELEMEDICINE_CONSULT.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-sm font-semibold text-primary mb-3 hover:underline"
                   >
-                    Book a consultation
+                    {TELEMEDICINE_CONSULT.label}
                     <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
+                  </a>
                 )}
 
                 <Link
@@ -137,6 +140,27 @@ export default function OnlineCare() {
                 </Link>
               </div>
             ))}
+          </div>
+
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-6 py-5">
+            <div className="text-center sm:text-left">
+              <p className="font-serif font-bold text-foreground">
+                Not sure where to start?
+              </p>
+              <p className="text-sm text-foreground/60 leading-relaxed">
+                Book a telemedicine consultation and a provider will guide you.{" "}
+                {TELEMEDICINE_CONSULT.note}
+              </p>
+            </div>
+            <a
+              href={TELEMEDICINE_CONSULT.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 transition-colors"
+            >
+              {TELEMEDICINE_CONSULT.label}
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
           </div>
 
           <div className="mt-6 flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-900">

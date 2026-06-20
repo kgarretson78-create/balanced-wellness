@@ -48,6 +48,7 @@ In Railway dashboard → your service → Variables tab:
 | `VITE_PODIUM_BOOKING_URL` | **Build-time only.** Optional shared/fallback scheduling URL. Used only if a location has no per-location default and no per-location env var. |
 | `VITE_REFILL_PORTAL_URL` | **Build-time only.** Exact Balanced Wellness Refill.co telehealth portal URL. **No hardcoded default** — until this is set, generic telehealth CTAs route to `/online-care`. |
 | `VITE_REFILL_PORTAL_ENABLED` | **Build-time only.** Optional. Defaults to enabled when a valid `VITE_REFILL_PORTAL_URL` is set. Set to `false` to disable the portal CTAs without removing the URL. |
+| `VITE_PODIUM_TELEMED_URL` | **Build-time only.** Optional override for the telemedicine consultation Podium calendar used by online-care consult/fallback CTAs. Real default hardcoded in `src/lib/booking.ts` (`01930831-…`); patients pick "Telemedicine Consultation" in Podium. |
 | `VITE_REFILL_ASSESSMENT_WEIGHT_LOSS` | **Build-time only.** Optional. Refill.co assessment URL for the Online Weight Loss card on `/online-care`. Empty → card falls back to `/book-now`. |
 | `VITE_REFILL_ASSESSMENT_PEPTIDES` | **Build-time only.** Optional override for the Peptide Therapy assessment URL. Ships with a real hardcoded default in `src/lib/booking.ts`. |
 | `VITE_REFILL_ASSESSMENT_SKINCARE` | **Build-time only.** Optional. Refill.co assessment URL for the Online Skincare card. Empty → card falls back to `/book-now`. |
@@ -98,6 +99,16 @@ https://www.balancedmedicalspa.com/book-now
 one card per service category — **Online Weight Loss, Peptide Therapy, Online Skincare,
 Women's Health, Men's Health**. Every generic telehealth CTA across the site routes to
 `/online-care`, which is always a safe internal destination.
+
+**Telemedicine consultation booking.** Online-care consult and fallback CTAs (a hub
+"Not sure where to start?" banner, the per-card consult link when a category has no
+assessment, and a "Prefer to talk to a provider first?" link on category pages) open a
+dedicated **Podium telemedicine calendar** where patients pick "Telemedicine
+Consultation". The URL (`TELEMEDICINE_CONSULT` in `src/lib/booking.ts`, overridable via
+`VITE_PODIUM_TELEMED_URL`) is a single virtual-visit calendar and is intentionally
+separate from the Kingsport/Jonesborough in-person chooser, which stays unchanged for
+normal "Book Now" / social booking. The Refill.co assessment links remain the path for
+assessments — the Podium consult is for scheduling a provider visit.
 
 Each card can list **multiple** Refill.co assessment options, grouped in
 `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`). Every option is tagged

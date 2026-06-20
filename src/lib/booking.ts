@@ -168,6 +168,41 @@ export const REFILL_PORTAL: RefillPortal = {
 };
 
 /**
+ * Telemedicine consultation booking (Podium).
+ *
+ * Used by online-care / telehealth flows when a patient wants to book a
+ * provider consult rather than (or before) completing a Refill.co assessment —
+ * e.g. the fallback CTA when no assessment is appropriate. Patients pick
+ * "Telemedicine Consultation" inside this Podium calendar.
+ *
+ * This is a single, location-agnostic virtual-visit calendar, so it is separate
+ * from the Kingsport/Jonesborough in-person chooser (which stays intact for
+ * normal "Book Now" / social booking). Overridable at build time:
+ *   VITE_PODIUM_TELEMED_URL=<exact Podium telemedicine calendar URL>
+ */
+const TELEMED_DEFAULT_URL =
+  "https://booking.podium.com/medspa/01930831-564b-7342-98d8-620e43a707e7";
+const TELEMED_URL_RAW = (env.VITE_PODIUM_TELEMED_URL as string | undefined)?.trim();
+const telemedResolved = isValidHttpUrl(TELEMED_URL_RAW)
+  ? (TELEMED_URL_RAW as string)
+  : TELEMED_DEFAULT_URL;
+
+export interface TelemedicineConsult {
+  /** Resolved Podium telemedicine consultation booking URL. */
+  url: string;
+  /** Patient-facing label for the consult CTA. */
+  label: string;
+  /** Short note clarifying what to pick in Podium. */
+  note: string;
+}
+
+export const TELEMEDICINE_CONSULT: TelemedicineConsult = {
+  url: telemedResolved,
+  label: "Book a Telemedicine Consultation",
+  note: 'Choose "Telemedicine Consultation" when scheduling.',
+};
+
+/**
  * Online care categories (Refill.co assessments).
  *
  * Each category groups one or more Refill.co assessment "options". The patient

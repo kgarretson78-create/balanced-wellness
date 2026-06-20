@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Stethoscope, ArrowRight, ShieldCheck } from "lucide-react";
 import {
   getOnlineCareCategory,
+  TELEMEDICINE_CONSULT,
   type AssessmentOption,
   type OnlineCareCategoryId,
 } from "@/lib/booking";
@@ -86,7 +87,7 @@ export function AssessmentButton({
   categoryId,
   className = "",
   configuredLabel = "Start Online Assessment",
-  fallbackLabel = "Book a Consultation",
+  fallbackLabel = TELEMEDICINE_CONSULT.label,
 }: {
   categoryId: OnlineCareCategoryId;
   className?: string;
@@ -106,11 +107,18 @@ export function AssessmentButton({
       </a>
     );
   }
+  // No assessment for this category yet → book a telemedicine consultation
+  // (Podium) so a provider can guide next steps.
   return (
-    <Link href={category.fallbackPath} className={base}>
+    <a
+      href={TELEMEDICINE_CONSULT.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={base}
+    >
       {fallbackLabel}
       <ArrowRight className="w-4 h-4" />
-    </Link>
+    </a>
   );
 }
 
@@ -136,15 +144,19 @@ export function AssessmentOptions({
       <div className={className}>
         <p className="text-sm text-foreground/60 leading-relaxed mb-4">
           Online assessments for this service aren't available yet. You can still
-          start by booking a consultation — a provider will guide you from there.
+          start by booking a telemedicine consultation — a provider will guide you
+          from there.
         </p>
-        <Link
-          href={category.fallbackPath}
+        <a
+          href={TELEMEDICINE_CONSULT.url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
         >
-          Book a Consultation
+          {TELEMEDICINE_CONSULT.label}
           <ArrowRight className="w-4 h-4" />
-        </Link>
+        </a>
+        <p className="mt-2 text-[12px] text-foreground/50">{TELEMEDICINE_CONSULT.note}</p>
       </div>
     );
   }
@@ -188,6 +200,19 @@ export function AssessmentOptions({
       <p className="mt-4 flex items-center gap-1.5 text-[12px] text-foreground/50">
         <ShieldCheck className="w-3.5 h-3.5 text-primary" />
         Secure assessment · Provider review required · No diagnosis or eligibility guaranteed
+      </p>
+
+      <p className="mt-4 text-sm text-foreground/60">
+        Prefer to talk to a provider first?{" "}
+        <a
+          href={TELEMEDICINE_CONSULT.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-primary hover:underline"
+        >
+          {TELEMEDICINE_CONSULT.label}
+        </a>
+        . {TELEMEDICINE_CONSULT.note}
       </p>
     </div>
   );

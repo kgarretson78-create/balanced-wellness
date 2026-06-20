@@ -129,8 +129,8 @@ Currently configured (hardcoded, practice-provided). **Primary** in bold:
   GHK-Cu injection, Peptide Life stack
 - **Online Skincare & Topicals** — **Hair & Skin Treatment Goal**, **Skin/Face Goal**;
   then GHK-Cu (Aquabiome+), Glow Blend/Stella+/Vitality topical, Stella+, Oral GHK-Cu,
-  GHK-Cu safety/intake, Brilliance, Cedar Oral Hair Tablet, Cashmere, Hair Revive,
-  Lock Lux, Raven, Willow, Ivy
+  GHK-Cu safety/intake, Brilliance, Cedar Oral Hair Tablet, Hair Force One, Cashmere,
+  Hair Revive, Lock Lux, Raven, Willow, Ivy
 - **Men's Health** — **Enclomiphene new patient assessment**
 - **Women's Health** — **Vitality Plus** (general wellness intake, not hormone therapy);
   then Stella+ topical. Hormone concerns are provider-led → book a consultation.
@@ -140,9 +140,8 @@ etc.) are shown with plain-language descriptions because the names are not
 self-explanatory to patients. To add a future link, append an entry (with a `tier`)
 to the relevant category in `ASSESSMENT_DEFAULTS` **or** set the matching env var.
 
-> Note: the "Hair Force One (Oral Vitamin)" link the practice provided had a malformed
-> URL and is intentionally **not** included until a corrected link is supplied. The
-> "Check-in" assessment is for existing patients and is not surfaced as a public CTA.
+> Note: the "Check-in" assessment is for existing patients and is not surfaced as a
+> public new-patient CTA.
 
 The legacy `VITE_REFILL_PORTAL_URL` still drives any generic single-portal redirect, but
 the primary entry point is now the `/online-care` hub.

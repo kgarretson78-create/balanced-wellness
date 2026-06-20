@@ -481,6 +481,12 @@ const ASSESSMENT_DEFAULTS: Record<OnlineCareCategoryId, AssessmentOption[]> = {
       tier: "secondary",
     },
     {
+      label: "Hair Force One (Oral Vitamin) — New Patient Assessment",
+      description: "Oral hair-support vitamin intake.",
+      url: `${REFILL_BASE}/33a295fd-3b40-41b3-aaea-ad6c6fdeeadf`,
+      tier: "secondary",
+    },
+    {
       label: "Cashmere — New Patient Assessment",
       description: "Targeted skin treatment intake (Cashmere protocol).",
       url: `${REFILL_BASE}/55306613-7153-4b56-b27c-3948fa73b00e`,

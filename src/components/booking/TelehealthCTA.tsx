@@ -77,9 +77,9 @@ export function TelehealthCard({ className = "" }: { className?: string }) {
 /**
  * Category-specific assessment button.
  *
- * When the category has a configured assessment URL, this opens it in a new
- * tab. Otherwise it routes to that category's safe fallback (the /book-now
- * chooser) — it never guesses a URL.
+ * When the category has at least one configured assessment, this opens the
+ * primary (first) option in a new tab. Otherwise it routes to that category's
+ * safe fallback (the /book-now chooser) — it never guesses a URL.
  */
 export function AssessmentButton({
   categoryId,
@@ -110,5 +110,72 @@ export function AssessmentButton({
       {fallbackLabel}
       <ArrowRight className="w-4 h-4" />
     </Link>
+  );
+}
+
+/**
+ * Lists every configured assessment option for a category as its own link.
+ * Use on SEO/AEO category pages so patients can pick the assessment matching
+ * their goal. When no option is configured, shows a safe booking fallback.
+ *
+ * Medical-safe by design: each option opens a provider-reviewed Refill.co
+ * assessment; nothing is diagnosed or guaranteed here.
+ */
+export function AssessmentOptions({
+  categoryId,
+  className = "",
+}: {
+  categoryId: OnlineCareCategoryId;
+  className?: string;
+}) {
+  const category = getOnlineCareCategory(categoryId);
+
+  if (!category.hasAssessment) {
+    return (
+      <div className={className}>
+        <p className="text-sm text-foreground/60 leading-relaxed mb-4">
+          Online assessments for this service aren't available yet. You can still
+          start by booking a consultation — a provider will guide you from there.
+        </p>
+        <Link
+          href={category.fallbackPath}
+          className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+        >
+          Book a Consultation
+          <ArrowRight className="w-4 h-4" />
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className={className}>
+      <ul className="grid gap-3 sm:grid-cols-2">
+        {category.options.map((opt) => (
+          <li key={opt.url}>
+            <a
+              href={opt.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex h-full items-start gap-2.5 rounded-2xl border border-border bg-white px-4 py-3.5 hover:border-primary/40 hover:shadow-md transition-all"
+            >
+              <ArrowRight className="w-4 h-4 text-primary mt-0.5 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+              <span>
+                <span className="block text-sm font-semibold text-foreground leading-snug">
+                  {opt.label}
+                </span>
+                <span className="block text-xs text-foreground/55 leading-snug mt-0.5">
+                  {opt.description}
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-3 flex items-center gap-1.5 text-[12px] text-foreground/50">
+        <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+        Secure assessment · Provider review required · No diagnosis or eligibility guaranteed
+      </p>
+    </div>
   );
 }

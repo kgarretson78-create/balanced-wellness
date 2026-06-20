@@ -110,6 +110,11 @@ export const data = {
   ],
   schemaDescription:
     "Online medical weight loss for Kingsport & Jonesborough TN at Balanced Wellness Medical Spa. Provider-reviewed telehealth assessment for weight loss programs, including GLP-1 options when medically appropriate.",
+  assessmentCategory: "weight-loss" as const,
+  assessmentIntro: {
+    h2: "Start Online Weight Loss Care",
+    body: "Online weight loss intake is being finalized. In the meantime, book a consultation and a Balanced Wellness provider will guide your next steps — eligibility for any medication is determined after evaluation and is never guaranteed.",
+  },
 };
 
 export default function OnlineWeightLossKingsport() {

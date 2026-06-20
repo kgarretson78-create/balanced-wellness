@@ -110,6 +110,11 @@ export const data = {
   ],
   schemaDescription:
     "Women's health and hormone care for Kingsport & Jonesborough TN at Balanced Wellness Medical Spa. Provider-reviewed online assessment for hormone balance, wellness, and longevity support.",
+  assessmentCategory: "womens-health" as const,
+  assessmentIntro: {
+    h2: "Start Women's Health Care Online",
+    body: "A dedicated women's hormone assessment is coming soon. For hormone concerns, book a consultation and a provider will guide you. The topical option below is available now — a provider reviews every submission, and nothing is diagnosed or guaranteed online.",
+  },
 };
 
 export default function WomensHealthKingsport() {

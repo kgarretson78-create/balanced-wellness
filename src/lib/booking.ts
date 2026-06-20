@@ -170,25 +170,22 @@ export const REFILL_PORTAL: RefillPortal = {
 /**
  * Online care categories (Refill.co assessments).
  *
- * Each category maps to a Refill.co "interest & goal assessment" link. The
- * patient picks a category on /online-care (or from a service page) and is sent
- * to that assessment; a provider then reviews the responses.
+ * Each category groups one or more Refill.co assessment "options". The patient
+ * picks a category on /online-care (or a service page), then chooses the
+ * specific assessment that matches their goal; a provider reviews the responses.
  *
- * Adding a new assessment link is intentionally a one-line change here. Each
- * category resolves its link in this order:
- *   1. Per-category build-time env var (highest priority — set in Railway)
- *   2. Hardcoded default below (only where the exact link is already known)
- *   3. No link → the card safely routes to its fallback (/book-now or /contact)
- *
- * Env vars (build-time, optional):
+ * Adding a new assessment option is a one-line change in ASSESSMENT_DEFAULTS
+ * below. Each category's "primary" option can also be overridden at build time
+ * with a per-category env var (back-compat with the earlier single-link model):
  *   VITE_REFILL_ASSESSMENT_WEIGHT_LOSS
  *   VITE_REFILL_ASSESSMENT_PEPTIDES
  *   VITE_REFILL_ASSESSMENT_SKINCARE
  *   VITE_REFILL_ASSESSMENT_WOMENS_HEALTH
  *   VITE_REFILL_ASSESSMENT_MENS_HEALTH
+ * When set, the env URL is prepended as the category's first option.
  *
- * IMPORTANT: do NOT invent assessment links. Leave a category's default empty
- * until the real link is provided; the UI handles the missing case safely.
+ * IMPORTANT: do NOT invent assessment links. A category with no valid option
+ * URL safely falls back (to /book-now); the UI handles the missing case.
  */
 export type OnlineCareCategoryId =
   | "weight-loss"
@@ -197,32 +194,125 @@ export type OnlineCareCategoryId =
   | "womens-health"
   | "mens-health";
 
+export interface AssessmentOption {
+  /** Short, patient-facing label for the assessment. */
+  label: string;
+  /** One-line plain-language description (branded product names are not self-explanatory). */
+  description: string;
+  /** Resolved assessment URL. Only options with a valid URL are surfaced. */
+  url: string;
+}
+
 export interface OnlineCareCategory {
   id: OnlineCareCategoryId;
   /** Short card title, e.g. "Online Weight Loss". */
   title: string;
   /** One-line "who it's for" summary shown on the card. */
   who: string;
-  /** Resolved assessment URL ("" when not yet configured). */
+  /** Available assessment options for this category (only valid URLs included). */
+  options: AssessmentOption[];
+  /** Convenience: the first option's URL, or "" when none configured. */
   assessmentUrl: string;
-  /** True when a valid assessment URL is configured. */
+  /** True when at least one valid assessment option is configured. */
   hasAssessment: boolean;
-  /** Where the card routes when no assessment link exists yet. */
+  /** Where the card routes when no assessment option exists yet. */
   fallbackPath: string;
   /** Matching local SEO landing page for this category. */
   learnMorePath: string;
 }
 
-// Hardcoded assessment defaults. Only fill in links the practice has actually
-// provided — leave the rest empty so the UI falls back safely.
-const ASSESSMENT_DEFAULTS: Record<OnlineCareCategoryId, string> = {
-  "weight-loss": "",
-  // Peptide Wellness Therapy Interest & Goal Assessment (provided by practice):
-  peptides:
-    "https://balanced-wellness-medical-spa-jonesborough.withrefill.com/assessments/e44c3042-4a1c-4ab1-9dd6-7b1cc72bb8f2",
-  skincare: "",
-  "womens-health": "",
-  "mens-health": "",
+const REFILL_BASE =
+  "https://balanced-wellness-medical-spa-jonesborough.withrefill.com/assessments";
+
+// Hardcoded assessment options, grouped by category. Only links the practice
+// has actually provided appear here — never invent one. Descriptions are
+// intentionally plain-language because the branded product/protocol names are
+// not self-explanatory to patients.
+const ASSESSMENT_DEFAULTS: Record<OnlineCareCategoryId, AssessmentOption[]> = {
+  // No weight-loss (GLP-1) assessment has been provided yet — keep empty so the
+  // card falls back to booking rather than mapping a non-weight-loss link here.
+  "weight-loss": [],
+  peptides: [
+    {
+      label: "Peptide Wellness Therapy — Interest & Goal Assessment",
+      description: "General starting point for peptide therapy goals (recovery, sleep, healthy aging).",
+      url: `${REFILL_BASE}/e44c3042-4a1c-4ab1-9dd6-7b1cc72bb8f2`,
+    },
+    {
+      label: "CJC-1295 / Ipamorelin — Patient Safety Questionnaire",
+      description: "Growth-hormone-support peptide protocol intake and safety screening.",
+      url: `${REFILL_BASE}/e06e2dd4-c873-4f3b-ab31-daec189dea0b`,
+    },
+    {
+      label: "AOD-9604 / MOTS-C / Tesamorelin / Ipamorelin — New Patient Assessment",
+      description: "Metabolic and recovery peptide protocols — new patient intake.",
+      url: `${REFILL_BASE}/827d4504-b1ce-41b3-a520-49fd30a1525a`,
+    },
+  ],
+  skincare: [
+    {
+      label: "Skin / Face Treatment Goal Assessment",
+      description: "Tell us your skin goals so a provider can recommend a plan.",
+      url: `${REFILL_BASE}/ec35e47d-1d32-4ea0-9fdb-591e6da04657`,
+    },
+    {
+      label: "GHK-Cu Copper Peptide Cream (Aquabiome+) — New Patient Assessment",
+      description: "Topical copper-peptide cream for skin support — new patient intake.",
+      url: `${REFILL_BASE}/4295f17a-1ea4-4dac-b270-d3c7abd79cd3`,
+    },
+    {
+      label: "Stella+ — Topical Cream for Postmenopausal Skin Aging",
+      description: "Targeted topical for skin changes associated with menopause.",
+      url: `${REFILL_BASE}/ba11af67-71d8-4a1b-80ad-9252a63391da`,
+    },
+    {
+      label: "Brilliance — New Patient Assessment",
+      description: "Provider-directed skin treatment intake (Brilliance protocol).",
+      url: `${REFILL_BASE}/e9da206f-d4ff-4230-a2f7-7ea37e340b84`,
+    },
+    {
+      label: "Hair Revive — Patient Intake",
+      description: "Hair support / regrowth treatment intake.",
+      url: `${REFILL_BASE}/31258dbc-b5ba-4863-bc3d-cb4e3324ad17`,
+    },
+    {
+      label: "Lock Lux — Patient Intake",
+      description: "Targeted hair & skin treatment intake (Lock Lux protocol).",
+      url: `${REFILL_BASE}/3531a393-951d-4d5f-9ebb-24a8fcc369a6`,
+    },
+    {
+      label: "Raven — Patient Intake",
+      description: "Targeted skin treatment intake (Raven protocol).",
+      url: `${REFILL_BASE}/836ce9ee-1e2c-4e6a-aa46-ad2f598d70a0`,
+    },
+    {
+      label: "Willow — Patient Intake",
+      description: "Targeted skin treatment intake (Willow protocol).",
+      url: `${REFILL_BASE}/14d5a6d1-7071-42de-a928-01879137a9cf`,
+    },
+    {
+      label: "Ivy — Patient Intake",
+      description: "Targeted skin treatment intake (Ivy protocol).",
+      url: `${REFILL_BASE}/56fd882e-0fe4-47a7-9aa1-4e31e10885d4`,
+    },
+  ],
+  // No dedicated women's hormone assessment provided. Stella+ (postmenopausal
+  // skin aging) is cross-linked here as a relevant option; the category still
+  // falls back to booking for hormone concerns rather than inventing a link.
+  "womens-health": [
+    {
+      label: "Stella+ — Topical Cream for Postmenopausal Skin Aging",
+      description: "Topical for menopause-related skin aging. Hormone care is provider-led — book a consultation for hormone concerns.",
+      url: `${REFILL_BASE}/ba11af67-71d8-4a1b-80ad-9252a63391da`,
+    },
+  ],
+  "mens-health": [
+    {
+      label: "Enclomiphene — New Patient Assessment",
+      description: "Men's hormone support intake; a provider determines suitability after review and labs.",
+      url: `${REFILL_BASE}/2b172101-3752-4889-817d-cfe179a25472`,
+    },
+  ],
 };
 
 const ASSESSMENT_ENV: Record<OnlineCareCategoryId, string | undefined> = {
@@ -233,12 +323,32 @@ const ASSESSMENT_ENV: Record<OnlineCareCategoryId, string | undefined> = {
   "mens-health": env.VITE_REFILL_ASSESSMENT_MENS_HEALTH as string | undefined,
 };
 
-function resolveAssessment(id: OnlineCareCategoryId): string {
+/**
+ * Resolve a category's assessment options: an optional env-provided "primary"
+ * link first, then the hardcoded defaults. Only options with a valid http(s)
+ * URL are kept, and duplicate URLs are de-duped.
+ */
+function resolveOptions(id: OnlineCareCategoryId): AssessmentOption[] {
+  const out: AssessmentOption[] = [];
+  const seen = new Set<string>();
+
   const fromEnv = (ASSESSMENT_ENV[id] ?? "").trim();
-  if (isValidHttpUrl(fromEnv)) return fromEnv;
-  const fromDefault = (ASSESSMENT_DEFAULTS[id] ?? "").trim();
-  if (isValidHttpUrl(fromDefault)) return fromDefault;
-  return "";
+  if (isValidHttpUrl(fromEnv)) {
+    out.push({
+      label: "Start Online Assessment",
+      description: "Provider-reviewed online assessment for this service.",
+      url: fromEnv,
+    });
+    seen.add(fromEnv);
+  }
+
+  for (const opt of ASSESSMENT_DEFAULTS[id]) {
+    const url = opt.url.trim();
+    if (!isValidHttpUrl(url) || seen.has(url)) continue;
+    out.push({ ...opt, url });
+    seen.add(url);
+  }
+  return out;
 }
 
 const CATEGORY_META: Record<
@@ -256,8 +366,8 @@ const CATEGORY_META: Record<
     learnMorePath: "/peptide-therapy-kingsport-tn",
   },
   skincare: {
-    title: "Online Skincare",
-    who: "For patients who want a provider-guided medical skincare plan and prescription-grade products.",
+    title: "Online Skincare & Topicals",
+    who: "For patients who want a provider-guided medical skincare, hair, or topical-treatment plan.",
     learnMorePath: "/online-skincare-kingsport-tn",
   },
   "womens-health": {
@@ -282,13 +392,14 @@ const ONLINE_CARE_ORDER: OnlineCareCategoryId[] = [
 
 export const ONLINE_CARE_CATEGORIES: OnlineCareCategory[] = ONLINE_CARE_ORDER.map(
   (id) => {
-    const assessmentUrl = resolveAssessment(id);
+    const options = resolveOptions(id);
     return {
       id,
       title: CATEGORY_META[id].title,
       who: CATEGORY_META[id].who,
-      assessmentUrl,
-      hasAssessment: Boolean(assessmentUrl),
+      options,
+      assessmentUrl: options[0]?.url ?? "",
+      hasAssessment: options.length > 0,
       // When there's no assessment yet, send people to the social booking
       // chooser so they can still schedule in-person.
       fallbackPath: "/book-now",

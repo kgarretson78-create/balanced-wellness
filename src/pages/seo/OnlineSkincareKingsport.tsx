@@ -110,6 +110,11 @@ export const data = {
   ],
   schemaDescription:
     "Online medical skincare for Kingsport & Jonesborough TN at Balanced Wellness Medical Spa. Provider-reviewed telehealth assessment for personalized skincare plans and prescription-grade products when appropriate.",
+  assessmentCategory: "skincare" as const,
+  assessmentIntro: {
+    h2: "Start an Online Skincare or Topical Assessment",
+    body: "Pick the assessment that matches your goal — general skin goals, a specific topical, or hair support. A Balanced Wellness provider reviews every submission; product names are protocol labels, and a provider decides what's appropriate. Nothing is diagnosed or guaranteed online.",
+  },
 };
 
 export default function OnlineSkincareKingsport() {

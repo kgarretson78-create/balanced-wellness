@@ -99,16 +99,27 @@ one card per service category — **Online Weight Loss, Peptide Therapy, Online 
 Women's Health, Men's Health**. Every generic telehealth CTA across the site routes to
 `/online-care`, which is always a safe internal destination.
 
-Each card links to a Refill.co assessment when a valid URL is configured; otherwise it
-falls back to `/book-now`. Assessment URLs are resolved at build time per category:
+Each card can list **multiple** Refill.co assessment options (e.g. Peptide Therapy offers
+the Peptide Wellness intake, CJC-1295/Ipamorelin, and AOD-9604/MOTS-C/Tesamorelin/Ipamorelin).
+The options are grouped per category in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`).
+Assessment options are resolved at build time per category:
 
-1. `VITE_REFILL_ASSESSMENT_<CATEGORY>` env var (per-category override in Railway)
-2. The hardcoded default in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`)
-3. Empty → the card falls back to `/book-now`
+1. `VITE_REFILL_ASSESSMENT_<CATEGORY>` env var (prepended as the category's first option)
+2. The hardcoded options in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`)
+3. No valid option → the card falls back to `/book-now`
 
-Only the **Peptide Therapy** assessment ships with a real hardcoded default; all other
-categories are empty until a real link is added (in Railway or `ASSESSMENT_DEFAULTS`). To
-add a future link, set the matching env var **or** edit one line in `ASSESSMENT_DEFAULTS`.
+Currently configured (hardcoded, practice-provided):
+
+- **Peptide Therapy** — Peptide Wellness intake; CJC-1295/Ipamorelin; AOD-9604/MOTS-C/Tesamorelin/Ipamorelin
+- **Online Skincare & Topicals** — Skin/Face goal assessment; GHK-Cu (Aquabiome+); Stella+ (postmenopausal skin aging); Brilliance; Hair Revive; Lock Lux; Raven; Willow; Ivy
+- **Men's Health** — Enclomiphene new patient assessment
+- **Women's Health** — Stella+ topical cross-link (no women's hormone assessment provided yet — hormone concerns fall back to booking)
+- **Online Weight Loss** — none yet (no GLP-1 assessment provided); falls back to `/book-now`
+
+Branded product/protocol names (Lock Lux, Raven, Willow, Ivy, Brilliance, etc.) are shown
+with plain-language descriptions because the names are not self-explanatory to patients. To
+add a future link, append an entry to the relevant category in `ASSESSMENT_DEFAULTS` **or**
+set the matching env var.
 
 The legacy `VITE_REFILL_PORTAL_URL` still drives any generic single-portal redirect, but
 the primary entry point is now the `/online-care` hub.

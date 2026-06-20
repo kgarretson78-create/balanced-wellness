@@ -113,6 +113,11 @@ export const data = {
     { name: "VIP Memberships", path: "/memberships", desc: "Member savings on wellness programs." },
   ],
   schemaDescription: "Peptide therapy in Kingsport TN at Balanced Wellness Medical Spa. Targeted therapeutic peptide protocols for anti-aging, tissue repair, growth hormone optimization, and longevity medicine.",
+  assessmentCategory: "peptides" as const,
+  assessmentIntro: {
+    h2: "Start a Peptide Assessment Online",
+    body: "Pick the peptide assessment that fits your goals. A Balanced Wellness provider reviews every submission — eligibility and protocols are determined after evaluation, and no treatment is guaranteed.",
+  },
 };
 
 export default function PeptideTherapyKingsport() {

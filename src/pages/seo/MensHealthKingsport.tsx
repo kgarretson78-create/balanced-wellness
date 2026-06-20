@@ -110,6 +110,11 @@ export const data = {
   ],
   schemaDescription:
     "Men's health and hormone optimization for Kingsport & Jonesborough TN at Balanced Wellness Medical Spa. Provider-reviewed online assessment for testosterone, vitality, and wellness care.",
+  assessmentCategory: "mens-health" as const,
+  assessmentIntro: {
+    h2: "Start a Men's Health Assessment Online",
+    body: "Begin with the assessment below. A Balanced Wellness provider reviews your responses and almost always requests lab work before any plan — eligibility for therapy is determined after evaluation and is never guaranteed.",
+  },
 };
 
 export default function MensHealthKingsport() {

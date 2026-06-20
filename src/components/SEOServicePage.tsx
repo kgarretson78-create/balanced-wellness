@@ -5,6 +5,8 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { ServiceSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
+import { AssessmentOptions } from "@/components/booking/TelehealthCTA";
+import type { OnlineCareCategoryId } from "@/lib/booking";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -71,6 +73,14 @@ export interface SEOServicePageProps {
   faqs: FAQItem[];
   relatedLinks: RelatedLink[];
   schemaDescription: string;
+  /**
+   * When set, renders an "Online Assessment Options" section listing every
+   * configured Refill.co assessment for this category. Used by online-care
+   * landing pages (weight loss, peptides, skincare, women's/men's health).
+   */
+  assessmentCategory?: OnlineCareCategoryId;
+  /** Optional heading + lead-in copy for the assessment options section. */
+  assessmentIntro?: { h2: string; body: string };
 }
 
 const CANONICAL_ORIGIN = "https://www.balancedmedicalspa.com";
@@ -102,7 +112,7 @@ const LOCATIONS = [
 ];
 
 export function SEOServicePage(props: SEOServicePageProps) {
-  const { seo, hero, shortAnswer, intro, benefits, candidates, expectations, comparison, faqs, relatedLinks, schemaDescription } = props;
+  const { seo, hero, shortAnswer, intro, benefits, candidates, expectations, comparison, faqs, relatedLinks, schemaDescription, assessmentCategory, assessmentIntro } = props;
   const { open: openBookingChooser } = useBookingChooser();
   const canonicalPath = seo.canonicalPath ?? (typeof window !== "undefined" ? window.location.pathname : undefined);
   const canonicalUrl = canonicalPath
@@ -188,6 +198,25 @@ export function SEOServicePage(props: SEOServicePageProps) {
               <h2 className="text-lg md:text-xl font-serif font-bold text-foreground mb-3 leading-snug">{shortAnswer.q}</h2>
               <p className="text-sm md:text-base text-foreground/75 leading-relaxed">{shortAnswer.a}</p>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Online assessment options (online-care category pages) */}
+      {assessmentCategory && (
+        <section className="bg-white border-b border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+            <div className="max-w-3xl">
+              <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-2">Start Online</p>
+              <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-3">
+                {assessmentIntro?.h2 ?? "Online Assessment Options"}
+              </h2>
+              <p className="text-foreground/65 leading-relaxed mb-6">
+                {assessmentIntro?.body ??
+                  "Choose the assessment that matches your goal and complete it online. A Balanced Wellness provider reviews every submission — there is no diagnosis or guarantee of eligibility, and care is always provider-led."}
+              </p>
+            </div>
+            <AssessmentOptions categoryId={assessmentCategory} />
           </div>
         </section>
       )}

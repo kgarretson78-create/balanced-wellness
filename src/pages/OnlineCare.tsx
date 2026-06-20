@@ -60,49 +60,60 @@ export default function OnlineCare() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {ONLINE_CARE_CATEGORIES.map((cat) => {
-              const cardInner = (
-                <>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10">
-                      {CATEGORY_ICONS[cat.id]}
-                    </span>
-                    <h2 className="text-lg font-serif font-bold text-foreground">{cat.title}</h2>
-                  </div>
-                  <p className="text-sm text-foreground/60 leading-relaxed mb-4">{cat.who}</p>
-                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
-                    {cat.hasAssessment ? "Start online assessment" : "Book a consultation"}
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            {ONLINE_CARE_CATEGORIES.map((cat) => (
+              <div
+                key={cat.id}
+                className="flex flex-col rounded-2xl border border-border bg-white p-5 shadow-sm"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-primary/10">
+                    {CATEGORY_ICONS[cat.id]}
                   </span>
+                  <h2 className="text-lg font-serif font-bold text-foreground">{cat.title}</h2>
+                </div>
+                <p className="text-sm text-foreground/60 leading-relaxed mb-4">{cat.who}</p>
+
+                {cat.hasAssessment ? (
+                  <ul className="space-y-2 mb-3">
+                    {cat.options.map((opt) => (
+                      <li key={opt.url}>
+                        <a
+                          href={opt.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-start gap-2 rounded-xl border border-border hover:border-primary/40 hover:bg-primary/5 px-3 py-2.5 transition-colors"
+                        >
+                          <ArrowRight className="w-3.5 h-3.5 text-primary mt-1 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" />
+                          <span>
+                            <span className="block text-sm font-semibold text-foreground leading-snug">
+                              {opt.label}
+                            </span>
+                            <span className="block text-[12px] text-foreground/55 leading-snug">
+                              {opt.description}
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
                   <Link
-                    href={cat.learnMorePath}
-                    onClick={(e) => e.stopPropagation()}
-                    className="block mt-2 text-[12px] text-foreground/45 hover:text-primary transition-colors"
+                    href={cat.fallbackPath}
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-primary mb-3 hover:underline"
                   >
-                    Learn about {cat.title} in Kingsport &amp; Jonesborough →
+                    Book a consultation
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
-                </>
-              );
+                )}
 
-              const cardClass =
-                "group block rounded-2xl border border-border bg-white p-5 shadow-sm hover:shadow-md hover:border-primary/30 transition-all";
-
-              return cat.hasAssessment ? (
-                <a
-                  key={cat.id}
-                  href={cat.assessmentUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cardClass}
+                <Link
+                  href={cat.learnMorePath}
+                  className="mt-auto text-[12px] text-foreground/45 hover:text-primary transition-colors"
                 >
-                  {cardInner}
-                </a>
-              ) : (
-                <Link key={cat.id} href={cat.fallbackPath} className={cardClass}>
-                  {cardInner}
+                  Learn about {cat.title} in Kingsport &amp; Jonesborough →
                 </Link>
-              );
-            })}
+              </div>
+            ))}
           </div>
 
           <div className="mt-6 flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-900">

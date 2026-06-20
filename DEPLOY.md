@@ -46,8 +46,13 @@ In Railway dashboard → your service → Variables tab:
 | `VITE_PODIUM_BOOKING_URL_KINGSPORT` | **Build-time only.** Optional override for the Kingsport Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/01930831-564b-7342-98d8-620e43a707e7` (hardcoded in `src/lib/booking.ts`). |
 | `VITE_PODIUM_BOOKING_URL_JONESBOROUGH` | **Build-time only.** Optional override for the Jonesborough Podium scheduling URL. Defaults to `https://booking.podium.com/medspa/019c25c3-bfb8-7652-9b53-3b7f41adc505` (hardcoded in `src/lib/booking.ts`). |
 | `VITE_PODIUM_BOOKING_URL` | **Build-time only.** Optional shared/fallback scheduling URL. Used only if a location has no per-location default and no per-location env var. |
-| `VITE_REFILL_PORTAL_URL` | **Build-time only.** Exact Balanced Wellness Refill.co telehealth portal URL. **No hardcoded default** — until this is set, telehealth CTAs route to `/contact`. |
+| `VITE_REFILL_PORTAL_URL` | **Build-time only.** Exact Balanced Wellness Refill.co telehealth portal URL. **No hardcoded default** — until this is set, generic telehealth CTAs route to `/online-care`. |
 | `VITE_REFILL_PORTAL_ENABLED` | **Build-time only.** Optional. Defaults to enabled when a valid `VITE_REFILL_PORTAL_URL` is set. Set to `false` to disable the portal CTAs without removing the URL. |
+| `VITE_REFILL_ASSESSMENT_WEIGHT_LOSS` | **Build-time only.** Optional. Refill.co assessment URL for the Online Weight Loss card on `/online-care`. Empty → card falls back to `/book-now`. |
+| `VITE_REFILL_ASSESSMENT_PEPTIDES` | **Build-time only.** Optional override for the Peptide Therapy assessment URL. Ships with a real hardcoded default in `src/lib/booking.ts`. |
+| `VITE_REFILL_ASSESSMENT_SKINCARE` | **Build-time only.** Optional. Refill.co assessment URL for the Online Skincare card. Empty → card falls back to `/book-now`. |
+| `VITE_REFILL_ASSESSMENT_WOMENS_HEALTH` | **Build-time only.** Optional. Refill.co assessment URL for the Women's Health card. Empty → card falls back to `/book-now`. |
+| `VITE_REFILL_ASSESSMENT_MENS_HEALTH` | **Build-time only.** Optional. Refill.co assessment URL for the Men's Health card. Empty → card falls back to `/book-now`. |
 
 Railway sets PORT automatically — do not set it manually.
 
@@ -87,24 +92,35 @@ bio link:
 https://www.balancedmedicalspa.com/book-now
 ```
 
-### Telehealth (Refill.co)
+### Online Care & Telehealth (Refill.co)
 
-The online telehealth portal is wired through `VITE_REFILL_PORTAL_URL`. There is **no
-hardcoded default on purpose** — until the exact Balanced-specific Refill.co URL is set
-in Railway, all telehealth CTAs (the `/book-now` card, weight loss / hormone / wellness
-pages, and the `/telehealth` page) safely route users to `/contact` rather than guessing
-a portal URL.
+`/online-care` (aliases `/telehealth`, `/online-telehealth`) is a guided hub that shows
+one card per service category — **Online Weight Loss, Peptide Therapy, Online Skincare,
+Women's Health, Men's Health**. Every generic telehealth CTA across the site routes to
+`/online-care`, which is always a safe internal destination.
 
-To enable:
+Each card links to a Refill.co assessment when a valid URL is configured; otherwise it
+falls back to `/book-now`. Assessment URLs are resolved at build time per category:
 
-1. In Railway → Variables set `VITE_REFILL_PORTAL_URL=<exact Refill.co portal URL>`.
-2. (Optional) set `VITE_REFILL_PORTAL_ENABLED=false` to temporarily hide the CTAs.
-3. Redeploy (build-time vars require a rebuild).
+1. `VITE_REFILL_ASSESSMENT_<CATEGORY>` env var (per-category override in Railway)
+2. The hardcoded default in `src/lib/booking.ts` (`ASSESSMENT_DEFAULTS`)
+3. Empty → the card falls back to `/book-now`
 
-`/telehealth` (alias `/online-telehealth`) auto-redirects to the portal once configured.
-All telehealth copy is intentionally conservative: "online telehealth portal for eligible
-telehealth services and refills, provider review required" — no promises of prescriptions,
-eligibility, or same-day medication.
+Only the **Peptide Therapy** assessment ships with a real hardcoded default; all other
+categories are empty until a real link is added (in Railway or `ASSESSMENT_DEFAULTS`). To
+add a future link, set the matching env var **or** edit one line in `ASSESSMENT_DEFAULTS`.
+
+The legacy `VITE_REFILL_PORTAL_URL` still drives any generic single-portal redirect, but
+the primary entry point is now the `/online-care` hub.
+
+All online-care copy is intentionally conservative: a provider reviews every request, no
+diagnosis is made online, eligibility is never guaranteed, and emergencies are directed to
+call 911 or visit urgent care.
+
+Matching local SEO/AEO pages are prerendered for each category:
+`/online-weight-loss-kingsport-tn`, `/peptide-therapy-kingsport-tn`,
+`/online-skincare-kingsport-tn`, `/womens-health-kingsport-tn`,
+`/mens-health-kingsport-tn`.
 
 ### KelliAI integration
 

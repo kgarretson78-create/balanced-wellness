@@ -166,3 +166,139 @@ export const REFILL_PORTAL: RefillPortal = {
   url: refillEnabled ? (REFILL_URL_RAW as string) : "",
   fallbackPath: "/contact",
 };
+
+/**
+ * Online care categories (Refill.co assessments).
+ *
+ * Each category maps to a Refill.co "interest & goal assessment" link. The
+ * patient picks a category on /online-care (or from a service page) and is sent
+ * to that assessment; a provider then reviews the responses.
+ *
+ * Adding a new assessment link is intentionally a one-line change here. Each
+ * category resolves its link in this order:
+ *   1. Per-category build-time env var (highest priority — set in Railway)
+ *   2. Hardcoded default below (only where the exact link is already known)
+ *   3. No link → the card safely routes to its fallback (/book-now or /contact)
+ *
+ * Env vars (build-time, optional):
+ *   VITE_REFILL_ASSESSMENT_WEIGHT_LOSS
+ *   VITE_REFILL_ASSESSMENT_PEPTIDES
+ *   VITE_REFILL_ASSESSMENT_SKINCARE
+ *   VITE_REFILL_ASSESSMENT_WOMENS_HEALTH
+ *   VITE_REFILL_ASSESSMENT_MENS_HEALTH
+ *
+ * IMPORTANT: do NOT invent assessment links. Leave a category's default empty
+ * until the real link is provided; the UI handles the missing case safely.
+ */
+export type OnlineCareCategoryId =
+  | "weight-loss"
+  | "peptides"
+  | "skincare"
+  | "womens-health"
+  | "mens-health";
+
+export interface OnlineCareCategory {
+  id: OnlineCareCategoryId;
+  /** Short card title, e.g. "Online Weight Loss". */
+  title: string;
+  /** One-line "who it's for" summary shown on the card. */
+  who: string;
+  /** Resolved assessment URL ("" when not yet configured). */
+  assessmentUrl: string;
+  /** True when a valid assessment URL is configured. */
+  hasAssessment: boolean;
+  /** Where the card routes when no assessment link exists yet. */
+  fallbackPath: string;
+  /** Matching local SEO landing page for this category. */
+  learnMorePath: string;
+}
+
+// Hardcoded assessment defaults. Only fill in links the practice has actually
+// provided — leave the rest empty so the UI falls back safely.
+const ASSESSMENT_DEFAULTS: Record<OnlineCareCategoryId, string> = {
+  "weight-loss": "",
+  // Peptide Wellness Therapy Interest & Goal Assessment (provided by practice):
+  peptides:
+    "https://balanced-wellness-medical-spa-jonesborough.withrefill.com/assessments/e44c3042-4a1c-4ab1-9dd6-7b1cc72bb8f2",
+  skincare: "",
+  "womens-health": "",
+  "mens-health": "",
+};
+
+const ASSESSMENT_ENV: Record<OnlineCareCategoryId, string | undefined> = {
+  "weight-loss": env.VITE_REFILL_ASSESSMENT_WEIGHT_LOSS as string | undefined,
+  peptides: env.VITE_REFILL_ASSESSMENT_PEPTIDES as string | undefined,
+  skincare: env.VITE_REFILL_ASSESSMENT_SKINCARE as string | undefined,
+  "womens-health": env.VITE_REFILL_ASSESSMENT_WOMENS_HEALTH as string | undefined,
+  "mens-health": env.VITE_REFILL_ASSESSMENT_MENS_HEALTH as string | undefined,
+};
+
+function resolveAssessment(id: OnlineCareCategoryId): string {
+  const fromEnv = (ASSESSMENT_ENV[id] ?? "").trim();
+  if (isValidHttpUrl(fromEnv)) return fromEnv;
+  const fromDefault = (ASSESSMENT_DEFAULTS[id] ?? "").trim();
+  if (isValidHttpUrl(fromDefault)) return fromDefault;
+  return "";
+}
+
+const CATEGORY_META: Record<
+  OnlineCareCategoryId,
+  { title: string; who: string; learnMorePath: string }
+> = {
+  "weight-loss": {
+    title: "Online Weight Loss",
+    who: "For adults exploring medically supervised weight loss, including GLP-1 options, from home.",
+    learnMorePath: "/online-weight-loss-kingsport-tn",
+  },
+  peptides: {
+    title: "Peptide Therapy",
+    who: "For those interested in peptides for recovery, sleep, and healthy aging.",
+    learnMorePath: "/peptide-therapy-kingsport-tn",
+  },
+  skincare: {
+    title: "Online Skincare",
+    who: "For patients who want a provider-guided medical skincare plan and prescription-grade products.",
+    learnMorePath: "/online-skincare-kingsport-tn",
+  },
+  "womens-health": {
+    title: "Women's Health",
+    who: "For women exploring hormone balance, wellness, and women's health concerns.",
+    learnMorePath: "/womens-health-kingsport-tn",
+  },
+  "mens-health": {
+    title: "Men's Health",
+    who: "For men exploring hormone optimization, vitality, and men's health concerns.",
+    learnMorePath: "/mens-health-kingsport-tn",
+  },
+};
+
+const ONLINE_CARE_ORDER: OnlineCareCategoryId[] = [
+  "weight-loss",
+  "peptides",
+  "skincare",
+  "womens-health",
+  "mens-health",
+];
+
+export const ONLINE_CARE_CATEGORIES: OnlineCareCategory[] = ONLINE_CARE_ORDER.map(
+  (id) => {
+    const assessmentUrl = resolveAssessment(id);
+    return {
+      id,
+      title: CATEGORY_META[id].title,
+      who: CATEGORY_META[id].who,
+      assessmentUrl,
+      hasAssessment: Boolean(assessmentUrl),
+      // When there's no assessment yet, send people to the social booking
+      // chooser so they can still schedule in-person.
+      fallbackPath: "/book-now",
+      learnMorePath: CATEGORY_META[id].learnMorePath,
+    };
+  },
+);
+
+export function getOnlineCareCategory(
+  id: OnlineCareCategoryId,
+): OnlineCareCategory {
+  return ONLINE_CARE_CATEGORIES.find((c) => c.id === id) ?? ONLINE_CARE_CATEGORIES[0];
+}

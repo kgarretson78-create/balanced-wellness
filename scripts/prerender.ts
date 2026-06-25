@@ -30,6 +30,7 @@ import { data as onlineWeightLossData } from "../src/pages/seo/OnlineWeightLossK
 import { data as onlineSkincareData } from "../src/pages/seo/OnlineSkincareKingsport.tsx";
 import { data as womensHealthData } from "../src/pages/seo/WomensHealthKingsport.tsx";
 import { data as mensHealthData } from "../src/pages/seo/MensHealthKingsport.tsx";
+import { data as telehealthData } from "../src/pages/Telehealth.tsx";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -764,6 +765,47 @@ async function prerenderServiceRoute(
   await writeRoute(routePath, html);
 }
 
+function breadcrumbsForTelehealth(h1: string, canonicalUrl: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${ORIGIN}/` },
+      { "@type": "ListItem", position: 2, name: "Online Care", item: `${ORIGIN}/online-care` },
+      { "@type": "ListItem", position: 3, name: h1, item: canonicalUrl },
+    ],
+  };
+}
+
+/**
+ * Telehealth landing page + SEO alias. The alias (/virtual-care-kingsport-tn)
+ * is prerendered with its canonical pointing back to /telehealth so it stays
+ * crawlable without creating duplicate-content competition.
+ */
+async function prerenderTelehealthRoute(
+  routePath: string,
+  d: ServicePageData,
+  template: string,
+  canonicalOverride?: string,
+) {
+  const canonicalUrl = canonicalOverride ?? `${ORIGIN}${routePath}`;
+  const jsonLd = [
+    LOCAL_BUSINESS_SCHEMA,
+    medicalProcedureSchema(d.hero.h1, d.schemaDescription, canonicalUrl),
+    faqPageSchema(d.faqs, canonicalUrl),
+    breadcrumbsForTelehealth(d.hero.h1, canonicalUrl),
+  ];
+  let html = applyHeadToTemplate(template, {
+    title: d.seo.title,
+    description: d.seo.description,
+    keywords: d.seo.keywords,
+    canonicalUrl,
+    jsonLd,
+  });
+  html = injectBody(html, renderServiceBody(d, canonicalUrl));
+  await writeRoute(routePath, html);
+}
+
 async function prerenderLocalRoute(
   routePath: string,
   d: LocalPageData,
@@ -874,6 +916,18 @@ async function main() {
     "/mens-health-kingsport-tn",
     mensHealthData as ServicePageData,
     template,
+  );
+
+  await prerenderTelehealthRoute(
+    "/telehealth",
+    telehealthData as unknown as ServicePageData,
+    template,
+  );
+  await prerenderTelehealthRoute(
+    "/virtual-care-kingsport-tn",
+    telehealthData as unknown as ServicePageData,
+    template,
+    `${ORIGIN}/telehealth`,
   );
 
   console.log("[prerender] done");

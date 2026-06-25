@@ -37,12 +37,17 @@ export function TelehealthBand({ className = "" }: { className?: string }) {
           <p className="text-sm text-foreground/60 leading-relaxed">{HUB_DESCRIPTION}</p>
         </div>
       </div>
-      <Link href="/online-care" className="flex-shrink-0">
-        <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-primary text-sm font-semibold rounded-full border border-primary/30 hover:bg-primary hover:text-white transition-colors">
-          Explore Online Care
-          <ArrowRight className="w-3.5 h-3.5" />
-        </span>
-      </Link>
+      <div className="flex-shrink-0 flex flex-col items-center gap-1.5">
+        <Link href="/online-care">
+          <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-primary text-sm font-semibold rounded-full border border-primary/30 hover:bg-primary hover:text-white transition-colors">
+            Explore Online Care
+            <ArrowRight className="w-3.5 h-3.5" />
+          </span>
+        </Link>
+        <Link href="/telehealth" className="text-[12px] text-foreground/50 hover:text-primary transition-colors">
+          How telehealth works →
+        </Link>
+      </div>
     </div>
   );
 }

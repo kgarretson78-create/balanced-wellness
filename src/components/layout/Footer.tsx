@@ -51,6 +51,7 @@ export function Footer() {
               <li><Link href="/weight-loss" className="text-white/40 hover:text-white transition-colors duration-300">Weight Loss & Metabolic</Link></li>
               <li><Link href="/wellness" className="text-white/40 hover:text-white transition-colors duration-300">Wellness & Longevity</Link></li>
               <li><Link href="/hormone-optimization" className="text-white/40 hover:text-white transition-colors duration-300">Hormone Optimization</Link></li>
+              <li><Link href="/telehealth" className="text-white/40 hover:text-white transition-colors duration-300">Telehealth & Virtual Care</Link></li>
             </ul>
           </div>
 

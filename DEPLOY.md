@@ -198,7 +198,16 @@ Point your DNS:
 - Apex `balancedmedicalspa.com` → Railway-provided CNAME/ALIAS (use ALIAS/ANAME if your DNS supports it; Cloudflare flattens CNAME at apex automatically)
 - `www` → CNAME to the same Railway target
 
-SSL is automatic. The Express server 301-redirects the non-canonical variant to `CANONICAL_HOST` (default `www.balancedmedicalspa.com`), so Google sees a single canonical origin. The `<link rel="canonical">` tag in `index.html` and the dynamic SEO component reinforce this.
+> **Important — the apex must resolve to Railway, not a registrar URL-forward.**
+> The 301 apex→www redirect is performed *inside the Express app*, so the apex
+> host has to actually reach this service. If the apex is instead configured as
+> a registrar/DNS "URL forwarding / redirect" record, that layer typically
+> forwards only the bare domain and drops deep paths — so `balancedmedicalspa.com`
+> works but `balancedmedicalspa.com/telehealth` returns 404. Always add the apex
+> as a Railway custom domain with an ALIAS/ANAME (or Cloudflare-proxied) record
+> so every path is served by the app and redirected with its path preserved.
+
+SSL is automatic. The Express server 301-redirects the non-canonical variant to `CANONICAL_HOST` (default `www.balancedmedicalspa.com`), preserving the full path and query string, so Google sees a single canonical origin. The `<link rel="canonical">` tag in `index.html` and the dynamic SEO component reinforce this.
 
 ---
 
@@ -209,6 +218,7 @@ SSL is automatic. The Express server 301-redirects the non-canonical variant to 
 - your-url.railway.app/robots.txt → plain text with sitemap reference
 - your-url.railway.app/sitemap.xml → valid XML sitemap
 - https://balancedmedicalspa.com → 301 → https://www.balancedmedicalspa.com
+- https://balancedmedicalspa.com/telehealth → 301 → https://www.balancedmedicalspa.com/telehealth (deep path preserved)
 
 ---
 

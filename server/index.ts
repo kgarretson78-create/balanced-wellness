@@ -43,20 +43,35 @@ if (!distFound) {
   console.error("[server] __dirname:", __dirname);
 }
 
-const CANONICAL_HOST = process.env.CANONICAL_HOST || "www.balancedmedicalspa.com";
+const CANONICAL_HOST = (process.env.CANONICAL_HOST || "www.balancedmedicalspa.com").toLowerCase();
+// Registrable domain behind the canonical host, e.g. "balancedmedicalspa.com".
+const APEX_DOMAIN = CANONICAL_HOST.replace(/^www\./, "");
 
 // Trust Railway's proxy so req.protocol/req.hostname are correct
 app.set("trust proxy", true);
 
-// Canonical host redirect: redirect any non-canonical host (e.g. apex) to CANONICAL_HOST
+// Canonical host redirect.
+//
+// Redirect the apex (balancedmedicalspa.com) and any other non-canonical
+// subdomain of the registrable domain up to CANONICAL_HOST, preserving the
+// full pathname + query string (`req.originalUrl`). This fixes deep-path
+// requests like `/telehealth` on the bare apex, which must land on the www
+// host rather than 404.
+//
+// Only hosts within our own domain family are touched. Foreign hosts — the
+// Railway-provided `*.up.railway.app` domain, preview URLs, and `localhost`
+// in dev — never match, so they are left to resolve normally.
 app.use((req, res, next) => {
-  const host = req.hostname;
+  // Never bounce the health check; Railway probes it on internal hosts.
+  if (req.path === "/health") return next();
+
+  // req.hostname already excludes the port, but normalise defensively so a
+  // stray port or upper-case Host header can't slip past the comparison.
+  const host = (req.hostname || "").replace(/:\d+$/, "").toLowerCase();
   if (!host) return next();
-  // If canonical host is a www host, redirect the apex equivalent up to www.
-  // If canonical host is an apex host, redirect the www.* equivalent down to apex.
-  const apexOfCanonical = CANONICAL_HOST.replace(/^www\./, "");
-  const wwwOfCanonical = CANONICAL_HOST.startsWith("www.") ? CANONICAL_HOST : `www.${CANONICAL_HOST}`;
-  if (host !== CANONICAL_HOST && (host === apexOfCanonical || host === wwwOfCanonical)) {
+
+  const isOurDomain = host === APEX_DOMAIN || host.endsWith(`.${APEX_DOMAIN}`);
+  if (isOurDomain && host !== CANONICAL_HOST) {
     return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
   }
   next();

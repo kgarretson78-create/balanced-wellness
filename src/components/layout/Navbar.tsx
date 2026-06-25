@@ -32,13 +32,14 @@ export function Navbar() {
     { name: "Weight Loss & Metabolic", path: "/weight-loss" },
     { name: "Wellness & Longevity", path: "/wellness" },
     { name: "Hormone Optimization", path: "/hormone-optimization" },
+    { name: "Telehealth & Virtual Care", path: "/telehealth" },
     { name: "Memberships", path: "/memberships" },
     { name: "Flexible Payments", path: "/flexible-payments" },
     { name: "Before & After Gallery", path: "/gallery" },
     { name: "AI Skin Analyzer", path: "/skin-analyzer" },
   ];
 
-  const isServicePage = ["/services", "/injectables", "/laser-treatments", "/weight-loss", "/wellness", "/hormone-optimization", "/memberships", "/gallery", "/skin-analyzer", "/flexible-payments"].includes(location);
+  const isServicePage = ["/services", "/injectables", "/laser-treatments", "/weight-loss", "/wellness", "/hormone-optimization", "/telehealth", "/memberships", "/gallery", "/skin-analyzer", "/flexible-payments"].includes(location);
 
   const navLinkClass = (path: string, isActive?: boolean) =>
     `text-[13px] font-medium tracking-wide transition-colors duration-300 ${

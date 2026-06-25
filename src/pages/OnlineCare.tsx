@@ -70,6 +70,13 @@ export default function OnlineCare() {
               diagnosis or guarantee of eligibility, and care is always provider-led.
               Trusted by patients in Kingsport and Jonesborough.
             </p>
+            <p className="mt-4 text-sm text-foreground/55">
+              New to virtual care?{" "}
+              <Link href="/telehealth" className="text-primary font-semibold hover:underline">
+                Learn how telehealth works at Balanced Wellness
+              </Link>
+              .
+            </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">

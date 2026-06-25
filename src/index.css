@@ -64,52 +64,52 @@
 }
 
 :root {
-  /* Blush-dominant palette — gold as accent only */
-  --background: 345 30% 97%;       /* warm pinkish cream */
-  --foreground: 345 15% 18%;
+  /* Soft glam palette — warm champagne cream, muted rose, champagne gold */
+  --background: 32 33% 97%;        /* warm champagne cream */
+  --foreground: 345 14% 19%;       /* soft rose-charcoal */
 
-  --card: 345 25% 99%;
-  --card-foreground: 345 15% 20%;
+  --card: 36 40% 99%;
+  --card-foreground: 345 14% 20%;
 
-  --popover: 345 25% 99%;
-  --popover-foreground: 345 15% 20%;
+  --popover: 36 40% 99%;
+  --popover-foreground: 345 14% 20%;
 
-  --primary: 345 42% 65%;          /* blush rose — main brand color */
+  --primary: 345 40% 53%;          /* muted rose — main brand color */
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 345 20% 93%;
-  --secondary-foreground: 345 15% 28%;
+  --secondary: 32 24% 93%;
+  --secondary-foreground: 345 14% 28%;
 
-  --muted: 345 15% 92%;
-  --muted-foreground: 345 8% 44%;
+  --muted: 32 20% 93%;
+  --muted-foreground: 25 9% 42%;   /* warm taupe — readable */
 
-  --accent: 345 35% 55%;           /* deeper rose accent */
+  --accent: 345 44% 44%;           /* deeper rose accent */
   --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 345 15% 88%;
-  --input: 345 15% 85%;
-  --ring: 345 42% 65%;
+  --border: 32 20% 88%;
+  --input: 32 18% 84%;
+  --ring: 345 40% 53%;
 
-  --sidebar: 345 20% 94%;
-  --sidebar-foreground: 345 15% 20%;
-  --sidebar-border: 345 15% 86%;
-  --sidebar-primary: 345 42% 65%;
+  --sidebar: 32 24% 94%;
+  --sidebar-foreground: 345 14% 20%;
+  --sidebar-border: 32 18% 86%;
+  --sidebar-primary: 345 40% 53%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 345 35% 55%;
+  --sidebar-accent: 345 44% 44%;
   --sidebar-accent-foreground: 0 0% 100%;
-  --sidebar-ring: 345 42% 65%;
+  --sidebar-ring: 345 40% 53%;
 
-  --champagne: 345 38% 88%;        /* soft blush champagne */
-  --champagne-foreground: 345 15% 20%;
+  --champagne: 38 46% 85%;         /* champagne gold tint */
+  --champagne-foreground: 30 22% 22%;
   --gold: 38 55% 48%;              /* gold — accent only */
 
   --app-font-sans: 'Raleway', 'Lato', sans-serif;
   --app-font-serif: 'Playfair Display', serif;
 
-  --radius: 0.75rem;
+  --radius: 0.875rem;
 }
 
 @layer base {
@@ -121,14 +121,21 @@
     @apply font-sans antialiased bg-background text-foreground;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    letter-spacing: 0.005em;
   }
 
   ::selection {
-    background: hsl(0 30% 62% / 0.18);
+    background: hsl(345 40% 53% / 0.18);
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif tracking-tight text-foreground;
+    letter-spacing: -0.012em;
+  }
+
+  p {
+    line-height: 1.7;
   }
 }
 
@@ -146,23 +153,23 @@
   }
 
   .luxury-gradient {
-    background: linear-gradient(160deg, hsl(28 28% 96%) 0%, hsl(25 22% 93%) 40%, hsl(0 18% 94%) 100%);
+    background: linear-gradient(160deg, hsl(38 42% 97%) 0%, hsl(32 28% 95%) 45%, hsl(345 30% 95%) 100%);
   }
 
   .luxury-gradient-dark {
-    background: linear-gradient(160deg, hsl(0 8% 11%) 0%, hsl(0 10% 14%) 50%, hsl(0 12% 16%) 100%);
+    background: linear-gradient(160deg, hsl(345 12% 11%) 0%, hsl(345 12% 14%) 50%, hsl(345 14% 17%) 100%);
   }
 
   .glow-primary {
-    box-shadow: 0 4px 24px hsl(0 30% 62% / 0.1), 0 1px 4px hsl(0 30% 62% / 0.06);
+    box-shadow: 0 4px 24px hsl(345 40% 53% / 0.12), 0 1px 4px hsl(345 40% 53% / 0.07);
   }
 
   .glow-gold {
-    box-shadow: 0 4px 24px hsl(28 32% 52% / 0.1), 0 1px 4px hsl(28 32% 52% / 0.06);
+    box-shadow: 0 4px 24px hsl(38 55% 48% / 0.12), 0 1px 4px hsl(38 55% 48% / 0.07);
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(32 38% 82%), hsl(28 32% 62%), hsl(0 30% 62%));
+    background: linear-gradient(135deg, hsl(38 50% 78%), hsl(38 48% 58%), hsl(345 40% 58%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -198,41 +205,41 @@
   }
 
   .hero-overlay {
-    background: linear-gradient(145deg, hsl(0 8% 10% / 0.88) 0%, hsl(0 10% 14% / 0.7) 40%, hsl(0 20% 25% / 0.45) 100%);
+    background: linear-gradient(145deg, hsl(345 12% 10% / 0.88) 0%, hsl(345 12% 14% / 0.7) 40%, hsl(345 22% 26% / 0.45) 100%);
   }
 
   .luxury-shadow {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.03), 0 12px 32px rgba(0,0,0,0.03);
+    box-shadow: 0 1px 2px hsl(345 20% 30% / 0.03), 0 6px 16px hsl(345 20% 30% / 0.05), 0 14px 36px hsl(345 20% 30% / 0.04);
   }
 
   .luxury-shadow-lg {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.05), 0 20px 48px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px hsl(345 20% 30% / 0.03), 0 10px 28px hsl(345 20% 30% / 0.07), 0 24px 56px hsl(345 20% 30% / 0.06);
   }
 
   .luxury-card {
-    background: white;
-    border: 1px solid hsl(25 10% 90%);
-    border-radius: 1rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.02);
+    background: hsl(var(--card));
+    border: 1px solid hsl(32 20% 90%);
+    border-radius: 1.25rem;
+    box-shadow: 0 1px 2px hsl(345 20% 30% / 0.03), 0 6px 16px hsl(345 20% 30% / 0.035);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .luxury-card:hover {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.06), 0 20px 48px rgba(0,0,0,0.04);
-    transform: translateY(-2px);
-    border-color: hsl(0 30% 62% / 0.2);
+    box-shadow: 0 2px 4px hsl(345 20% 30% / 0.04), 0 12px 28px hsl(345 30% 40% / 0.08), 0 24px 56px hsl(345 30% 40% / 0.05);
+    transform: translateY(-3px);
+    border-color: hsl(345 40% 53% / 0.25);
   }
 
   .decorative-line {
     width: 56px;
     height: 2px;
-    background: linear-gradient(90deg, hsl(0 30% 62%), hsl(28 32% 52%));
+    background: linear-gradient(90deg, hsl(345 40% 58%), hsl(38 52% 55%));
     border-radius: 2px;
   }
 
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(0 30% 62% / 0.15), hsl(28 32% 52% / 0.1), transparent);
+    background: linear-gradient(90deg, transparent, hsl(345 40% 58% / 0.18), hsl(38 52% 52% / 0.12), transparent);
   }
 
   .float-slow {

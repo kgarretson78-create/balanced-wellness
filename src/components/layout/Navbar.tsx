@@ -125,7 +125,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => openBookingChooser()}
-              className="group flex items-center px-5 py-2 bg-primary text-white text-[13px] font-semibold rounded-full hover:bg-primary/90 shadow-sm shadow-primary/15 hover:shadow-md hover:shadow-primary/20 hover:-translate-y-[1px] transition-all duration-300"
+              className="group flex items-center px-5 py-2 bg-gradient-to-r from-primary to-accent text-white text-[13px] font-semibold rounded-full shadow-sm shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-[1px] transition-all duration-300"
             >
               Book Now
               <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
@@ -189,7 +189,7 @@ export function Navbar() {
                     setMobileMenuOpen(false);
                     openBookingChooser();
                   }}
-                  className="block w-full text-center mt-4 px-6 py-3 bg-primary text-white text-sm font-semibold rounded-xl shadow-md shadow-primary/15"
+                  className="block w-full text-center mt-4 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-xl shadow-md shadow-primary/20"
                 >
                   Book Appointment
                 </button>

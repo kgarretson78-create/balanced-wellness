@@ -4,8 +4,9 @@ import { Facebook, Instagram, MapPin, Phone, Clock } from "lucide-react";
 export function Footer() {
   return (
     <footer className="luxury-gradient-dark text-white/90 pt-20 pb-8 relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-champagne/40 to-transparent" />
       <div className="absolute top-[20%] right-0 w-[300px] h-[300px] rounded-full bg-primary/3 blur-[100px]" />
+      <div className="absolute bottom-[10%] left-[8%] w-[260px] h-[260px] rounded-full bg-champagne/[0.04] blur-[110px]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">

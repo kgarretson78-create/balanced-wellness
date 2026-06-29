@@ -1,11 +1,11 @@
 import { useEffect } from "react";
+import { LOCATIONS, type OpeningHoursSpec } from "@/lib/booking";
 
-const WEEKDAY_HOURS = {
-  "@type": "OpeningHoursSpecification",
-  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-  opens: "09:00",
-  closes: "17:00",
-} as const;
+const toSchemaHours = (specs: OpeningHoursSpec[]) =>
+  specs.map((s) => ({ "@type": "OpeningHoursSpecification", ...s }));
+
+const KINGSPORT_HOURS = toSchemaHours(LOCATIONS.kingsport.hours.schema);
+const JONESBOROUGH_HOURS = toSchemaHours(LOCATIONS.jonesborough.hours.schema);
 
 export function LocalBusinessSchema() {
   useEffect(() => {
@@ -31,7 +31,7 @@ export function LocalBusinessSchema() {
         "Hormone Replacement Therapy",
         "Peptide Therapy",
       ],
-      openingHoursSpecification: [WEEKDAY_HOURS],
+      openingHoursSpecification: KINGSPORT_HOURS,
       sameAs: [
         "https://www.facebook.com/balancedwellnessmedspa",
         "https://www.instagram.com/balancedwellnessmedspa",
@@ -56,7 +56,7 @@ export function LocalBusinessSchema() {
           name: "Balanced Wellness Medical Spa - Jonesborough",
           url: "https://www.balancedmedicalspa.com/medical-spa-jonesborough-tn",
           telephone: "+1-423-646-2169",
-          openingHoursSpecification: [WEEKDAY_HOURS],
+          openingHoursSpecification: JONESBOROUGH_HOURS,
           address: {
             "@type": "PostalAddress",
             streetAddress: "120 Cherokee St",
@@ -86,7 +86,7 @@ export function LocalBusinessSchema() {
           name: "Balanced Wellness Medical Spa - Kingsport",
           url: "https://www.balancedmedicalspa.com/medical-spa-kingsport-tn",
           telephone: "+1-423-765-1393",
-          openingHoursSpecification: [WEEKDAY_HOURS],
+          openingHoursSpecification: KINGSPORT_HOURS,
           address: {
             "@type": "PostalAddress",
             streetAddress: "1309 S John B Dennis Hwy, Ste 104",

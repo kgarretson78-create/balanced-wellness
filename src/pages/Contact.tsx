@@ -124,21 +124,23 @@ export default function Contact() {
 
             <div>
               <h3 className="text-2xl font-serif font-bold text-foreground mb-5">Hours of Operation</h3>
-              <div className="bg-secondary p-6 rounded-2xl">
-                <ul className="space-y-3 text-foreground/70">
-                  <li className="flex justify-between border-b border-border pb-3">
-                    <span className="font-medium text-foreground">Monday - Friday</span>
-                    <span>9:00 AM - 5:00 PM</span>
-                  </li>
-                  <li className="flex justify-between border-b border-border pb-3">
-                    <span className="font-medium text-foreground">Saturday</span>
-                    <span>By Appointment Only</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="font-medium text-foreground">Sunday</span>
-                    <span>Closed</span>
-                  </li>
-                </ul>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {LOCATION_LIST.map((loc) => (
+                  <div key={loc.id} className="bg-secondary p-6 rounded-2xl">
+                    <p className="font-serif font-bold text-primary mb-4">{loc.name}</p>
+                    <ul className="space-y-3 text-foreground/70">
+                      {loc.hours.display.map((row, idx) => (
+                        <li
+                          key={row.days}
+                          className={`flex justify-between ${idx < loc.hours.display.length - 1 ? "border-b border-border pb-3" : ""}`}
+                        >
+                          <span className="font-medium text-foreground">{row.days}</span>
+                          <span>{row.time}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

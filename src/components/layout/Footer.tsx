@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Facebook, Instagram, MapPin, Phone, Clock } from "lucide-react";
+import { LOCATIONS } from "@/lib/booking";
 
 export function Footer() {
   return (
@@ -65,6 +66,14 @@ export function Footer() {
                   <p className="font-semibold text-white/80 text-[13px]">Kingsport</p>
                   <p className="text-white/35 text-[13px]">1309 South John B Dennis Hwy, Suite 104<br/>Kingsport, TN 37660</p>
                   <a href="tel:423-765-1393" className="text-primary text-xs hover:text-champagne transition-colors">(423) 765-1393</a>
+                  <div className="mt-2 flex items-start text-white/35 text-[13px]">
+                    <Clock className="w-3.5 h-3.5 mr-2 text-primary/70 flex-shrink-0 mt-0.5" />
+                    <div>
+                      {LOCATIONS.kingsport.hours.display.map((row) => (
+                        <p key={row.days}>{row.days}: {row.time}</p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </li>
               <li className="flex items-start">
@@ -73,13 +82,14 @@ export function Footer() {
                   <p className="font-semibold text-white/80 text-[13px]">Jonesborough</p>
                   <p className="text-white/35 text-[13px]">120 South Cherokee St<br/>Jonesborough, TN 37659</p>
                   <a href="tel:423-646-2169" className="text-primary text-xs hover:text-champagne transition-colors">(423) 646-2169</a>
-                </div>
-              </li>
-              <li className="flex items-start">
-                <Clock className="w-4 h-4 mr-3 text-primary/70 flex-shrink-0 mt-0.5" />
-                <div className="text-white/35 text-[13px]">
-                  <p>Mon - Fri: 9:00 AM - 5:00 PM</p>
-                  <p>Sat: By Appointment Only</p>
+                  <div className="mt-2 flex items-start text-white/35 text-[13px]">
+                    <Clock className="w-3.5 h-3.5 mr-2 text-primary/70 flex-shrink-0 mt-0.5" />
+                    <div>
+                      {LOCATIONS.jonesborough.hours.display.map((row) => (
+                        <p key={row.days}>{row.days}: {row.time}</p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </li>
             </ul>

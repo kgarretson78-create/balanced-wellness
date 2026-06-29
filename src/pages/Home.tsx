@@ -36,7 +36,7 @@ const homeFaqs = [
   },
   {
     q: "Where is Balanced Wellness Medical Spa located in Kingsport, TN?",
-    a: "Our Kingsport location is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Call (423) 765-1393 to book. Hours are Monday through Friday, 9 AM to 5 PM. We also have a Jonesborough location at 120 South Cherokee St, Jonesborough, TN 37659 — (423) 646-2169.",
+    a: "Our Kingsport location is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Call (423) 765-1393 to book. Kingsport hours are Monday through Thursday 10 AM to 7 PM and Friday 9 AM to 5 PM. We also have a Jonesborough location at 120 South Cherokee St, Jonesborough, TN 37659 — (423) 646-2169 — open Monday through Friday 10 AM to 6 PM.",
   },
   {
     q: "How much does Botox cost in Kingsport TN?",

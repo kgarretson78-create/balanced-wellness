@@ -15,6 +15,26 @@
 
 export type LocationId = "kingsport" | "jonesborough";
 
+/** A single human-readable hours row for visible UI display. */
+export interface HoursRow {
+  days: string; // e.g. "Monday - Thursday"
+  time: string; // e.g. "10:00 AM - 7:00 PM" or "Closed"
+}
+
+/** A schema.org OpeningHoursSpecification entry (machine-readable, 24h times). */
+export interface OpeningHoursSpec {
+  dayOfWeek: string[];
+  opens: string;  // "HH:MM" 24-hour
+  closes: string; // "HH:MM" 24-hour
+}
+
+export interface LocationHours {
+  /** Rows shown to visitors (Contact page, footer). */
+  display: HoursRow[];
+  /** OpeningHoursSpecification entries for JSON-LD structured data. */
+  schema: OpeningHoursSpec[];
+}
+
 export interface BookingLocation {
   id: LocationId;
   name: string;
@@ -25,7 +45,32 @@ export interface BookingLocation {
   smsTel: string;     // sms: link form
   bookingUrl: string; // resolved scheduling URL
   hasDedicatedUrl: boolean; // true if a real per-location URL resolved (not the shared fallback)
+  hours: LocationHours; // single source of truth for displayed + structured hours
 }
+
+const KINGSPORT_HOURS: LocationHours = {
+  display: [
+    { days: "Monday - Thursday", time: "10:00 AM - 7:00 PM" },
+    { days: "Friday", time: "9:00 AM - 5:00 PM" },
+    { days: "Saturday", time: "By Appointment Only" },
+    { days: "Sunday", time: "Closed" },
+  ],
+  schema: [
+    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"], opens: "10:00", closes: "19:00" },
+    { dayOfWeek: ["Friday"], opens: "09:00", closes: "17:00" },
+  ],
+};
+
+const JONESBOROUGH_HOURS: LocationHours = {
+  display: [
+    { days: "Monday - Friday", time: "10:00 AM - 6:00 PM" },
+    { days: "Saturday", time: "By Appointment Only" },
+    { days: "Sunday", time: "Closed" },
+  ],
+  schema: [
+    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:00", closes: "18:00" },
+  ],
+};
 
 const env = (import.meta as any).env ?? {};
 
@@ -62,6 +107,7 @@ export const LOCATIONS: Record<LocationId, BookingLocation> = {
     smsTel: "sms:+14237651393",
     bookingUrl: kingsportResolved,
     hasDedicatedUrl: Boolean(KINGSPORT_URL_RAW || KINGSPORT_DEFAULT_URL),
+    hours: KINGSPORT_HOURS,
   },
   jonesborough: {
     id: "jonesborough",
@@ -73,6 +119,7 @@ export const LOCATIONS: Record<LocationId, BookingLocation> = {
     smsTel: "sms:+14236462169",
     bookingUrl: jonesboroughResolved,
     hasDedicatedUrl: Boolean(JONESBOROUGH_URL_RAW || JONESBOROUGH_DEFAULT_URL),
+    hours: JONESBOROUGH_HOURS,
   },
 };
 

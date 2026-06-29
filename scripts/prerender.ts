@@ -31,6 +31,7 @@ import { data as onlineSkincareData } from "../src/pages/seo/OnlineSkincareKings
 import { data as womensHealthData } from "../src/pages/seo/WomensHealthKingsport.tsx";
 import { data as mensHealthData } from "../src/pages/seo/MensHealthKingsport.tsx";
 import { data as telehealthData } from "../src/pages/Telehealth.tsx";
+import { LOCATIONS } from "../src/lib/booking.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,12 +61,12 @@ function jsonLdSafe(obj: unknown): string {
 // ---------------------------------------------------------------------------
 // Shared LocalBusiness JSON-LD (kept aligned with SchemaMarkup.tsx)
 // ---------------------------------------------------------------------------
-const WEEKDAY_HOURS = {
+// Org-level hours mirror the flagship Kingsport location (matches the org
+// telephone below). Sourced from the single source of truth in src/lib/booking.
+const WEEKDAY_HOURS = LOCATIONS.kingsport.hours.schema.map((s) => ({
   "@type": "OpeningHoursSpecification",
-  dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-  opens: "09:00",
-  closes: "17:00",
-} as const;
+  ...s,
+}));
 
 const LOCAL_BUSINESS_SCHEMA = {
   "@context": "https://schema.org",
@@ -90,7 +91,7 @@ const LOCAL_BUSINESS_SCHEMA = {
     "Hormone Replacement Therapy",
     "Peptide Therapy",
   ],
-  openingHoursSpecification: [WEEKDAY_HOURS],
+  openingHoursSpecification: WEEKDAY_HOURS,
   sameAs: [
     "https://www.facebook.com/balancedwellnessmedspa",
     "https://www.instagram.com/balancedwellnessmedspa",

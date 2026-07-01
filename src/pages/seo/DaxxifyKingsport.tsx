@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Daxxify Kingsport TN | Longest-Lasting Neurotoxin | Balanced Wellness",
     description: "Daxxify in Kingsport TN at Balanced Wellness Medical Spa. The newest FDA-approved neurotoxin lasting up to 6 months. Expert injectors, natural results. Schedule a free consultation.",

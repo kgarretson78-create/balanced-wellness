@@ -24,6 +24,8 @@ export function LocalBusinessSchema() {
       paymentAccepted: "Cash, Credit Card, Debit Card, CareCredit, Cherry Financing",
       medicalSpecialty: [
         "Botox",
+        "Dysport",
+        "Daxxify",
         "Dermal Fillers",
         "RF Microneedling",
         "CO2 Laser Resurfacing",
@@ -72,7 +74,7 @@ export function LocalBusinessSchema() {
           },
           hasMap: "https://maps.google.com/?q=120+Cherokee+St,+Jonesborough,+TN+37659",
           availableService: [
-            "Botox", "Dermal Fillers", "CO2 Laser Resurfacing", "RF Microneedling",
+            "Botox", "Dysport", "Daxxify", "Dermal Fillers", "CO2 Laser Resurfacing", "RF Microneedling",
             "IV Therapy", "Medical Weight Loss", "Skin Rejuvenation", "Hormone Optimization",
           ].map((svc) => ({
             "@type": "MedicalProcedure",
@@ -102,7 +104,7 @@ export function LocalBusinessSchema() {
           },
           hasMap: "https://maps.google.com/?q=1309+S+John+B+Dennis+Hwy,+Ste+104,+Kingsport,+TN+37660",
           availableService: [
-            "Botox", "Dermal Fillers", "Laser Treatments", "Medical Weight Loss",
+            "Botox", "Dysport", "Daxxify", "Dermal Fillers", "Laser Treatments", "Medical Weight Loss",
             "RF Microneedling", "Skin Rejuvenation", "Hormone Optimization", "IV Therapy", "Peptide Therapy",
           ].map((svc) => ({
             "@type": "MedicalProcedure",

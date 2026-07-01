@@ -156,6 +156,11 @@ interface IVLoungePageData {
   ivMenu: IVMenuItem[];
   ivAddOns: IVAddOn[];
   membership: { name: string; price: number; duration: string; desc: string };
+  wellnessServices: {
+    h2: string;
+    intro: string;
+    items: { name: string; desc: string; path: string }[];
+  };
   faqs: FAQ[];
   relatedLinks: { name: string; path: string; desc: string }[];
   schemaDescription: string;
@@ -534,6 +539,18 @@ function renderIVLoungeBody(d: IVLoungePageData, canonicalUrl: string): string {
         `<li><strong>${escapeHtml(a.name)}</strong> (+$${a.price}) — ${escapeHtml(a.desc)}</li>`,
     )
     .join("\n          ");
+  const wellnessServices = d.wellnessServices.items
+    .map(
+      (s) =>
+        `<li><a href="${escapeAttr(s.path)}"><strong>${escapeHtml(s.name)}</strong></a> — ${escapeHtml(s.desc)}</li>`,
+    )
+    .join("\n          ");
+  const kingsportHours = LOCATIONS.kingsport.hours.display
+    .map((r) => `${escapeHtml(r.days)}: ${escapeHtml(r.time)}`)
+    .join("<br>");
+  const jonesboroughHours = LOCATIONS.jonesborough.hours.display
+    .map((r) => `${escapeHtml(r.days)}: ${escapeHtml(r.time)}`)
+    .join("<br>");
   const faqs = d.faqs
     .map(
       (f) => `
@@ -600,6 +617,14 @@ function renderIVLoungeBody(d: IVLoungePageData, canonicalUrl: string): string {
         <p><em>* IV therapy may support hydration, energy, recovery, and general wellness goals. Not a treatment for any specific disease. Health screening required.</em></p>
       </section>
       <section>
+        <h2>${escapeHtml(d.wellnessServices.h2)}</h2>
+        <p>${escapeHtml(d.wellnessServices.intro)}</p>
+        <ul>
+          ${wellnessServices}
+        </ul>
+        <p><em>* These wellness services may support hydration, energy, recovery, and general wellness goals. They are not treatments for any specific disease and are not appropriate for everyone. A provider health screening is required.</em></p>
+      </section>
+      <section>
         <h2>Frequently Asked Questions</h2>${faqs}
       </section>
       <section>
@@ -608,13 +633,15 @@ function renderIVLoungeBody(d: IVLoungePageData, canonicalUrl: string): string {
           <strong>Kingsport</strong><br>
           1309 South John B Dennis Hwy, Suite 104<br>
           Kingsport, TN 37660<br>
-          <a href="tel:423-765-1393">(423) 765-1393</a>
+          <a href="tel:423-765-1393">(423) 765-1393</a><br>
+          ${kingsportHours}
         </address>
         <address>
           <strong>Jonesborough</strong><br>
           120 South Cherokee St<br>
           Jonesborough, TN 37659<br>
-          <a href="tel:423-646-2169">(423) 646-2169</a>
+          <a href="tel:423-646-2169">(423) 646-2169</a><br>
+          ${jonesboroughHours}
         </address>
       </section>
       <section>

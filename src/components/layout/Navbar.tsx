@@ -31,6 +31,7 @@ export function Navbar() {
     { name: "Laser & Skin Treatments", path: "/laser-treatments" },
     { name: "Weight Loss & Metabolic", path: "/weight-loss" },
     { name: "Wellness & Longevity", path: "/wellness" },
+    { name: "IV Hydration Lounge", path: "/iv-lounge-kingsport-tn" },
     { name: "Hormone Optimization", path: "/hormone-optimization" },
     { name: "Telehealth & Virtual Care", path: "/telehealth" },
     { name: "Memberships", path: "/memberships" },
@@ -39,7 +40,7 @@ export function Navbar() {
     { name: "AI Skin Analyzer", path: "/skin-analyzer" },
   ];
 
-  const isServicePage = ["/services", "/injectables", "/laser-treatments", "/weight-loss", "/wellness", "/hormone-optimization", "/telehealth", "/memberships", "/gallery", "/skin-analyzer", "/flexible-payments"].includes(location);
+  const isServicePage = ["/services", "/injectables", "/laser-treatments", "/weight-loss", "/wellness", "/iv-lounge-kingsport-tn", "/hormone-optimization", "/telehealth", "/memberships", "/gallery", "/skin-analyzer", "/flexible-payments"].includes(location);
 
   const navLinkClass = (path: string, isActive?: boolean) =>
     `text-[13px] font-medium tracking-wide transition-colors duration-300 ${

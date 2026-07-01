@@ -19,6 +19,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { data as botoxData } from "../src/pages/seo/BotoxKingsport.tsx";
+import { data as dysportData } from "../src/pages/seo/DysportKingsport.tsx";
+import { data as daxxifyData } from "../src/pages/seo/DaxxifyKingsport.tsx";
 import { data as rfMicroData } from "../src/pages/seo/RFMicroneedlingKingsport.tsx";
 import { data as weightLossData } from "../src/pages/seo/MedicalWeightLossKingsport.tsx";
 import { data as hormoneData } from "../src/pages/seo/HormoneTherapyKingsport.tsx";
@@ -863,6 +865,8 @@ async function main() {
   }
 
   await prerenderServiceRoute("/botox-kingsport-tn", botoxData as ServicePageData, template);
+  await prerenderServiceRoute("/dysport-kingsport-tn", dysportData as ServicePageData, template);
+  await prerenderServiceRoute("/daxxify-kingsport-tn", daxxifyData as ServicePageData, template);
   await prerenderServiceRoute(
     "/rf-microneedling-kingsport-tn",
     rfMicroData as ServicePageData,

@@ -10,11 +10,13 @@ import {
   Droplet,
   Sparkles,
   ArrowRight,
+  Clock,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
 import { ServiceSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
+import { LOCATIONS as BOOKING_LOCATIONS } from "@/lib/booking";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -27,11 +29,11 @@ const CANONICAL_ORIGIN = "https://www.balancedmedicalspa.com";
 // Single source of truth — also consumed by the prerender script.
 export const data = {
   seo: {
-    title: "IV Lounge Kingsport TN | IV Hydration Drips & Vitamin Therapy | Balanced Wellness",
+    title: "IV Hydration Kingsport & Jonesborough TN | IV Lounge, NAD+, B12 & Vitamin Injections | Balanced Wellness",
     description:
-      "IV Lounge in Kingsport TN at Balanced Wellness Medical Spa. IV hydration drips, Myers Cocktail, immune, recovery, beauty, and energy infusions. 45-minute sessions in a calm, luxe setting. Two Tri-Cities locations. Call (423) 765-1393.",
+      "IV hydration and vitamin therapy in Kingsport and Jonesborough, TN at Balanced Wellness Medical Spa. IV drips, Myers Cocktail, NAD+ therapy, B12 & Vitamin D, lipotropic/skinny shots, peptide wellness, and wellness consults. 45-minute sessions in a calm, luxe setting. Two Tri-Cities locations. Call (423) 765-1393.",
     keywords:
-      "IV lounge Kingsport TN, IV hydration Kingsport TN, IV therapy Kingsport TN, IV drip near me Kingsport, Myers Cocktail Kingsport, hangover IV Kingsport, NAD IV Kingsport, IV vitamins Tri-Cities TN, IV hydration Johnson City TN, IV drip Jonesborough TN",
+      "IV hydration Kingsport TN, IV hydration Jonesborough TN, IV lounge Kingsport TN, IV therapy Kingsport TN, IV drip near me Kingsport, Myers Cocktail Kingsport, NAD+ therapy Kingsport TN, B12 injection Kingsport TN, vitamin D injection Kingsport, lipotropic skinny shot Kingsport TN, peptide wellness Kingsport, IV vitamins Tri-Cities TN, IV hydration Johnson City TN, IV drip Jonesborough TN",
     canonicalPath: "/iv-lounge-kingsport-tn",
   },
   hero: {
@@ -224,6 +226,43 @@ export const data = {
     desc:
       "An IV-focused membership that makes regular hydration and wellness drips easier to keep on the calendar. Ask about details when you arrive — current members save on each visit and unlock booster perks.",
   },
+  wellnessServices: {
+    h2: "Beyond the Drip — Injections, NAD+ & Wellness Consults",
+    intro:
+      "Not everyone wants a full IV. Our IV Lounge also offers quick vitamin injections, NAD+ therapy, and provider-led wellness consults so you can match the visit to your goals and your schedule. Each option is offered after a brief health review by a licensed provider.",
+    items: [
+      {
+        name: "IV Hydration Drips",
+        desc: "Liter-bag IV fluids with electrolytes, vitamins, and minerals — see the full drip menu above. A calm, ~45-minute reset for hydration, energy, recovery, and general wellness goals.",
+        path: "#iv-menu",
+      },
+      {
+        name: "NAD+ Therapy",
+        desc: "NAD+ is a coenzyme found in every cell. NAD+ IV and injection options are popular with guests focused on energy, focus, and healthy-aging wellness goals. Suitability is reviewed by a provider first.",
+        path: "/peptide-therapy-kingsport-tn",
+      },
+      {
+        name: "B12 + Vitamin D Injections",
+        desc: "Quick intramuscular B12 and Vitamin D shots — a fast option for guests supporting everyday energy and general wellness between drips.",
+        path: "/wellness",
+      },
+      {
+        name: "Lipotropic / Skinny Shot",
+        desc: "A lipotropic (fat-metabolism support) injection that many guests pair with a medically supervised weight-loss program as a wellness add-on. Not a stand-alone weight-loss treatment.",
+        path: "/medical-weight-loss-kingsport-tn",
+      },
+      {
+        name: "Peptide Wellness",
+        desc: "Provider-directed peptide protocols for recovery, sleep, and healthy-aging wellness goals. Every peptide plan starts with a health screening and provider review.",
+        path: "/peptide-therapy-kingsport-tn",
+      },
+      {
+        name: "Wellness Consults",
+        desc: "Not sure where to start? Book a wellness consult and a provider will review your goals, history, and labs to help you choose IV, injection, or peptide options — in person or, where appropriate, via telehealth.",
+        path: "/telehealth",
+      },
+    ],
+  },
   faqs: [
     {
       q: "How much does an IV drip cost in Kingsport TN?",
@@ -258,6 +297,18 @@ export const data = {
       a: "Yes — many of our IV Lounge guests come from Johnson City, Jonesborough, Bristol, and the broader Tri-Cities. We have a Kingsport location at 1309 S John B Dennis Hwy, Suite 104, and a Jonesborough location at 120 S Cherokee St that's convenient for Johnson City residents. Choose the location that works best when you book.",
     },
     {
+      q: "What are your IV Lounge hours in Kingsport and Jonesborough?",
+      a: "Our Kingsport location at 1309 S John B Dennis Hwy, Suite 104 is open Monday through Thursday 10 AM–7 PM and Friday 9 AM–5 PM, with Saturdays by appointment. Our Jonesborough location at 120 S Cherokee St is open Monday through Friday 10 AM–6 PM, with Saturdays by appointment. Call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169 to confirm same-day availability.",
+    },
+    {
+      q: "Do you offer NAD+ therapy, B12, or vitamin injections in addition to IV drips?",
+      a: "Yes. Alongside our IV drip menu, the IV Lounge offers NAD+ therapy, B12 and Vitamin D injections, lipotropic/skinny shots, and peptide wellness options. These are quick alternatives to a full IV and, like our drips, are offered after a brief provider health review. NAD+ and injections may support energy, focus, and general wellness goals — they are not treatments for any specific disease and are not appropriate for everyone.",
+    },
+    {
+      q: "Can I book a wellness consult if I'm not sure which service is right for me?",
+      a: "Absolutely. If you're unsure whether an IV drip, a vitamin injection, NAD+, or a peptide plan fits your goals, book a wellness consult. A licensed provider will review your goals, health history, and any labs, then help you choose an option — in person at our Kingsport or Jonesborough location, or via telehealth where appropriate.",
+    },
+    {
       q: "How do I book an IV drip at Balanced Wellness?",
       a: "Use the booking buttons on this page to choose your preferred location, or call our Kingsport IV Lounge at (423) 765-1393 or Jonesborough at (423) 646-2169. Walk-ins are welcome when availability allows, but booking ahead guarantees your time slot.",
     },
@@ -271,7 +322,7 @@ export const data = {
     { name: "Medical Spa Kingsport TN", path: "/medical-spa-kingsport-tn", desc: "Our full Kingsport med spa overview." },
   ],
   schemaDescription:
-    "IV hydration and vitamin therapy lounge in Kingsport, TN at Balanced Wellness Medical Spa. Medically supervised 45-minute IV drips including Myers Cocktail, Get-Up and Go, Brainstorm, Recovery, Reboot, Alleviate (PMS Relief), Quench, Hydration (saline), B-Lean, and Inner Body/Beauty.",
+    "IV hydration and vitamin therapy lounge in Kingsport and Jonesborough, TN at Balanced Wellness Medical Spa. Medically supervised 45-minute IV drips including Myers Cocktail, Get-Up and Go, Brainstorm, Recovery, Reboot, Alleviate (PMS Relief), Quench, Hydration (saline), B-Lean, and Inner Body/Beauty, plus NAD+ therapy, B12 and Vitamin D injections, lipotropic/skinny shots, peptide wellness, and provider-led wellness consults.",
 };
 
 const LOCATIONS = [
@@ -281,6 +332,7 @@ const LOCATIONS = [
     zip: "Kingsport, TN 37660",
     phone: "(423) 765-1393",
     tel: "423-765-1393",
+    hours: BOOKING_LOCATIONS.kingsport.hours.display,
   },
   {
     city: "Jonesborough",
@@ -288,6 +340,7 @@ const LOCATIONS = [
     zip: "Jonesborough, TN 37659",
     phone: "(423) 646-2169",
     tel: "423-646-2169",
+    hours: BOOKING_LOCATIONS.jonesborough.hours.display,
   },
 ];
 
@@ -608,8 +661,50 @@ export default function IVLoungeKingsport() {
         </div>
       </section>
 
+      {/* Wellness Injections & Consults */}
+      <section className="py-16 md:py-20 bg-secondary" id="wellness-services">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-2">More Than Drips</p>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{data.wellnessServices.h2}</h2>
+            <p className="text-foreground/60 text-sm mt-3 max-w-2xl mx-auto">{data.wellnessServices.intro}</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {data.wellnessServices.items.map((item, i) => {
+              const isAnchor = item.path.startsWith("#");
+              const inner = (
+                <>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="w-4 h-4 text-primary flex-shrink-0" />
+                    <h3 className="font-serif text-lg font-bold text-foreground leading-snug">{item.name}</h3>
+                  </div>
+                  <p className="text-sm text-foreground/65 leading-relaxed flex-1">{item.desc}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-primary group-hover:gap-2.5 transition-all">
+                    Learn more <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </>
+              );
+              const className =
+                "group flex flex-col bg-white rounded-2xl border border-border p-6 hover:luxury-shadow hover:border-primary/30 transition-all";
+              return isAnchor ? (
+                <a key={i} href={item.path} className={className}>
+                  {inner}
+                </a>
+              ) : (
+                <Link key={i} href={item.path} className={className}>
+                  {inner}
+                </Link>
+              );
+            })}
+          </div>
+          <p className="text-[11px] text-foreground/45 italic text-center mt-8 max-w-2xl mx-auto">
+            * These wellness services may support hydration, energy, recovery, and general wellness goals. They are not treatments for any specific disease, are not appropriate for everyone, and do not replace medical care. A brief provider health screening is required before every service.
+          </p>
+        </div>
+      </section>
+
       {/* FAQ */}
-      <section className="py-16 md:py-20 bg-secondary">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground text-center mb-10">
             Frequently Asked Questions
@@ -652,6 +747,16 @@ export default function IVLoungeKingsport() {
                   >
                     <Phone className="w-3.5 h-3.5" /> {loc.phone}
                   </a>
+                  <div className="mt-2.5 flex items-start gap-2 text-xs text-foreground/60">
+                    <Clock className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5" />
+                    <div>
+                      {loc.hours.map((row) => (
+                        <p key={row.days}>
+                          {row.days}: {row.time}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}

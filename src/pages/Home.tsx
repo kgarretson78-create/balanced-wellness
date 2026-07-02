@@ -133,51 +133,50 @@ export default function Home() {
       />
 
       {/* ── HERO ── */}
-      <section className="relative flex items-center overflow-hidden luxury-gradient" style={{ minHeight: "calc(100vh - 90px)" }}>
-        {/* subtle emerald dot texture + soft brand glows for a bright, luxurious ground */}
-        <div className="absolute inset-0 opacity-[0.035]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(158 40% 26%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
-        <div className="absolute -top-16 right-[6%] w-[440px] h-[440px] rounded-full bg-primary/10 blur-[120px] pulse-glow" />
-        <div className="absolute bottom-0 left-[4%] w-[360px] h-[360px] rounded-full bg-[hsl(var(--blush))]/25 blur-[100px] pulse-glow" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full bg-champagne/25 blur-[110px]" />
+      <section className="relative overflow-hidden luxury-gradient">
+        {/* subtle emerald dot texture + soft, contained brand glows */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(158 40% 26%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
+        <div className="absolute -top-24 right-[-6%] w-72 h-72 rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-[-4rem] left-[-4%] w-64 h-64 rounded-full bg-[hsl(var(--blush)/0.12)] blur-[90px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-16 md:py-20">
-          <div className="grid lg:grid-cols-[1.12fr_0.88fr] gap-10 lg:gap-14 items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             {/* LEFT — headline, positioning, CTAs */}
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
-              <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/70 backdrop-blur-sm border border-primary/10 text-primary text-xs font-semibold tracking-wider uppercase mb-6 luxury-shadow">
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+              <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/80 backdrop-blur-sm border border-primary/10 text-primary text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 luxury-shadow">
                 <MapPin className="w-3.5 h-3.5 text-gold" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-serif font-bold text-foreground leading-[1.08] mb-5">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-[1.12] mb-4">
                 The Tri-Cities Destination for{" "}
                 <span className="text-primary">Aesthetics &amp; Wellness</span>,{" "}
-                <span className="italic text-gradient-gold">done beautifully</span>
+                <span className="italic text-gold">done beautifully</span>
               </h1>
-              <p className="text-base md:text-lg text-foreground/65 mb-4 leading-relaxed max-w-xl">
+              <p className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed max-w-xl">
                 Medical aesthetics, weight loss, hormones, IV hydration &amp; telehealth — personalized and supervised by experienced medical providers.
               </p>
 
-              <div className="flex flex-wrap gap-2 mb-8">
-                {["Botox & Dysport", "Dermal Fillers", "RF Microneedling", "CO2 Laser", "Medical Weight Loss", "Hormones", "IV Hydration"].map((s) => (
-                  <span key={s} className="text-[11px] font-medium text-foreground/60 bg-white/70 border border-border rounded-full px-3 py-1 backdrop-blur-sm">{s}</span>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mb-6">
                 <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
-                  className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm">
+                  className="group px-7 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 text-sm">
                   Book a Free Consultation
                   <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </button>
                 <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))}
-                  className="px-8 py-3.5 bg-white text-foreground text-center font-medium rounded-full border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300 text-sm flex items-center justify-center gap-2">
+                  className="px-7 py-3.5 bg-white text-foreground text-center font-medium rounded-full border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300 text-sm flex items-center justify-center gap-2">
                   <Bot className="w-4 h-4 text-primary" /> Ask KelliAI
                 </button>
               </div>
 
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-6">
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["Botox & Dysport", "Dermal Fillers", "RF Microneedling", "CO2 Laser", "Medical Weight Loss", "Hormones", "IV Hydration"].map((s) => (
+                  <span key={s} className="text-[11px] font-medium text-foreground/60 bg-white/70 border border-border rounded-full px-3 py-1">{s}</span>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {["Board-certified medical providers", "FDA-approved treatments", "Free consultation — no commitment"].map((t) => (
-                  <div key={t} className="flex items-center gap-2 text-foreground/55 text-xs">
+                  <div key={t} className="flex items-center gap-2 text-foreground/60 text-xs">
                     <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" /> {t}
                   </div>
                 ))}
@@ -185,30 +184,30 @@ export default function Home() {
             </motion.div>
 
             {/* RIGHT — brand + social proof + location quick-book card */}
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.2 }}>
-              <div className="relative luxury-card bg-white/85 backdrop-blur p-6 md:p-7">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm shadow-primary/20">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }} className="w-full max-w-md mx-auto lg:mx-0">
+              <div className="relative luxury-card bg-white/90 backdrop-blur p-6 md:p-7 mt-3">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm shadow-primary/20">
                   Now Booking · Two Locations
                 </div>
 
-                <img src="/images/logo.png" alt="Balanced Wellness Medical Spa logo" className="h-20 md:h-24 w-auto object-contain mx-auto mb-4" width={260} height={130} />
+                <img src="/images/logo.png" alt="Balanced Wellness Medical Spa logo" className="h-16 md:h-20 w-auto max-w-full object-contain mx-auto mb-4 mt-1" width={220} height={110} />
 
                 <div className="flex items-center justify-center gap-2 mb-1">
                   <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-gold text-gold" />)}</div>
                   <span className="text-sm font-semibold text-foreground">5.0</span>
                 </div>
-                <p className="text-center text-xs text-foreground/50 mb-5">200+ five-star reviews · 8,000+ patients treated</p>
+                <p className="text-center text-xs text-foreground/55 mb-5">200+ five-star reviews · 8,000+ patients treated</p>
 
                 <div className="grid grid-cols-3 gap-2 mb-5">
                   {stats.slice(0, 3).map((stat) => (
                     <div key={stat.label} className="text-center rounded-xl bg-secondary/60 border border-border py-3 px-1">
                       <p className="text-lg md:text-xl font-serif font-bold text-primary leading-none stat-number">{stat.number}</p>
-                      <p className="text-[9px] text-foreground/50 uppercase tracking-wider mt-1 leading-tight">{stat.label}</p>
+                      <p className="text-[9px] text-foreground/55 uppercase tracking-wider mt-1 leading-tight">{stat.label}</p>
                     </div>
                   ))}
                 </div>
 
-                <p className="text-[11px] text-foreground/50 uppercase tracking-widest font-semibold text-center mb-2.5">Book Now — Choose Your Location</p>
+                <p className="text-[11px] text-foreground/55 uppercase tracking-widest font-semibold text-center mb-2.5">Book Now — Choose Your Location</p>
                 <div className="grid gap-2.5">
                   {[LOCATIONS.kingsport, LOCATIONS.jonesborough].map((loc) => (
                     <a key={loc.id} href={loc.bookingUrl} target="_blank" rel="noopener noreferrer" onClick={() => setPreferredLocation(loc.id)}
@@ -218,7 +217,7 @@ export default function Home() {
                     </a>
                   ))}
                 </div>
-                <p className="text-center text-[11px] text-foreground/45 mt-4">Prefer to chat first? <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))} className="text-primary font-semibold hover:underline underline-offset-2">Ask KelliAI, your concierge</button></p>
+                <p className="text-center text-[11px] text-foreground/50 mt-4">Prefer to chat first? <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))} className="text-primary font-semibold hover:underline underline-offset-2">Ask KelliAI, your concierge</button></p>
               </div>
             </motion.div>
           </div>

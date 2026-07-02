@@ -103,6 +103,8 @@ export interface Provider {
   title: string;
   /** May contain multiple paragraphs separated by a blank line ("\n\n"). */
   bio: string;
+  /** Concise single-paragraph version shown on the homepage card when the full bio is too long; About always renders the full `bio`. */
+  excerpt?: string;
   /** Monogram initials used for the refined placeholder avatar (fallback). */
   initials: string;
   /** Optional real headshot served from /public — renders instead of the monogram. */
@@ -134,7 +136,8 @@ export const PROVIDERS: Provider[] = [
     name: "Shelly Ketron",
     credential: "PA-C",
     title: "Certified Physician Assistant",
-    bio: "Advanced aesthetic injector and medical lead, blending clinical precision with a natural, balanced aesthetic across both Tri-Cities locations.",
+    bio: "With a foundation in vascular surgery and a passion for aesthetic medicine, Shelly Ketron, PA-C, blends advanced medical expertise with an artistic eye to create refined, natural-looking results. She believes the most beautiful outcomes are those that enhance each patient's unique features while preserving their individuality.\n\nKnown for her gentle approach and meticulous attention to detail, Shelly specializes in full-face rejuvenation, helping patients achieve a refreshed, confident appearance through customized treatment plans. Her extensive knowledge of facial anatomy and commitment to continuing education ensure that every procedure is performed with the highest standards of safety, precision, and excellence.\n\nFor Shelly, aesthetic medicine is about far more than treating lines and wrinkles — it's about restoring confidence, empowering self-esteem, and helping every patient feel like the best version of themselves. She values the relationships she builds with her patients and takes pride in creating an experience that is warm, honest, and centered around each individual's goals.\n\nOutside the practice, Shelly enjoys spending time with her family and friends and making memories at the lake. Her genuine love for people, combined with her dedication to exceptional patient care, is at the heart of everything she does.\n\nAt Balanced Wellness, Shelly is committed to delivering timeless, elegant results that leave patients looking naturally refreshed and feeling beautifully confident.",
+    excerpt: "With a foundation in vascular surgery and a passion for aesthetic medicine, Shelly blends advanced medical expertise with an artistic eye — specializing in full-face rejuvenation and natural-looking results that enhance each patient's individuality.",
     initials: "SK",
     photo: "/images/shelly-ketron.webp",
     photoAlt: "Shelly Ketron, PA-C at Balanced Wellness Medical Spa",

@@ -418,7 +418,7 @@ export default function Home() {
                   <span className="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true" />{p.title}
                 </p>
                 <div className="space-y-2">
-                  {p.bio.split("\n\n").map((para, j) => (
+                  {(p.excerpt ?? p.bio).split("\n\n").map((para, j) => (
                     <p key={j} className="text-sm text-foreground/70 leading-relaxed">{para}</p>
                   ))}
                 </div>

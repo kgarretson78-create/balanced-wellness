@@ -106,6 +106,19 @@ export interface Provider {
   initials: string;
 }
 
+export interface LeadershipMember {
+  name: string;
+  credential: string;
+  title: string;
+  bio: string;
+  /** WebP portrait (primary) served from /images. */
+  photo: string;
+  /** JPG fallback portrait for browsers without WebP support. */
+  photoFallback: string;
+  /** Descriptive alt text for the portrait. */
+  alt: string;
+}
+
 /**
  * Care team. Photos are intentionally omitted (no real provider portraits in
  * the repo yet) — we render refined monogram avatars instead of generic stock.
@@ -125,6 +138,23 @@ export const PROVIDERS: Provider[] = [
     title: "Family Nurse Practitioner",
     bio: "Focused on weight loss, hormone optimization, and whole-person wellness — building personalized, medically supervised plans for lasting results.",
     initials: "SC",
+  },
+];
+
+/**
+ * Practice leadership — operations, growth, and technology support for the
+ * clinical team. Kept distinct from PROVIDERS so nobody here is presented as a
+ * licensed medical provider.
+ */
+export const LEADERSHIP: LeadershipMember[] = [
+  {
+    name: "Kelli Garretson Griffey",
+    credential: "MBA",
+    title: "COO · Founder of KelliAI · Healthcare Consultant",
+    bio: "Kelli Garretson Griffey serves as COO of Balanced Wellness Medical Spa and is the founder of KelliAI, an AI-powered platform built to support medical spa operations, patient communication, and lead conversion. With an MBA and more than 15 years of healthcare experience, including a background in ophthalmology and healthcare consulting, Kelli brings together clinical insight, business strategy, and technology innovation to help create a more seamless patient experience. She helps lead operations, growth, technology, and patient experience across the practice while supporting the team's mission to deliver personalized, high-quality aesthetic and wellness care.",
+    photo: "/images/kelli-garretson-griffey.webp",
+    photoFallback: "/images/kelli-garretson-griffey.jpg",
+    alt: "Kelli Garretson Griffey, MBA, COO and Founder of KelliAI at Balanced Wellness Medical Spa.",
   },
 ];
 

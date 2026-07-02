@@ -101,15 +101,33 @@ export interface Provider {
   name: string;
   credential: string;
   title: string;
+  /** May contain multiple paragraphs separated by a blank line ("\n\n"). */
   bio: string;
-  /** Monogram initials used for the elegant placeholder avatar. */
+  /** Monogram initials used for the refined placeholder avatar (fallback). */
   initials: string;
+  /** Optional real headshot served from /public — renders instead of the monogram. */
+  photo?: string;
+  /** Descriptive alt text for the headshot; required whenever `photo` is set. */
+  photoAlt?: string;
+}
+
+export interface LeadershipMember {
+  name: string;
+  /** Optional post-nominal (e.g. "MBA"). Omitted when the member has none. */
+  credential?: string;
+  title: string;
+  bio: string;
+  /** WebP portrait (primary) served from /images. */
+  photo: string;
+  /** JPG fallback portrait for browsers without WebP support. */
+  photoFallback: string;
+  /** Descriptive alt text for the portrait. */
+  alt: string;
 }
 
 /**
- * Care team. Photos are intentionally omitted (no real provider portraits in
- * the repo yet) — we render refined monogram avatars instead of generic stock.
- * Swap in real headshots by adding a `photo` field and rendering it in Home.
+ * Care team. Providers with a real headshot render the photo; the rest fall
+ * back to a refined monogram avatar (never generic stock).
  */
 export const PROVIDERS: Provider[] = [
   {
@@ -118,13 +136,42 @@ export const PROVIDERS: Provider[] = [
     title: "Certified Physician Assistant",
     bio: "Advanced aesthetic injector and medical lead, blending clinical precision with a natural, balanced aesthetic across both Tri-Cities locations.",
     initials: "SK",
+    photo: "/images/shelly-ketron.webp",
+    photoAlt: "Shelly Ketron, PA-C at Balanced Wellness Medical Spa",
   },
   {
     name: "Stephanie Childress",
-    credential: "FNP",
+    credential: "FNP-C",
     title: "Family Nurse Practitioner",
-    bio: "Focused on weight loss, hormone optimization, and whole-person wellness — building personalized, medically supervised plans for lasting results.",
+    bio: "Stephanie Childress, FNP-C, brings over 15 years of nursing experience to Balanced Wellness, including the last eight years as a Family Nurse Practitioner. Her transition into aesthetic medicine was a natural extension of her clinical expertise and passion for helping others look and feel their most confident. By combining a deep understanding of anatomy and physiology, Stephanie delivers results that are both natural and refined. She approaches each patient with intention and precision, while maintaining a strong focus on individualized care.\n\nOutside of her professional life, she is a devoted wife and proud mother of two boys. She enjoys cooking, gardening, and spending time outdoors with her family.",
     initials: "SC",
+    photo: "/images/stephanie-childress.webp",
+    photoAlt: "Stephanie Childress, FNP-C at Balanced Wellness Medical Spa",
+  },
+];
+
+/**
+ * Practice leadership — operations, growth, and technology support for the
+ * clinical team. Kept distinct from PROVIDERS so nobody here is presented as a
+ * licensed medical provider.
+ */
+export const LEADERSHIP: LeadershipMember[] = [
+  {
+    name: "Kelli Garretson Griffey",
+    credential: "MBA",
+    title: "COO · Founder of KelliAI · Healthcare Consultant",
+    bio: "Kelli Garretson Griffey serves as COO of Balanced Wellness Medical Spa and is the founder of KelliAI, an AI-powered platform built to support medical spa operations, patient communication, and lead conversion. With an MBA and more than 15 years of healthcare experience, including a background in ophthalmology and healthcare consulting, Kelli brings together clinical insight, business strategy, and technology innovation to help create a more seamless patient experience. She helps lead operations, growth, technology, and patient experience across the practice while supporting the team's mission to deliver personalized, high-quality aesthetic and wellness care. Outside of work, Kelli is a wife to Major Griffey, Jr., and proud mother to her daughter, Amelia. Her work is driven by a deep commitment to family, entrepreneurship, innovation, and helping people look, feel, and live more balanced.",
+    photo: "/images/kelli-garretson-griffey.webp",
+    photoFallback: "/images/kelli-garretson-griffey.jpg",
+    alt: "Kelli Garretson Griffey, MBA, COO and Founder of KelliAI at Balanced Wellness Medical Spa.",
+  },
+  {
+    name: "Sophia Arias",
+    title: "CFO · International Business Strategist",
+    bio: "Sophia Arias serves as CFO of Balanced Wellness Medical Spa, bringing a strong background in international business, financial strategy, and operational leadership. She oversees the financial side of the practice, helping guide budgeting, growth planning, vendor relationships, and long-term business development. With a global business perspective and a detail-oriented approach, Sophia helps ensure Balanced Wellness operates with structure, accountability, and a strong foundation for continued expansion. Her leadership supports the practice's mission to deliver elevated aesthetic and wellness care while building a sustainable, forward-thinking business.",
+    photo: "/images/sophia-arias.webp",
+    photoFallback: "/images/sophia-arias.jpg",
+    alt: "Sophia Arias, CFO and International Business Strategist at Balanced Wellness Medical Spa.",
   },
 ];
 

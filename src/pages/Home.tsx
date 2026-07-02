@@ -18,6 +18,7 @@ import {
   BROWSE_CONCERNS,
   SIGNATURE_TREATMENTS,
   PROVIDERS,
+  LEADERSHIP,
   TRUST_SIGNALS,
   HEADLINE_STATS,
 } from "@/lib/site";
@@ -396,17 +397,63 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {PROVIDERS.map((p, i) => (
             <motion.div key={p.name} {...item(i)} className="luxury-card p-7 flex gap-5 items-start">
-              <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
-                <span className="text-2xl font-serif font-bold text-gradient-gold">{p.initials}</span>
-              </div>
+              {p.photo ? (
+                <img
+                  src={p.photo}
+                  alt={p.photoAlt ?? `${p.name}, ${p.credential} at Balanced Wellness Medical Spa`}
+                  width={112}
+                  height={140}
+                  loading="lazy"
+                  decoding="async"
+                  className="flex-shrink-0 w-24 h-32 md:w-28 md:h-36 rounded-2xl object-cover object-top border border-primary/10 luxury-shadow"
+                />
+              ) : (
+                <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
+                  <span className="text-2xl font-serif font-bold text-gradient-gold">{p.initials}</span>
+                </div>
+              )}
               <div>
                 <h3 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-medium text-primary">, {p.credential}</span></h3>
                 <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{p.title}</p>
-                <p className="text-sm text-foreground/55 leading-relaxed">{p.bio}</p>
+                <div className="space-y-2">
+                  {p.bio.split("\n\n").map((para, j) => (
+                    <p key={j} className="text-sm text-foreground/55 leading-relaxed">{para}</p>
+                  ))}
+                </div>
               </div>
             </motion.div>
           ))}
         </div>
+
+        <div className="max-w-4xl mx-auto mt-14">
+          <div className="text-center mb-8">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Practice Leadership</p>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Operations &amp; AI Strategy</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {LEADERSHIP.map((m, i) => (
+              <motion.div key={m.name} {...item(i)} className="luxury-card p-6 flex flex-col sm:flex-row gap-5 items-start">
+                <picture className="flex-shrink-0">
+                  <source srcSet={m.photo} type="image/webp" />
+                  <img
+                    src={m.photoFallback}
+                    alt={m.alt}
+                    width={80}
+                    height={80}
+                    loading="lazy"
+                    className="w-20 h-20 rounded-2xl object-cover border border-primary/10"
+                  />
+                </picture>
+                <div>
+                  <h3 className="text-lg font-serif font-bold text-foreground">{m.name}{m.credential && <span className="text-sm font-sans font-medium text-primary">, {m.credential}</span>}</h3>
+                  <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{m.title}</p>
+                  <p className="text-sm text-foreground/55 leading-relaxed">{m.bio}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
         <div className="text-center mt-10">
           <Link href="/about" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
             Meet the full team <ChevronRight className="w-4 h-4 ml-1" />

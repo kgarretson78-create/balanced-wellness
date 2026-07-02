@@ -101,9 +101,14 @@ export interface Provider {
   name: string;
   credential: string;
   title: string;
+  /** May contain multiple paragraphs separated by a blank line ("\n\n"). */
   bio: string;
-  /** Monogram initials used for the elegant placeholder avatar. */
+  /** Monogram initials used for the refined placeholder avatar (fallback). */
   initials: string;
+  /** Optional real headshot served from /public — renders instead of the monogram. */
+  photo?: string;
+  /** Descriptive alt text for the headshot; required whenever `photo` is set. */
+  photoAlt?: string;
 }
 
 export interface LeadershipMember {
@@ -121,9 +126,8 @@ export interface LeadershipMember {
 }
 
 /**
- * Care team. Photos are intentionally omitted (no real provider portraits in
- * the repo yet) — we render refined monogram avatars instead of generic stock.
- * Swap in real headshots by adding a `photo` field and rendering it in Home.
+ * Care team. Providers with a real headshot render the photo; the rest fall
+ * back to a refined monogram avatar (never generic stock).
  */
 export const PROVIDERS: Provider[] = [
   {
@@ -135,10 +139,12 @@ export const PROVIDERS: Provider[] = [
   },
   {
     name: "Stephanie Childress",
-    credential: "FNP",
+    credential: "FNP-C",
     title: "Family Nurse Practitioner",
-    bio: "Focused on weight loss, hormone optimization, and whole-person wellness — building personalized, medically supervised plans for lasting results.",
+    bio: "Stephanie Childress, FNP-C, brings over 15 years of nursing experience to Balanced Wellness, including the last eight years as a Family Nurse Practitioner. Her transition into aesthetic medicine was a natural extension of her clinical expertise and passion for helping others look and feel their most confident. By combining a deep understanding of anatomy and physiology, Stephanie delivers results that are both natural and refined. She approaches each patient with intention and precision, while maintaining a strong focus on individualized care.\n\nOutside of her professional life, she is a devoted wife and proud mother of two boys. She enjoys cooking, gardening, and spending time outdoors with her family.",
     initials: "SC",
+    photo: "/images/stephanie-childress.webp",
+    photoAlt: "Stephanie Childress, FNP-C at Balanced Wellness Medical Spa",
   },
 ];
 

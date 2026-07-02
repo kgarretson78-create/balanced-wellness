@@ -414,9 +414,9 @@ export default function Home() {
             <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Practice Leadership</p>
             <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Operations &amp; AI Strategy</h3>
           </div>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {LEADERSHIP.map((m, i) => (
-              <motion.div key={m.name} {...item(i)} className="luxury-card p-7 flex flex-col sm:flex-row gap-5 items-start">
+              <motion.div key={m.name} {...item(i)} className="luxury-card p-6 flex flex-col sm:flex-row gap-5 items-start">
                 <picture className="flex-shrink-0">
                   <source srcSet={m.photo} type="image/webp" />
                   <img
@@ -429,7 +429,7 @@ export default function Home() {
                   />
                 </picture>
                 <div>
-                  <h3 className="text-lg font-serif font-bold text-foreground">{m.name}<span className="text-sm font-sans font-medium text-primary">, {m.credential}</span></h3>
+                  <h3 className="text-lg font-serif font-bold text-foreground">{m.name}{m.credential && <span className="text-sm font-sans font-medium text-primary">, {m.credential}</span>}</h3>
                   <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{m.title}</p>
                   <p className="text-sm text-foreground/55 leading-relaxed">{m.bio}</p>
                 </div>

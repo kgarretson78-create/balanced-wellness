@@ -65,12 +65,12 @@ export function Navbar() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-[60px]">
+        <div className="flex justify-between items-center h-[68px]">
           <Link href="/" className="flex-shrink-0 flex items-center group">
             <img
               src="/images/logo.png"
-              alt="Balanced Wellness Medical Spa"
-              className="h-12 w-auto object-contain transition-all duration-300 group-hover:opacity-80"
+              alt="Balanced Wellness Medical Spa — Kingsport & Jonesborough TN"
+              className="h-14 lg:h-16 w-auto object-contain transition-all duration-300 group-hover:opacity-80"
             />
           </Link>
 

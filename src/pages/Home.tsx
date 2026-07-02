@@ -133,62 +133,95 @@ export default function Home() {
       />
 
       {/* ── HERO ── */}
-      <section className="relative flex items-center overflow-hidden" style={{ minHeight: "calc(100vh - 90px)" }}>
-        <div className="absolute inset-0 luxury-gradient-dark" />
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "32px 32px" }} />
-        <div className="absolute top-20 right-[15%] w-[400px] h-[400px] rounded-full bg-primary/10 blur-[100px] pulse-glow" />
-        <div className="absolute bottom-10 left-[10%] w-[300px] h-[300px] rounded-full bg-champagne/10 blur-[80px] pulse-glow" style={{ animationDelay: "2s" }} />
+      <section className="relative overflow-hidden luxury-gradient">
+        {/* subtle emerald dot texture + soft, contained brand glows */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(158 40% 26%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
+        <div className="absolute -top-24 right-[-6%] w-72 h-72 rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-[-4rem] left-[-4%] w-64 h-64 rounded-full bg-[hsl(var(--blush)/0.12)] blur-[90px] pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-20 mt-8">
-          <motion.div initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/[0.08] text-white/80 text-xs font-medium tracking-wider uppercase mb-8">
-              <Sparkles className="w-3.5 h-3.5 text-champagne" />
-              Kingsport &amp; Jonesborough, Tennessee
-            </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-16 lg:py-20">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            {/* LEFT — headline, positioning, CTAs */}
+            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+              <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/80 backdrop-blur-sm border border-primary/10 text-primary text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 luxury-shadow">
+                <MapPin className="w-3.5 h-3.5 text-gold" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
+              </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-[3.75rem] font-serif font-bold text-white leading-[1.1] mb-4">
-              Look Refreshed,<br />Feel Balanced &amp;<br />
-              <span className="text-champagne italic">Age with Confidence</span>
-            </h1>
-            <p className="text-base md:text-lg text-white/60 font-light mb-3 leading-relaxed">
-              Medical aesthetics, weight loss, hormones &amp; longevity care supervised by experienced medical providers.
-            </p>
-            <p className="text-sm text-white/40 mb-10 max-w-2xl">
-              Botox &bull; Dermal Fillers &bull; RF Microneedling &bull; CO2 Laser &bull; Medical Weight Loss &bull; Hormone Optimization
-            </p>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-[1.12] mb-4">
+                The Tri-Cities Destination for{" "}
+                <span className="text-primary">Aesthetics &amp; Wellness</span>,{" "}
+                <span className="italic text-gold">done beautifully</span>
+              </h1>
+              <p className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed max-w-xl">
+                Medical aesthetics, weight loss, hormones, IV hydration &amp; telehealth — personalized and supervised by experienced medical providers.
+              </p>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
-                className="group px-8 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm">
-                Book a Free Consultation
-                <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button onClick={() => (document.querySelector('[aria-label="Open KelliAI Chat"]') as HTMLButtonElement)?.click()}
-                className="px-8 py-3.5 bg-white/[0.06] backdrop-blur-sm text-white text-center font-medium rounded-full border border-white/[0.12] hover:bg-white/[0.12] transition-all duration-300 text-sm flex items-center justify-center gap-2">
-                <Bot className="w-4 h-4" /> Ask KelliAI
-              </button>
-            </div>
+              <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
+                  className="group px-7 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 text-sm">
+                  Book a Free Consultation
+                  <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))}
+                  className="px-7 py-3.5 bg-white text-foreground text-center font-medium rounded-full border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300 text-sm flex items-center justify-center gap-2">
+                  <Bot className="w-4 h-4 text-primary" /> Ask KelliAI
+                </button>
+              </div>
 
-            <div className="flex flex-wrap items-center gap-5 mt-6">
-              {["Board-certified medical providers", "FDA-approved treatments", "Free consultation — no commitment"].map((t) => (
-                <div key={t} className="flex items-center gap-2 text-white/50 text-xs">
-                  <CheckCircle2 className="w-4 h-4 text-primary/80 flex-shrink-0" /> {t}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {["Botox & Dysport", "Dermal Fillers", "RF Microneedling", "CO2 Laser", "Medical Weight Loss", "Hormones", "IV Hydration"].map((s) => (
+                  <span key={s} className="text-[11px] font-medium text-foreground/60 bg-white/70 border border-border rounded-full px-3 py-1">{s}</span>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {["Board-certified medical providers", "FDA-approved treatments", "Free consultation — no commitment"].map((t) => (
+                  <div key={t} className="flex items-center gap-2 text-foreground/60 text-xs">
+                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" /> {t}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* RIGHT — brand + social proof + location quick-book card */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }} className="w-full max-w-md mx-auto lg:mx-0">
+              <div className="relative luxury-card bg-white/90 backdrop-blur p-6 md:p-7 mt-3">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm shadow-primary/20">
+                  Now Booking · Two Locations
                 </div>
-              ))}
-            </div>
-          </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-wrap justify-start gap-8 md:gap-12 mt-16 pt-8 border-t border-white/[0.08]">
-            {stats.map((stat, i) => (
-              <motion.div key={stat.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.7 + i * 0.1 }} className="text-center">
-                <p className="text-3xl md:text-4xl font-serif font-bold text-white mb-1">{stat.number}</p>
-                <p className="text-[11px] text-white/40 uppercase tracking-wider font-medium">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+                <img src="/images/logo.png" alt="Balanced Wellness Medical Spa logo" className="h-16 md:h-20 w-auto max-w-full object-contain mx-auto mb-4 mt-1" width={220} height={110} />
+
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-gold text-gold" />)}</div>
+                  <span className="text-sm font-semibold text-foreground">5.0</span>
+                </div>
+                <p className="text-center text-xs text-foreground/55 mb-5">200+ five-star reviews · 8,000+ patients treated</p>
+
+                <div className="grid grid-cols-3 gap-2 mb-5">
+                  {stats.slice(0, 3).map((stat) => (
+                    <div key={stat.label} className="text-center rounded-xl bg-secondary/60 border border-border py-3 px-1">
+                      <p className="text-lg md:text-xl font-serif font-bold text-primary leading-none stat-number">{stat.number}</p>
+                      <p className="text-[9px] text-foreground/55 uppercase tracking-wider mt-1 leading-tight">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-[11px] text-foreground/55 uppercase tracking-widest font-semibold text-center mb-2.5">Book Now — Choose Your Location</p>
+                <div className="grid gap-2.5">
+                  {[LOCATIONS.kingsport, LOCATIONS.jonesborough].map((loc) => (
+                    <a key={loc.id} href={loc.bookingUrl} target="_blank" rel="noopener noreferrer" onClick={() => setPreferredLocation(loc.id)}
+                      className="group flex items-center justify-between gap-2 w-full py-3 px-4 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15">
+                      <span className="flex items-center gap-2"><CalendarCheck className="w-4 h-4" /> Book {loc.name}</span>
+                      <ArrowRight className="w-4 h-4 opacity-80 group-hover:translate-x-0.5 transition-transform" />
+                    </a>
+                  ))}
+                </div>
+                <p className="text-center text-[11px] text-foreground/50 mt-4">Prefer to chat first? <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))} className="text-primary font-semibold hover:underline underline-offset-2">Ask KelliAI, your concierge</button></p>
+              </div>
+            </motion.div>
+          </div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
       </section>
 
       <div className="section-divider max-w-7xl mx-auto" />
@@ -215,7 +248,11 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-        <div className="text-center mt-12">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
+            className="inline-flex items-center px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">
+            <CalendarCheck className="w-4 h-4 mr-2" /> Book a Free Consultation
+          </button>
           <Link href="/services" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
             View All Services <ChevronRight className="w-4 h-4 ml-1" />
           </Link>
@@ -230,6 +267,7 @@ export default function Home() {
           <div>
             <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Why Choose Us</p>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Why Patients Choose Balanced Wellness in Kingsport &amp; Jonesborough TN</h2>
+            <p className="text-foreground/55 text-sm leading-relaxed mb-6 max-w-lg">A real Tri-Cities medical spa — not a franchise. Personalized, provider-led care with two convenient locations in Kingsport and Jonesborough, so your treatment plan fits your life.</p>
             <div className="decorative-line mb-10" />
             <div className="space-y-5">
               {whyUs.map((item, i) => (

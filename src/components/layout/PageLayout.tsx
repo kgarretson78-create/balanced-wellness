@@ -23,7 +23,7 @@ export function PageLayout({ children }: PageLayoutProps) {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: "easeOut" }}
-        className="flex-grow flex flex-col pt-[88px] lg:pt-[124px]"
+        className="flex-grow flex flex-col pt-[98px] lg:pt-[132px]"
       >
         {children}
       </motion.main>

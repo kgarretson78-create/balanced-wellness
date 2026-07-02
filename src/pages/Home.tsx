@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Section } from "@/components/ui/Section";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
@@ -388,9 +389,9 @@ export default function Home() {
       {/* ──────────────────────  PROVIDERS  ────────────────────── */}
       <Section className="luxury-gradient">
         <div className="text-center mb-12">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Your Care Team</p>
+          <Eyebrow tone="sage" className="mb-4">Your Care Team</Eyebrow>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Led by Licensed Medical Providers</h2>
-          <p className="text-foreground/50 text-sm max-w-xl mx-auto">Every plan is created and supervised by experienced clinicians — never a one-size-fits-all menu.</p>
+          <p className="text-foreground/65 text-base max-w-xl mx-auto leading-relaxed">Every plan is created and supervised by experienced clinicians — never a one-size-fits-all menu.</p>
           <div className="decorative-line mx-auto mt-6" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -412,11 +413,13 @@ export default function Home() {
                 </div>
               )}
               <div>
-                <h3 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-medium text-primary">, {p.credential}</span></h3>
-                <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{p.title}</p>
+                <h3 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-semibold text-gold-ink">, {p.credential}</span></h3>
+                <p className="flex items-center gap-1.5 text-[11px] text-foreground/60 uppercase tracking-wider mb-2.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true" />{p.title}
+                </p>
                 <div className="space-y-2">
                   {p.bio.split("\n\n").map((para, j) => (
-                    <p key={j} className="text-sm text-foreground/55 leading-relaxed">{para}</p>
+                    <p key={j} className="text-sm text-foreground/70 leading-relaxed">{para}</p>
                   ))}
                 </div>
               </div>
@@ -425,8 +428,9 @@ export default function Home() {
         </div>
 
         <div className="text-center mt-12">
-          <Link href="/about#team" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
-            Meet the full team, including our practice leadership <ChevronRight className="w-4 h-4 ml-1" />
+          <Link href="/about#team" className="group inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/[0.06] px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-gold/60 hover:bg-gold/10">
+            Meet the full team, including our practice leadership
+            <ChevronRight className="w-4 h-4 text-gold-ink transition-transform duration-300 group-hover:translate-x-0.5" />
           </Link>
         </div>
       </Section>

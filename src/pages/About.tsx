@@ -4,6 +4,7 @@ import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { Shield, Heart, Award, Users } from "lucide-react";
 import { motion } from "framer-motion";
+import { PROVIDERS, LEADERSHIP } from "@/lib/site";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
@@ -81,6 +82,83 @@ export default function About() {
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">{v.title}</h3>
                 <p className="text-sm text-foreground/60">{v.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section id="team" className="luxury-gradient scroll-mt-24">
+        <div className="text-center mb-12">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Meet the Team</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">The People Behind Balanced Wellness</h2>
+          <p className="text-foreground/50 text-sm max-w-xl mx-auto">Care is led by experienced, licensed clinicians and supported by a leadership team focused on operations, strategy, and technology.</p>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Licensed Medical Providers</p>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Your Clinical Care Team</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROVIDERS.map((p, i) => (
+              <motion.div key={p.name} {...fadeUp} transition={{ delay: i * 0.1 }} className="luxury-card p-7 flex gap-5 items-start">
+                {p.photo ? (
+                  <img
+                    src={p.photo}
+                    alt={p.photoAlt ?? `${p.name}, ${p.credential} at Balanced Wellness Medical Spa`}
+                    width={112}
+                    height={140}
+                    loading="lazy"
+                    decoding="async"
+                    className="flex-shrink-0 w-24 h-32 md:w-28 md:h-36 rounded-2xl object-cover object-top border border-primary/10 luxury-shadow"
+                  />
+                ) : (
+                  <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
+                    <span className="text-2xl font-serif font-bold text-gradient-gold">{p.initials}</span>
+                  </div>
+                )}
+                <div>
+                  <h4 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-medium text-primary">, {p.credential}</span></h4>
+                  <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{p.title}</p>
+                  <div className="space-y-2">
+                    {p.bio.split("\n\n").map((para, j) => (
+                      <p key={j} className="text-sm text-foreground/55 leading-relaxed">{para}</p>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto mt-16">
+          <div className="text-center mb-8">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Practice Leadership</p>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Operations, Strategy &amp; AI</h3>
+            <p className="text-foreground/50 text-sm max-w-xl mx-auto mt-3">Our leadership team supports the practice behind the scenes and does not provide clinical or medical care.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {LEADERSHIP.map((m, i) => (
+              <motion.div key={m.name} {...fadeUp} transition={{ delay: i * 0.1 }} className="luxury-card p-7 flex flex-col sm:flex-row gap-5 items-start">
+                <picture className="flex-shrink-0">
+                  <source srcSet={m.photo} type="image/webp" />
+                  <img
+                    src={m.photoFallback}
+                    alt={m.alt}
+                    width={112}
+                    height={140}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-24 h-32 md:w-28 md:h-36 rounded-2xl object-cover object-top border border-primary/10 luxury-shadow"
+                  />
+                </picture>
+                <div>
+                  <h4 className="text-lg font-serif font-bold text-foreground">{m.name}{m.credential && <span className="text-sm font-sans font-medium text-primary">, {m.credential}</span>}</h4>
+                  <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{m.title}</p>
+                  <p className="text-sm text-foreground/55 leading-relaxed">{m.bio}</p>
+                </div>
               </motion.div>
             ))}
           </div>

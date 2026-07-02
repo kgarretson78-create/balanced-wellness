@@ -1,9 +1,8 @@
 import { Link } from "wouter";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
-  Sparkles, HeartPulse, Stethoscope, Zap, Shield, Users, Award,
-  Bot, ChevronRight, Dna, Scale, Star, Phone, MapPin, ArrowRight,
-  HelpCircle, MessageSquare, CalendarCheck, CheckCircle2,
+  Sparkles, Bot, ChevronRight, Star, Phone, MapPin, ArrowRight,
+  HelpCircle, MessageSquare, CalendarCheck, CheckCircle2, Play,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Section } from "@/components/ui/Section";
@@ -14,20 +13,42 @@ import { LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
+import {
+  PRIMARY_CONCERNS,
+  BROWSE_CONCERNS,
+  SIGNATURE_TREATMENTS,
+  PROVIDERS,
+  TRUST_SIGNALS,
+  HEADLINE_STATS,
+} from "@/lib/site";
 import { useEffect } from "react";
 
+/**
+ * Website 3.0 — luxury, concern-first homepage.
+ *
+ * Cinematic hero (video-ready shell), "What brings you here today?" concern
+ * routing, AI concierge entry, signature treatments, browse-by-concern,
+ * providers, real results, memberships, telehealth, locations, FAQ + schema.
+ *
+ * All content is data-driven via src/lib/site.ts; every link points to a route
+ * that already exists in src/App.tsx (no 404s).
+ */
+
+/**
+ * Cinematic hero background video. Left intentionally empty — drop in a real,
+ * brand-shot clinic reel here (e.g. "/video/hero.mp4") and it renders
+ * automatically behind the charcoal gradient. No generic stock is used.
+ */
+const HERO_VIDEO_SRC = "";
+
 const easeOut = [0.22, 1, 0.36, 1] as const;
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.7, ease: easeOut as unknown as number[] },
-};
-const stagger = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-};
+
+/** Fire the AI concierge with an optional seeded prompt. */
+function askKelli(prompt?: string) {
+  window.dispatchEvent(
+    new CustomEvent("askKelliAI", prompt ? { detail: { prompt } } : undefined),
+  );
+}
 
 const homeFaqs = [
   {
@@ -51,55 +72,48 @@ const homeFaqs = [
     a: "RF Microneedling treats fine lines, wrinkles, acne scars, enlarged pores, uneven skin texture, stretch marks, and skin laxity. It combines microneedling with radiofrequency energy to stimulate deep collagen production, resulting in firmer, smoother skin. Results improve progressively over 3–6 months.",
   },
   {
-    q: "Is CO2 laser resurfacing safe?",
-    a: "Yes, CO2 laser resurfacing is FDA-approved and safe when performed by trained medical professionals. At Balanced Wellness Medical Spa in Jonesborough TN, our board-certified providers use advanced CO2 laser technology for deep wrinkles, sun damage, acne scars, and age spots — with typically 5–7 days of downtime and dramatic long-lasting results.",
-  },
-  {
     q: "How much does medical weight loss cost?",
     a: "Medical weight loss programs at Balanced Wellness start with a free consultation. Semaglutide and Tirzepatide programs typically range from $250–$500/month depending on the protocol and dosage. Many patients see significant results within 3–6 months. Call either location to learn about current pricing and specials.",
   },
 ];
 
+const reviews = [
+  { name: "Sarah M.", location: "Kingsport", treatment: "Botox", text: "Absolutely love this place! The staff is incredibly knowledgeable and made me feel so comfortable. My results look completely natural — I get compliments all the time.", stars: 5 },
+  { name: "Jennifer T.", location: "Jonesborough", treatment: "Weight Loss", text: "Down 42 pounds and feeling better than I have in years. The team monitors everything closely and really cares about your progress. Life-changing experience.", stars: 5 },
+  { name: "Amanda R.", location: "Kingsport", treatment: "CO2 Laser", text: "My skin looks 10 years younger after my CO2 laser treatment. The provider walked me through every step and the results exceeded my expectations completely.", stars: 5 },
+  { name: "Michelle K.", location: "Jonesborough", treatment: "Lip Filler", text: "I was nervous about lip filler but they made it so easy. The results are gorgeous and so natural. I won't go anywhere else — these are my people!", stars: 5 },
+  { name: "Tara B.", location: "Kingsport", treatment: "RF Microneedling", text: "Three sessions in and my acne scars are dramatically reduced. The staff is professional and the facility is beautiful. Highly recommend to anyone in the Tri-Cities area.", stars: 5 },
+  { name: "Lisa W.", location: "Kingsport", treatment: "Hormones", text: "Finally feel like myself again after hormone optimization. Energy is back, mood is stable, sleeping great. Worth every penny and the team is so supportive.", stars: 5 },
+];
+
+const membershipTiers = [
+  { tier: "Gold", price: "$99", bestFor: "Best for: New patients starting their aesthetic journey", annualSavings: "Save $200+ annually", highlights: ["10% off all treatments", "Monthly B12 injection", "Priority booking", "Birthday treatment credit"], popular: false },
+  { tier: "Platinum", price: "$199", bestFor: "Best for: Regular patients who want consistent results", annualSavings: "Save $600+ annually", highlights: ["15% off all treatments", "Monthly facial or peel", "Complimentary consultations", "VIP events access", "Rollover unused credits"], popular: true },
+  { tier: "Diamond", price: "$349", bestFor: "Best for: Patients committed to total wellness & aesthetics", annualSavings: "Save $1,200+ annually", highlights: ["20% off all treatments", "Monthly injectable credit", "Quarterly IV therapy", "Exclusive member pricing", "Concierge scheduling", "Complimentary skin analysis"], popular: false },
+];
+
 export default function Home() {
   const { open: openBookingChooser } = useBookingChooser();
-  const featuredTreatments = [
-    { name: "Botox in Kingsport TN", desc: "Smooth wrinkles and prevent new lines with premium neurotoxins. 10–15 min, no downtime. Starting at $200–$600 depending on areas treated.", icon: <Sparkles className="w-5 h-5" />, href: "/botox-kingsport-tn", badge: "Most Popular" },
-    { name: "Lip Filler", desc: "Enhance volume, shape, and symmetry for naturally beautiful lips with premium hyaluronic acid fillers.", icon: <HeartPulse className="w-5 h-5" />, href: "/lip-filler-kingsport-tn" },
-    { name: "CO2 Laser Resurfacing", desc: "Reverse sun damage, reduce deep wrinkles, and reveal radiant skin. Starting at $800–$2,500 per treatment area.", icon: <Zap className="w-5 h-5" />, href: "/laser-skin-rejuvenation-kingsport-tn" },
-    { name: "RF Microneedling in Kingsport TN", desc: "Tighten skin, smooth acne scars, and refine pores with radiofrequency microneedling. Safe for all skin tones; series of 3 recommended.", icon: <Stethoscope className="w-5 h-5" />, href: "/rf-microneedling-kingsport-tn" },
-    { name: "Medical Weight Loss in Kingsport TN", desc: "Semaglutide and Tirzepatide GLP-1 programs supervised by our medical team. Free consultation — no commitment required.", icon: <Scale className="w-5 h-5" />, href: "/medical-weight-loss-kingsport-tn", badge: "Free Consult" },
-    { name: "Hormone Therapy in Kingsport TN", desc: "Bioidentical HRT for men and women — restore energy, mood, libido, and metabolic health with personalized protocols.", icon: <Dna className="w-5 h-5" />, href: "/hormone-therapy-kingsport-tn" },
-  ];
+  const prefersReducedMotion = useReducedMotion();
 
-  const reviews = [
-    { name: "Sarah M.", location: "Kingsport", treatment: "Botox", text: "Absolutely love this place! The staff is incredibly knowledgeable and made me feel so comfortable. My results look completely natural — I get compliments all the time.", stars: 5 },
-    { name: "Jennifer T.", location: "Jonesborough", treatment: "Weight Loss", text: "Down 42 pounds and feeling better than I have in years. The team monitors everything closely and really cares about your progress. Life-changing experience.", stars: 5 },
-    { name: "Amanda R.", location: "Kingsport", treatment: "CO2 Laser", text: "My skin looks 10 years younger after my CO2 laser treatment. The provider walked me through every step and the results exceeded my expectations completely.", stars: 5 },
-    { name: "Michelle K.", location: "Jonesborough", treatment: "Lip Filler", text: "I was nervous about lip filler but they made it so easy. The results are gorgeous and so natural. I won't go anywhere else — these are my people!", stars: 5 },
-    { name: "Tara B.", location: "Kingsport", treatment: "RF Microneedling", text: "Three sessions in and my acne scars are dramatically reduced. The staff is professional and the facility is beautiful. Highly recommend to anyone in the Tri-Cities area.", stars: 5 },
-    { name: "Lisa W.", location: "Kingsport", treatment: "Hormones", text: "Finally feel like myself again after hormone optimization. Energy is back, mood is stable, sleeping great. Worth every penny and the team is so supportive.", stars: 5 },
-  ];
-
-  const whyUs = [
-    { title: "Board-Certified Medical Providers", desc: "Licensed professionals with advanced training in aesthetic medicine and wellness — your safety and results come first.", icon: <Shield className="w-6 h-6" /> },
-    { title: "Advanced FDA-Approved Technology", desc: "Industry-leading devices including CO2 lasers, Scarlet RF, Agnes RF, and premium injectable products.", icon: <Zap className="w-6 h-6" /> },
-    { title: "Whole-Person Wellness Approach", desc: "We treat the whole person — combining aesthetics with weight loss, hormone therapy, and longevity medicine.", icon: <HeartPulse className="w-6 h-6" /> },
-    { title: "Personalized Treatment Plans", desc: "Every treatment plan is customized to your unique goals, skin type, anatomy, and budget.", icon: <Users className="w-6 h-6" /> },
-    { title: "Luxury Med Spa Experience", desc: "An elevated, spa-like environment in both our Kingsport and Jonesborough locations.", icon: <Award className="w-6 h-6" /> },
-  ];
-
-  const membershipTiers = [
-    { tier: "Gold", price: "$99", bestFor: "Best for: New patients starting their aesthetic journey", annualSavings: "Save $200+ annually", highlights: ["10% off all treatments", "Monthly B12 injection", "Priority booking", "Birthday treatment credit"], popular: false },
-    { tier: "Platinum", price: "$199", bestFor: "Best for: Regular patients who want consistent results", annualSavings: "Save $600+ annually", highlights: ["15% off all treatments", "Monthly facial or peel", "Complimentary consultations", "VIP events access", "Rollover unused credits"], popular: true },
-    { tier: "Diamond", price: "$349", bestFor: "Best for: Patients committed to total wellness & aesthetics", annualSavings: "Save $1,200+ annually", highlights: ["20% off all treatments", "Monthly injectable credit", "Quarterly IV therapy", "Exclusive member pricing", "Concierge scheduling", "Complimentary skin analysis"], popular: false },
-  ];
-
-  const stats = [
-    { number: "8,000+", label: "Patients Treated" },
-    { number: "200+", label: "5-Star Reviews" },
-    { number: "5★", label: "Google Rating" },
-    { number: "2", label: "Locations" },
-  ];
+  // Motion presets respect the user's reduced-motion preference.
+  const fadeUp = prefersReducedMotion
+    ? { initial: { opacity: 1, y: 0 } }
+    : {
+        initial: { opacity: 0, y: 24 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-60px" },
+        transition: { duration: 0.7, ease: easeOut as unknown as number[] },
+      };
+  const item = (i: number) =>
+    prefersReducedMotion
+      ? { initial: { opacity: 1, y: 0 } }
+      : {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, margin: "-40px" },
+          transition: { duration: 0.5, delay: i * 0.06, ease: easeOut as unknown as number[] },
+        };
 
   useEffect(() => {
     const faqSchema = {
@@ -112,15 +126,18 @@ export default function Home() {
       })),
     };
     const existing = document.getElementById("home-faq-schema");
-    if (existing) { existing.textContent = JSON.stringify(faqSchema); }
-    else {
+    if (existing) {
+      existing.textContent = JSON.stringify(faqSchema);
+    } else {
       const script = document.createElement("script");
       script.id = "home-faq-schema";
       script.type = "application/ld+json";
       script.textContent = JSON.stringify(faqSchema);
       document.head.appendChild(script);
     }
-    return () => { document.getElementById("home-faq-schema")?.remove(); };
+    return () => {
+      document.getElementById("home-faq-schema")?.remove();
+    };
   }, []);
 
   return (
@@ -132,113 +149,161 @@ export default function Home() {
         keywords="Med Spa Kingsport TN, Med Spa Jonesborough TN, Botox Kingsport TN, RF Microneedling Kingsport, CO2 Laser Jonesborough TN, Medical Weight Loss Kingsport TN, dermal fillers Kingsport, Semaglutide Kingsport TN, hormone therapy Jonesborough TN"
       />
 
-      {/* ── HERO ── */}
-      <section className="relative overflow-hidden luxury-gradient">
-        {/* subtle charcoal dot texture + soft, contained brand glows */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(24 8% 16%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
-        <div className="absolute -top-24 right-[-6%] w-72 h-72 rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-[-4rem] left-[-4%] w-64 h-64 rounded-full bg-[hsl(var(--blush)/0.12)] blur-[90px] pointer-events-none" />
+      {/* ─────────────────────────  HERO  ───────────────────────── */}
+      <section className="relative overflow-hidden luxury-gradient-dark min-h-[92vh] flex items-center">
+        {/* Cinematic, video-ready backdrop. Real clinic reel drops into HERO_VIDEO_SRC. */}
+        {HERO_VIDEO_SRC ? (
+          <video
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
+            src={HERO_VIDEO_SRC}
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/images/logo.png"
+          />
+        ) : null}
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-16 lg:py-20">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-            {/* LEFT — headline, positioning, CTAs */}
-            <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/80 backdrop-blur-sm border border-primary/10 text-primary text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 luxury-shadow">
-                <MapPin className="w-3.5 h-3.5 text-gold" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
-              </div>
+        {/* Layered charcoal wash + soft brand glows (no generic stock imagery). */}
+        <div className="absolute inset-0 hero-overlay" />
+        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(0 0% 100%) 1px, transparent 0)", backgroundSize: "38px 38px" }} />
+        <div className="absolute -top-24 right-[-6%] w-[26rem] h-[26rem] rounded-full bg-champagne/10 blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-[-6rem] left-[-6%] w-[22rem] h-[22rem] rounded-full bg-[hsl(var(--blush)/0.10)] blur-[120px] pointer-events-none" />
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-[1.12] mb-4">
-                The Tri-Cities Destination for{" "}
-                <span className="text-primary">Aesthetics &amp; Wellness</span>,{" "}
-                <span className="italic text-gold">done beautifully</span>
-              </h1>
-              <p className="text-base md:text-lg text-foreground/70 mb-6 leading-relaxed max-w-xl">
-                Medical aesthetics, weight loss, hormones, IV hydration &amp; telehealth — personalized and supervised by experienced medical providers.
-              </p>
+        <div className="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10 w-full py-24 md:py-28 text-center">
+          <motion.div
+            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
+          >
+            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/10 text-white/80 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase mb-8">
+              <MapPin className="w-3.5 h-3.5 text-champagne" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
+            </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
-                  className="group px-7 py-3.5 bg-primary text-white text-center font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 text-sm">
-                  Book a Free Consultation
-                  <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))}
-                  className="px-7 py-3.5 bg-white text-foreground text-center font-medium rounded-full border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300 text-sm flex items-center justify-center gap-2">
-                  <Bot className="w-4 h-4 text-primary" /> Ask KelliAI
-                </button>
-              </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-serif font-bold text-white leading-[1.06] mb-6 text-balance">
+              Look Better. Feel Better.{" "}
+              <span className="italic text-gradient-gold">Live Balanced.</span>
+            </h1>
 
-              <div className="flex flex-wrap gap-2 mb-6">
-                {["Botox & Dysport", "Dermal Fillers", "RF Microneedling", "CO2 Laser", "Medical Weight Loss", "Hormones", "IV Hydration"].map((s) => (
-                  <span key={s} className="text-[11px] font-medium text-foreground/60 bg-white/70 border border-border rounded-full px-3 py-1">{s}</span>
-                ))}
-              </div>
+            <p className="text-base md:text-lg text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+              Personalized aesthetic medicine, wellness, weight loss, hormone
+              optimization, and regenerative treatments designed around you.
+            </p>
 
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-                {["Board-certified medical providers", "FDA-approved treatments", "Free consultation — no commitment"].map((t) => (
-                  <div key={t} className="flex items-center gap-2 text-foreground/60 text-xs">
-                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" /> {t}
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+              <button
+                type="button"
+                onClick={() => openBookingChooser({ service: "Consultation" })}
+                className="group px-8 py-4 bg-white text-foreground text-center font-semibold rounded-full shadow-xl hover:-translate-y-0.5 transition-all duration-300 text-sm"
+              >
+                Book Your Consultation
+                <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button
+                type="button"
+                onClick={() => askKelli("What brings you here today?")}
+                className="px-8 py-4 bg-white/[0.06] text-white text-center font-medium rounded-full border border-white/15 backdrop-blur-sm hover:bg-white/[0.12] transition-all duration-300 text-sm flex items-center justify-center gap-2"
+              >
+                <Bot className="w-4 h-4 text-champagne" /> Take the AI Beauty Assessment
+              </button>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
+              <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-champagne text-champagne" />)}</div>
+              <span className="text-sm font-medium text-white/70">5.0</span>
+              <span className="text-white/25">·</span>
+              <span className="text-sm text-white/50">200+ five-star reviews · 8,000+ patients treated</span>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Scroll affordance */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/40">
+          <span className="text-[10px] uppercase tracking-[0.2em]">Explore</span>
+          <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
+        </div>
+      </section>
+
+      {/* ───────────  WHAT BRINGS YOU HERE TODAY? (concern-first)  ─────────── */}
+      <Section className="bg-background">
+        <div className="text-center mb-12 md:mb-16">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Start Here</p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4 text-balance">What brings you here today?</h2>
+          <p className="text-foreground/50 text-sm md:text-base max-w-xl mx-auto">Choose a goal and we'll guide you to the right care — no guesswork.</p>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+          {PRIMARY_CONCERNS.map((c, i) => (
+            <motion.div key={c.label} {...item(i)}>
+              <Link
+                href={c.href}
+                className="group flex flex-col items-center text-center h-full p-5 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-primary/[0.06] text-primary flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <c.icon className="w-5 h-5" />
+                </div>
+                <h3 className="text-sm font-serif font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{c.label}</h3>
+                <p className="text-[11px] text-foreground/45 leading-snug">{c.blurb}</p>
+              </Link>
             </motion.div>
+          ))}
+        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+          <button
+            type="button"
+            onClick={() => askKelli("What brings you here today?")}
+            className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
+          >
+            <Bot className="w-4 h-4" /> Not sure? Ask KelliAI
+          </button>
+          <Link href="/services" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
+            Browse all treatments <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
+        </div>
+      </Section>
 
-            {/* RIGHT — brand + social proof + location quick-book card */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }} className="w-full max-w-md mx-auto lg:mx-0">
-              <div className="relative luxury-card bg-white/90 backdrop-blur p-6 md:p-7 mt-3">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1 bg-gradient-to-r from-primary to-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-sm shadow-primary/20">
-                  Now Booking · Two Locations
+      {/* ───────────────────────  TRUST BAR  ─────────────────────── */}
+      <section className="luxury-gradient border-y border-border/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {TRUST_SIGNALS.map((t, i) => (
+              <motion.div key={t.label} {...item(i)} className="flex items-start gap-3 p-5 rounded-2xl bg-white border border-border luxury-shadow">
+                <div className="w-10 h-10 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center flex-shrink-0">
+                  <t.icon className="w-5 h-5" />
                 </div>
-
-                <img src="/images/logo.png" alt="Balanced Wellness Medical Spa logo" className="h-16 md:h-20 w-auto max-w-full object-contain mx-auto mb-4 mt-1" width={220} height={110} />
-
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-gold text-gold" />)}</div>
-                  <span className="text-sm font-semibold text-foreground">5.0</span>
+                <div>
+                  <p className="text-sm font-bold text-foreground leading-tight">{t.label}</p>
+                  <p className="text-xs text-foreground/50 mt-0.5 leading-snug">{t.detail}</p>
                 </div>
-                <p className="text-center text-xs text-foreground/55 mb-5">200+ five-star reviews · 8,000+ patients treated</p>
-
-                <div className="grid grid-cols-3 gap-2 mb-5">
-                  {stats.slice(0, 3).map((stat) => (
-                    <div key={stat.label} className="text-center rounded-xl bg-secondary/60 border border-border py-3 px-1">
-                      <p className="text-lg md:text-xl font-serif font-bold text-primary leading-none stat-number">{stat.number}</p>
-                      <p className="text-[9px] text-foreground/55 uppercase tracking-wider mt-1 leading-tight">{stat.label}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <p className="text-[11px] text-foreground/55 uppercase tracking-widest font-semibold text-center mb-2.5">Book Now — Choose Your Location</p>
-                <div className="grid gap-2.5">
-                  {[LOCATIONS.kingsport, LOCATIONS.jonesborough].map((loc) => (
-                    <a key={loc.id} href={loc.bookingUrl} target="_blank" rel="noopener noreferrer" onClick={() => setPreferredLocation(loc.id)}
-                      className="group flex items-center justify-between gap-2 w-full py-3 px-4 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15">
-                      <span className="flex items-center gap-2"><CalendarCheck className="w-4 h-4" /> Book {loc.name}</span>
-                      <ArrowRight className="w-4 h-4 opacity-80 group-hover:translate-x-0.5 transition-transform" />
-                    </a>
-                  ))}
-                </div>
-                <p className="text-center text-[11px] text-foreground/50 mt-4">Prefer to chat first? <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))} className="text-primary font-semibold hover:underline underline-offset-2">Ask KelliAI, your concierge</button></p>
-              </div>
-            </motion.div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {HEADLINE_STATS.map((s, i) => (
+              <motion.div key={s.label} {...item(i)} className="text-center">
+                <p className="text-3xl md:text-4xl font-serif font-bold text-primary stat-number">{s.number}</p>
+                <p className="text-[11px] text-foreground/50 mt-1 uppercase tracking-wider">{s.label}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      <div className="section-divider max-w-7xl mx-auto" />
-
-      {/* ── FEATURED TREATMENTS ── */}
+      {/* ───────────────────  SIGNATURE TREATMENTS  ─────────────────── */}
       <Section className="bg-background">
-        <div className="text-center mb-16">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Featured Treatments</p>
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-foreground mb-4">Med Spa Treatments in<br className="hidden md:block" /> Kingsport &amp; Jonesborough TN</h2>
+        <div className="text-center mb-12 md:mb-16">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">What We're Known For</p>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4">Signature Treatments</h2>
           <div className="decorative-line mx-auto mt-6" />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {featuredTreatments.map((t, i) => (
-            <motion.div key={t.name} {...stagger} transition={{ duration: 0.5, delay: i * 0.07 }} className="relative">
+          {SIGNATURE_TREATMENTS.map((t, i) => (
+            <motion.div key={t.name} {...item(i)} className="relative">
               {t.badge && <div className="absolute -top-2.5 left-4 z-10 px-3 py-0.5 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{t.badge}</div>}
               <Link href={t.href} className="group block h-full p-6 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 transition-all duration-500">
-                <div className="w-11 h-11 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">{t.icon}</div>
+                <div className="w-11 h-11 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <t.icon className="w-5 h-5" />
+                </div>
                 <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{t.name}</h3>
                 <p className="text-sm text-foreground/50 leading-relaxed mb-4">{t.desc}</p>
                 <span className="inline-flex items-center text-xs text-primary font-semibold gap-1 group-hover:gap-2 transition-all duration-200">
@@ -248,54 +313,138 @@ export default function Home() {
             </motion.div>
           ))}
         </div>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
-          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
-            className="inline-flex items-center px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">
-            <CalendarCheck className="w-4 h-4 mr-2" /> Book a Free Consultation
-          </button>
-          <Link href="/services" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
-            View All Services <ChevronRight className="w-4 h-4 ml-1" />
+      </Section>
+
+      {/* ────────────────────  BROWSE BY CONCERN  ──────────────────── */}
+      <Section className="luxury-gradient">
+        <div className="text-center mb-10 md:mb-14">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Know what's bothering you?</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Browse by Concern</h2>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+        <div className="flex flex-wrap justify-center gap-2.5 md:gap-3 max-w-4xl mx-auto">
+          {BROWSE_CONCERNS.map((c, i) => (
+            <motion.div key={`${c.label}-${i}`} {...item(i)}>
+              <Link
+                href={c.href}
+                className="group flex items-center gap-2.5 py-2.5 pl-3 pr-4 rounded-full bg-white border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300"
+              >
+                <span className="w-8 h-8 rounded-full bg-primary/[0.06] text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <c.icon className="w-4 h-4" />
+                </span>
+                <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{c.label}</span>
+                <span className="text-[11px] text-foreground/40 hidden sm:inline">{c.blurb}</span>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ──────────────────  KELLIAI CONCIERGE  ────────────────── */}
+      <Section className="bg-background">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-primary/[0.06] border border-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-4">
+              <Bot className="w-3.5 h-3.5" /> Your Personal Concierge
+            </div>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">Meet KelliAI</h2>
+            <p className="text-foreground/50 text-sm max-w-xl mx-auto">Your virtual wellness concierge answers questions about treatments, candidacy, memberships, and pricing — instantly, 24/7. Then hands you off to book in seconds.</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            {[
+              { prompt: "Which treatment is right for my wrinkles?" },
+              { prompt: "Am I a candidate for weight loss medication?" },
+              { prompt: "Compare memberships for me" },
+              { prompt: "What treats acne scars?" },
+              { prompt: "How much does Botox cost?" },
+              { prompt: "What helps with skin tightening?" },
+            ].map((q, i) => (
+              <motion.button
+                key={q.prompt}
+                {...item(i)}
+                onClick={() => askKelli(q.prompt)}
+                className="group flex items-center gap-3 p-4 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 transition-all duration-300 text-left"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{q.prompt}</p>
+                  <p className="text-[11px] text-foreground/35 mt-0.5">Tap to ask KelliAI</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-primary/30 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
+              </motion.button>
+            ))}
+          </div>
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => askKelli("What brings you here today?")}
+              className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
+            >
+              <MessageSquare className="w-4 h-4" /> Start the AI Beauty Assessment
+            </button>
+          </div>
+        </div>
+      </Section>
+
+      {/* ──────────────────────  PROVIDERS  ────────────────────── */}
+      <Section className="luxury-gradient">
+        <div className="text-center mb-12">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Your Care Team</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Led by Licensed Medical Providers</h2>
+          <p className="text-foreground/50 text-sm max-w-xl mx-auto">Every plan is created and supervised by experienced clinicians — never a one-size-fits-all menu.</p>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          {PROVIDERS.map((p, i) => (
+            <motion.div key={p.name} {...item(i)} className="luxury-card p-7 flex gap-5 items-start">
+              <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
+                <span className="text-2xl font-serif font-bold text-gradient-gold">{p.initials}</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-medium text-primary">, {p.credential}</span></h3>
+                <p className="text-[11px] text-foreground/50 uppercase tracking-wider mb-2">{p.title}</p>
+                <p className="text-sm text-foreground/55 leading-relaxed">{p.bio}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="text-center mt-10">
+          <Link href="/about" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
+            Meet the full team <ChevronRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
       </Section>
 
-      <div className="section-divider max-w-7xl mx-auto" />
-
-      {/* ── WHY US ── */}
-      <Section className="luxury-gradient">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Why Choose Us</p>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Why Patients Choose Balanced Wellness in Kingsport &amp; Jonesborough TN</h2>
-            <p className="text-foreground/55 text-sm leading-relaxed mb-6 max-w-lg">A real Tri-Cities medical spa — not a franchise. Personalized, provider-led care with two convenient locations in Kingsport and Jonesborough, so your treatment plan fits your life.</p>
-            <div className="decorative-line mb-10" />
-            <div className="space-y-5">
-              {whyUs.map((item, i) => (
-                <motion.div key={i} {...stagger} transition={{ delay: i * 0.08, duration: 0.5 }} className="flex gap-4 items-start group">
-                  <div className="w-11 h-11 rounded-xl bg-white shadow-sm border border-border flex items-center justify-center text-primary flex-shrink-0 group-hover:glow-primary transition-shadow duration-500">{item.icon}</div>
-                  <div>
-                    <h3 className="font-bold text-foreground mb-0.5 text-[15px]">{item.title}</h3>
-                    <p className="text-sm text-foreground/50 leading-relaxed">{item.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <motion.div {...fadeUp}>
-            <div className="grid grid-cols-2 gap-4">
-              {[{ label: "Patients Treated", value: "8,000+" }, { label: "5-Star Reviews", value: "200+" }, { label: "Treatments Offered", value: "30+" }, { label: "Locations", value: "2" }].map((stat, i) => (
-                <div key={i} className="bg-white rounded-2xl p-6 border border-border text-center luxury-shadow">
-                  <p className="text-3xl font-serif font-bold text-primary">{stat.value}</p>
-                  <p className="text-xs text-foreground/50 mt-1 uppercase tracking-wider">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
+      {/* ────────────────────  REAL RESULTS  ──────────────────── */}
+      <Section className="bg-background">
+        <div className="text-center mb-12">
+          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Real Results</p>
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Before &amp; After Transformations</h2>
+          <p className="text-foreground/45 mt-3 text-sm">Drag to reveal actual patient results at Balanced Wellness Medical Spa.</p>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
+          {[
+            { before: "/images/laser-before.jpg", after: "/images/laser-after.jpg", title: "CO2 Laser Resurfacing" },
+            { before: "/images/lips-before.jpg", after: "/images/lips-after.jpg", title: "Lip Filler" },
+            { before: "/images/before-lips-branded.jpg", after: "/images/after-lips-branded.jpg", title: "Lip Filler — Natural Look" },
+            { before: "/images/before-weightloss.jpg", after: "/images/after-weightloss.jpg", title: "Medical Weight Loss" },
+          ].map((photo, i) => (
+            <motion.div key={photo.title} {...item(i)} className="luxury-card overflow-hidden">
+              <BeforeAfterSlider beforeImage={photo.before} afterImage={photo.after} />
+              <div className="p-4 text-center"><h3 className="text-sm font-serif font-bold text-foreground">{photo.title}</h3></div>
+            </motion.div>
+          ))}
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link href="/gallery" className="inline-flex items-center gap-2 px-7 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
+            <Play className="w-4 h-4 text-primary" /> View Full Gallery
+          </Link>
+          <button type="button" onClick={() => openBookingChooser({ service: "Consultation" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book Your Consultation</button>
         </div>
       </Section>
 
-      {/* ── REAL REVIEWS (6 cards) ── */}
-      <Section className="bg-white">
+      {/* ────────────────  REVIEWS / TESTIMONIALS  ──────────────── */}
+      <Section className="luxury-gradient">
         <div className="text-center mb-14">
           <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Patient Stories</p>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">What Our Patients Say</h2>
@@ -304,8 +453,8 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {reviews.map((review, i) => (
-            <motion.div key={i} {...stagger} transition={{ delay: i * 0.07, duration: 0.5 }} className="p-6 rounded-2xl bg-background border border-border hover:luxury-shadow transition-all duration-300">
-              <div className="flex gap-0.5 mb-3">{[...Array(review.stars)].map((_, j) => <Star key={j} className="w-4 h-4 fill-primary text-primary" />)}</div>
+            <motion.div key={review.name} {...item(i)} className="p-6 rounded-2xl bg-white border border-border hover:luxury-shadow transition-all duration-300">
+              <div className="flex gap-0.5 mb-3">{[...Array(review.stars)].map((_, j) => <Star key={j} className="w-4 h-4 fill-gold text-gold" />)}</div>
               <p className="text-sm text-foreground/65 leading-relaxed mb-4 italic">"{review.text}"</p>
               <div className="flex items-center justify-between">
                 <div>
@@ -319,96 +468,49 @@ export default function Home() {
         </div>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a href="https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-            <Star className="w-4 h-4 text-primary fill-primary" /> Read Google Reviews
+            <Star className="w-4 h-4 text-gold fill-gold" /> Read Google Reviews
           </a>
           <a href="https://www.facebook.com/balancedwellnessmedspa/reviews" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-            <Star className="w-4 h-4 text-primary fill-primary" /> Read Facebook Reviews
+            <Star className="w-4 h-4 text-gold fill-gold" /> Read Facebook Reviews
           </a>
         </div>
       </Section>
 
-      <div className="section-divider max-w-7xl mx-auto" />
-
-      {/* ── BEFORE & AFTER ── */}
+      {/* ─────────────  TELEHEALTH + ONLINE CARE GATEWAY  ───────────── */}
       <Section className="bg-background">
-        <div className="text-center mb-12">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Real Results</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Before &amp; After Transformations</h2>
-          <p className="text-foreground/45 mt-3 text-sm">See what's possible with expert care at Balanced Wellness Medical Spa.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
-          {[
-            { before: "/images/laser-before.jpg", after: "/images/laser-after.jpg", title: "CO2 Laser Resurfacing" },
-            { before: "/images/lips-before.jpg", after: "/images/lips-after.jpg", title: "Lip Filler" },
-            { before: "/images/before-lips-branded.jpg", after: "/images/after-lips-branded.jpg", title: "Lip Filler — Natural Look" },
-            { before: "/images/before-weightloss.jpg", after: "/images/after-weightloss.jpg", title: "Medical Weight Loss" },
-          ].map((photo, i) => (
-            <motion.div key={i} {...stagger} transition={{ delay: i * 0.08, duration: 0.5 }} className="luxury-card overflow-hidden">
-              <BeforeAfterSlider beforeImage={photo.before} afterImage={photo.after} />
-              <div className="p-4 text-center"><h3 className="text-sm font-serif font-bold text-foreground">{photo.title}</h3></div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/gallery" className="inline-block px-7 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">View Full Gallery</Link>
-          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book a Free Consultation</button>
-        </div>
-      </Section>
-
-      {/* ── KELLIAI with strategic prompts ── */}
-      <Section className="bg-background">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-primary/[0.06] border border-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-4">
-              <Bot className="w-3.5 h-3.5" /> Instant Answers
-            </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">Ask KelliAI</h2>
-            <p className="text-foreground/45 text-sm max-w-xl mx-auto">Your virtual wellness assistant answers questions about treatments, candidacy, memberships, and more — instantly, 24/7.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            {[
-              { prompt: "Which treatment is right for my wrinkles?", icon: <Sparkles className="w-5 h-5" /> },
-              { prompt: "Am I a candidate for weight loss medication?", icon: <Scale className="w-5 h-5" /> },
-              { prompt: "Compare memberships for me", icon: <Award className="w-5 h-5" /> },
-              { prompt: "What treats acne scars?", icon: <HeartPulse className="w-5 h-5" /> },
-              { prompt: "How much does Botox cost?", icon: <HelpCircle className="w-5 h-5" /> },
-              { prompt: "What helps with skin tightening?", icon: <Stethoscope className="w-5 h-5" /> },
-            ].map((item, i) => (
-              <motion.button key={i} {...stagger} transition={{ delay: i * 0.07, duration: 0.5 }}
-                onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI", { detail: { prompt: item.prompt } }))}
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 transition-all duration-300 text-left">
-                <div className="w-9 h-9 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-300">{item.icon}</div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{item.prompt}</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">Tap to ask KelliAI</p>
-                </div>
-                <ArrowRight className="w-4 h-4 text-primary/30 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
-              </motion.button>
-            ))}
-          </div>
-          <div className="text-center">
-            <button onClick={() => window.dispatchEvent(new CustomEvent("askKelliAI"))}
-              className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:underline underline-offset-4">
-              <MessageSquare className="w-4 h-4" /> Text us a photo or question — we'll guide you to the right treatment <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          <motion.div {...fadeUp} className="luxury-card p-8 flex flex-col">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Telehealth</p>
+            <h3 className="text-2xl font-serif font-bold text-foreground mb-3">Care from anywhere in Tennessee</h3>
+            <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-1">Start weight loss, hormone, and skincare programs with a virtual consultation — no drive required. Prescriptions and refills handled through our secure online portal.</p>
+            <Link href="/online-care" className="inline-flex items-center gap-2 self-start px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">
+              Explore Online Care <ArrowRight className="w-4 h-4" />
+            </Link>
+          </motion.div>
+          <motion.div {...fadeUp} className="luxury-card p-8 flex flex-col">
+            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Shop &amp; Refills</p>
+            <h3 className="text-2xl font-serif font-bold text-foreground mb-3">Medical-grade products &amp; Rx refills</h3>
+            <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-1">Reorder medical-grade skincare and prescription refills online, and take a personalized assessment to build your at-home regimen — reviewed by our providers.</p>
+            <Link href="/online-care" className="inline-flex items-center gap-2 self-start px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
+              Shop &amp; Refill Online <ArrowRight className="w-4 h-4 text-primary" />
+            </Link>
+          </motion.div>
         </div>
       </Section>
 
       <FlexiblePaymentsSection />
 
-      {/* ── MEMBERSHIPS with "best for" + savings ── */}
+      {/* ──────────────────────  MEMBERSHIPS  ────────────────────── */}
       <Section className="luxury-gradient">
         <div className="text-center mb-14">
           <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">VIP Memberships</p>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Exclusive Wellness Memberships</h2>
-          <p className="text-foreground/45 mt-3 text-sm">Join our VIP program and enjoy exclusive savings, priority booking, and complimentary monthly treatments.</p>
+          <p className="text-foreground/45 mt-3 text-sm">Join our VIP program for exclusive savings, priority booking, and complimentary monthly treatments.</p>
           <div className="decorative-line mx-auto mt-6" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-6">
           {membershipTiers.map((m, i) => (
-            <motion.div key={m.tier} {...stagger} transition={{ delay: i * 0.12, duration: 0.5 }} className={`relative p-7 rounded-2xl bg-white border transition-all duration-500 ${m.popular ? "border-primary/30 luxury-shadow-lg scale-[1.02]" : "border-border hover:luxury-shadow"}`}>
+            <motion.div key={m.tier} {...item(i)} className={`relative p-7 rounded-2xl bg-white border transition-all duration-500 ${m.popular ? "border-primary/30 luxury-shadow-lg md:scale-[1.03]" : "border-border hover:luxury-shadow"}`}>
               {m.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-white text-[10px] uppercase tracking-widest font-bold rounded-full">Most Popular</div>}
               <p className="text-xs text-primary font-semibold uppercase tracking-[0.15em] mb-1">{m.tier}</p>
               <p className="text-3xl font-serif font-bold text-foreground mb-1">{m.price}<span className="text-sm font-sans font-normal text-foreground/40">/mo</span></p>
@@ -416,8 +518,8 @@ export default function Home() {
               <p className="text-xs font-semibold text-primary mb-4">✦ {m.annualSavings}</p>
               <div className="section-divider my-4" />
               <ul className="space-y-2.5 mb-7">
-                {m.highlights.map((h, j) => (
-                  <li key={j} className="flex items-start text-sm text-foreground/60">
+                {m.highlights.map((h) => (
+                  <li key={h} className="flex items-start text-sm text-foreground/60">
                     <CheckCircle2 className="w-3.5 h-3.5 text-primary mr-2 mt-0.5 flex-shrink-0" /> {h}
                   </li>
                 ))}
@@ -431,9 +533,9 @@ export default function Home() {
         <p className="text-center text-xs text-foreground/40">6-month minimum commitment. Cancel anytime after initial term.</p>
       </Section>
 
-      {/* ── FAQ ── */}
+      {/* ────────────────────────  FAQ  ──────────────────────── */}
       <Section className="luxury-gradient-dark text-white relative overflow-hidden">
-        <div className="absolute top-0 right-[10%] w-[300px] h-[300px] rounded-full bg-primary/5 blur-[100px]" />
+        <div className="absolute top-0 right-[10%] w-[300px] h-[300px] rounded-full bg-champagne/5 blur-[100px]" />
         <div className="relative z-10">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/[0.06] border border-white/[0.08] text-champagne text-xs font-medium uppercase tracking-wider mb-4">
@@ -444,7 +546,7 @@ export default function Home() {
           </div>
           <div className="max-w-3xl mx-auto space-y-4">
             {homeFaqs.map((faq, i) => (
-              <motion.div key={i} {...stagger} transition={{ delay: i * 0.06, duration: 0.5 }} className="p-6 rounded-2xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.06] transition-all duration-500">
+              <motion.div key={faq.q} {...item(i)} className="p-6 rounded-2xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.06] transition-all duration-500">
                 <h3 className="font-bold text-champagne mb-3 text-[15px]">{faq.q}</h3>
                 <p className="text-sm text-white/50 leading-relaxed">{faq.a}</p>
               </motion.div>
@@ -453,7 +555,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ── LOCATIONS ── */}
+      {/* ──────────────────────  LOCATIONS  ────────────────────── */}
       <Section className="luxury-gradient border-t border-border/50">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Two Convenient Locations</h2>
@@ -494,26 +596,26 @@ export default function Home() {
       </Section>
 
       <CTA
-        title="Ready to Begin Your Transformation?"
-        subtitle="Schedule a complimentary consultation with our expert providers and discover your personalized treatment plan."
-        buttonText="Book a Free Consultation"
+        title="Ready to Look Better, Feel Better, and Live Balanced?"
+        subtitle="Schedule a complimentary consultation with our expert providers and discover a treatment plan built entirely around you."
+        buttonText="Book Your Consultation"
       />
 
-      {/* ── STICKY MOBILE CTA BAR ── */}
+      {/* ─────────────────  STICKY MOBILE CTA BAR  ───────────────── */}
       <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white/95 backdrop-blur-md border-t border-border shadow-xl">
         <div className="flex items-stretch">
           <a href="tel:423-765-1393" className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-r border-border text-foreground/70 hover:bg-background transition-colors">
             <Phone className="w-4 h-4 text-primary" />
             <span className="text-[10px] font-medium uppercase tracking-wide">Call</span>
           </a>
-          <button type="button" onClick={() => openBookingChooser({ service: "Free Consultation" })}
+          <button type="button" onClick={() => openBookingChooser({ service: "Consultation" })}
             className="flex-[2] flex items-center justify-center py-3 bg-primary text-white font-semibold text-sm gap-2 hover:bg-primary/90 transition-colors">
-            <CalendarCheck className="w-4 h-4" /> Book Free Consult
+            <CalendarCheck className="w-4 h-4" /> Book Consultation
           </button>
-          <Link href="/sms-consent" className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-l border-border text-foreground/70 hover:bg-background transition-colors">
-            <MessageSquare className="w-4 h-4 text-primary" />
-            <span className="text-[10px] font-medium uppercase tracking-wide">Text</span>
-          </Link>
+          <button type="button" onClick={() => askKelli("What brings you here today?")} className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-l border-border text-foreground/70 hover:bg-background transition-colors">
+            <Bot className="w-4 h-4 text-primary" />
+            <span className="text-[10px] font-medium uppercase tracking-wide">KelliAI</span>
+          </button>
         </div>
       </div>
     </PageLayout>

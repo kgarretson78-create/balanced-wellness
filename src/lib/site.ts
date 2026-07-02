@@ -136,6 +136,8 @@ export const PROVIDERS: Provider[] = [
     title: "Certified Physician Assistant",
     bio: "Advanced aesthetic injector and medical lead, blending clinical precision with a natural, balanced aesthetic across both Tri-Cities locations.",
     initials: "SK",
+    photo: "/images/shelly-ketron.webp",
+    photoAlt: "Shelly Ketron, PA-C at Balanced Wellness Medical Spa",
   },
   {
     name: "Stephanie Childress",

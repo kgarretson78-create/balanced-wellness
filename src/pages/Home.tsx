@@ -134,8 +134,8 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <section className="relative overflow-hidden luxury-gradient">
-        {/* subtle emerald dot texture + soft, contained brand glows */}
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(158 40% 26%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
+        {/* subtle charcoal dot texture + soft, contained brand glows */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(24 8% 16%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
         <div className="absolute -top-24 right-[-6%] w-72 h-72 rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-[-4rem] left-[-4%] w-64 h-64 rounded-full bg-[hsl(var(--blush)/0.12)] blur-[90px] pointer-events-none" />
 

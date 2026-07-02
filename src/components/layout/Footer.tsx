@@ -14,9 +14,9 @@ export function Footer() {
 
           <div>
             <img
-              src="/images/logo.jpeg"
+              src="/images/logo.png"
               alt="Balanced Wellness Medical Spa"
-              className="h-14 w-auto object-contain mb-5 rounded-lg"
+              className="h-14 w-auto object-contain mb-5"
             />
             <p className="text-white/35 text-sm leading-relaxed mb-6">
               A modern medical spa blending aesthetics, wellness, and longevity medicine in Kingsport & Jonesborough TN.

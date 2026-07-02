@@ -53,7 +53,11 @@
   --color-champagne: hsl(var(--champagne));
   --color-champagne-foreground: hsl(var(--champagne-foreground));
   --color-gold: hsl(var(--gold));
+  --color-gold-ink: hsl(var(--gold-ink));
   --color-blush: hsl(var(--blush));
+  --color-blush-ink: hsl(var(--blush-ink));
+  --color-sage: hsl(var(--sage));
+  --color-sage-ink: hsl(var(--sage-ink));
 
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
@@ -107,7 +111,11 @@
   --champagne: 40 48% 82%;         /* champagne gold tint */
   --champagne-foreground: 40 26% 20%;
   --gold: 40 60% 47%;              /* champagne gold — accent only */
+  --gold-ink: 38 62% 32%;          /* deep gold — accessible accent text on light */
   --blush: 348 56% 84%;            /* soft blush accent */
+  --blush-ink: 345 40% 40%;        /* deep rose — accessible blush text on light */
+  --sage: 150 24% 42%;             /* soft sage green accent */
+  --sage-ink: 152 30% 27%;         /* deep sage — accessible green text on light */
 
   --app-font-sans: 'Raleway', 'Lato', sans-serif;
   --app-font-serif: 'Playfair Display', serif;

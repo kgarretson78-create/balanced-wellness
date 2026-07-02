@@ -54,6 +54,8 @@
   --color-champagne-foreground: hsl(var(--champagne-foreground));
   --color-gold: hsl(var(--gold));
   --color-blush: hsl(var(--blush));
+  --color-sage: hsl(var(--sage));
+  --color-sage-foreground: hsl(var(--sage-foreground));
 
   --font-sans: var(--app-font-sans);
   --font-serif: var(--app-font-serif);
@@ -108,6 +110,8 @@
   --champagne-foreground: 40 26% 20%;
   --gold: 40 60% 47%;              /* champagne gold — accent only */
   --blush: 348 56% 84%;            /* soft blush accent */
+  --sage: 158 38% 34%;             /* wellness green — subtle accent only */
+  --sage-foreground: 0 0% 100%;
 
   --app-font-sans: 'Raleway', 'Lato', sans-serif;
   --app-font-serif: 'Playfair Display', serif;
@@ -169,6 +173,10 @@
 
   .glow-gold {
     box-shadow: 0 4px 24px hsl(40 60% 47% / 0.14), 0 1px 4px hsl(40 60% 47% / 0.08);
+  }
+
+  .glow-sage {
+    box-shadow: 0 4px 24px hsl(158 38% 34% / 0.16), 0 1px 4px hsl(158 38% 34% / 0.10);
   }
 
   .text-gradient-gold {
@@ -236,13 +244,13 @@
   .decorative-line {
     width: 56px;
     height: 2px;
-    background: linear-gradient(90deg, hsl(24 8% 18%), hsl(40 60% 52%));
+    background: linear-gradient(90deg, hsl(24 8% 18%), hsl(158 38% 34%) 55%, hsl(40 60% 52%));
     border-radius: 2px;
   }
 
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(24 8% 18% / 0.22), hsl(40 60% 50% / 0.14), transparent);
+    background: linear-gradient(90deg, transparent, hsl(24 8% 18% / 0.22), hsl(158 38% 34% / 0.16), hsl(40 60% 50% / 0.14), transparent);
   }
 
   .float-slow {

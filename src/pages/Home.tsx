@@ -138,12 +138,14 @@ export default function Home() {
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(24 8% 16%) 1px, transparent 0)", backgroundSize: "34px 34px" }} />
         <div className="absolute -top-24 right-[-6%] w-72 h-72 rounded-full bg-primary/5 blur-[100px] pointer-events-none" />
         <div className="absolute bottom-[-4rem] left-[-4%] w-64 h-64 rounded-full bg-[hsl(var(--blush)/0.12)] blur-[90px] pointer-events-none" />
+        <div className="absolute top-1/3 left-1/2 w-56 h-56 rounded-full bg-[hsl(var(--sage)/0.06)] blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 md:py-16 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             {/* LEFT — headline, positioning, CTAs */}
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
               <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/80 backdrop-blur-sm border border-primary/10 text-primary text-[11px] sm:text-xs font-semibold tracking-wider uppercase mb-5 luxury-shadow">
+                <span className="w-1.5 h-1.5 rounded-full bg-sage" />
                 <MapPin className="w-3.5 h-3.5 text-gold" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
               </div>
 

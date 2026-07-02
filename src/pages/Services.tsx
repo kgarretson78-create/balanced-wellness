@@ -50,7 +50,7 @@ export default function Services() {
       link: "/weight-loss",
       price: 699,
       img: "service-weight.png",
-      gradient: "from-stone-200/50 via-background to-primary/10",
+      gradient: "from-sage/15 via-background to-primary/10",
     },
     {
       id: "wellness",

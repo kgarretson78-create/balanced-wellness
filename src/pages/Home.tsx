@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   Sparkles, Bot, ChevronRight, Star, Phone, MapPin, ArrowRight,
   HelpCircle, MessageSquare, CalendarCheck, CheckCircle2, Play,
+  Gem, ClipboardCheck, ShieldCheck,
 } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Section } from "@/components/ui/Section";
@@ -289,6 +290,69 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ──────────────  THE BALANCED DIFFERENCE (premium positioning)  ────────────── */}
+      <Section className="bg-background">
+        <div className="text-center mb-12 md:mb-16">
+          <Eyebrow tone="gold" className="mb-4">The Balanced Difference</Eyebrow>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4 text-balance">
+            Full-face balancing for women 40+
+          </h2>
+          <p className="text-foreground/55 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            We're the trusted choice for natural-looking refinement — never the
+            fast, one-size-fits-all option. Every treatment is guided by a plan
+            built entirely around your goals.
+          </p>
+          <div className="decorative-line mx-auto mt-6" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          {[
+            {
+              icon: Sparkles,
+              title: "Full-Face Balancing for Women 40+",
+              desc: "Aging shows across the whole face — not one line. Our providers assess your full facial harmony, restoring natural-looking refinement that still looks like you, only more rested and radiant.",
+            },
+            {
+              icon: ClipboardCheck,
+              title: "A Plan Built Around Your Goals",
+              desc: "No cookie-cutter menus. We map a personalized, long-term strategy to your goals, your timeline, and your comfort — so each visit builds intentionally toward the results you want.",
+            },
+            {
+              icon: ShieldCheck,
+              title: "The Trusted Choice, Not a Shortcut",
+              desc: "Advanced provider training, medical oversight, and premium products are the standard here. It's refined, confidence-building care you can trust for years — not a quick fix.",
+            },
+          ].map((c, i) => (
+            <motion.div
+              key={c.title}
+              {...item(i)}
+              className="luxury-card p-7 flex flex-col h-full"
+            >
+              <div className="w-11 h-11 rounded-xl bg-gold/[0.08] text-gold-ink flex items-center justify-center mb-4">
+                <c.icon className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-serif font-bold text-foreground mb-2">{c.title}</h3>
+              <p className="text-sm text-foreground/55 leading-relaxed">{c.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+          <button
+            type="button"
+            onClick={() => openBookingChooser({ service: "Full-Face Balancing Consultation" })}
+            className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
+          >
+            <Gem className="w-4 h-4" /> Book Your Full-Face Consultation
+          </button>
+          <button
+            type="button"
+            onClick={() => askKelli("I'm over 40 — what does full-face balancing involve?")}
+            className="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm"
+          >
+            <Bot className="w-4 h-4 text-primary" /> Ask about full-face balancing
+          </button>
+        </div>
+      </Section>
 
       {/* ───────────────────  SIGNATURE TREATMENTS  ─────────────────── */}
       <Section className="bg-background">

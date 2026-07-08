@@ -1022,6 +1022,26 @@ export function KelliAIChat() {
       return;
     }
 
+    if (
+      lower.includes("hydration") ||
+      lower.includes("iv drip") ||
+      lower.includes("iv therapy") ||
+      lower.includes("iv lounge") ||
+      lower.includes("iv hydration") ||
+      lower.includes("nad") ||
+      lower.includes("myers") ||
+      lower.includes("b12") ||
+      /\biv\b/.test(lower)
+    ) {
+      addBotMessage("Our IV Lounge is such a treat! 💧 We offer medically supervised IV hydration drips (about 45 minutes) like Hydration, Get-Up and Go, Recovery, Myers Cocktail, and our Inner Body/Beauty drip — plus quick add-ons like NAD+ therapy, B12 and Vitamin D injections, lipotropic/skinny shots, and peptide wellness. Not sure what fits? A quick wellness consult helps us match you to the right option.\n\nWe have IV Lounges in both Kingsport and Jonesborough. Want to see the full drip menu and pricing, or go ahead and book?", {
+        buttons: [
+          { label: "See the IV Lounge Menu", icon: "arrow", action: "iv-lounge" },
+          { label: "Book Your IV Session", icon: "calendar", action: "book" },
+        ],
+      });
+      return;
+    }
+
     if (lower.includes("treatment") || lower.includes("service") || lower.includes("offer") || lower.includes("what do you")) {
       addBotMessage("We offer a comprehensive menu of aesthetic and wellness services:\n\n\ud83d\udc89 Injectables: Botox, Dysport, Daxxify, Lip Filler, Dermal Fillers\n\u2728 Skin: RF Microneedling, Laser Rejuvenation, Chemical Peels\n\u2696\ufe0f Weight Loss: Semaglutide, Tirzepatide, Metabolic Programs\n\ud83e\uddec Wellness: Hormone Optimization, Peptide Therapy, IV Therapy\n\nWhat interests you most? I can share details on any treatment!", {
         quickReplies: ["Botox", "Lip Filler", "Laser treatments", "Weight loss", "Hormone therapy", "Analyze my skin"],
@@ -1199,6 +1219,8 @@ export function KelliAIChat() {
       setShowCamera(true);
     } else if (action === "services") {
       window.location.href = "/services";
+    } else if (action === "iv-lounge") {
+      window.location.href = "/iv-lounge-kingsport-tn";
     } else if (action === "memberships") {
       window.location.href = "/memberships";
     } else if (action.startsWith("preview-")) {

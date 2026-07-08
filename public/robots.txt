@@ -1,6 +1,45 @@
+# Balanced Wellness Medical Spa — crawler policy
+# All crawlers, including AI answer engines, are welcome to index public pages.
+# Explicit allowances below signal intent to LLM/answer-engine crawlers so the
+# practice can be surfaced and cited in AI Overviews and chat assistants.
+
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+
+# OpenAI (ChatGPT, search, training)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google (AI Overviews / Gemini) and Bing / Apple extended crawlers
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
 
 Sitemap: https://www.balancedmedicalspa.com/sitemap.xml

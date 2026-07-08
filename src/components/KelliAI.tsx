@@ -197,7 +197,7 @@ function generateSkinAnalysis(): SkinAnalysisResult {
   concerns.sort((a, b) => b.score - a.score);
 
   const treatmentPool = [
-    { name: "Botox / Dysport", match: 0 },
+    { name: "Botox / Dysport / Daxxify", match: 0 },
     { name: "RF Microneedling", match: 0 },
     { name: "Laser Rejuvenation", match: 0 },
     { name: "Dermal Fillers", match: 0 },

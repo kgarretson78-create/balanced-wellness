@@ -1,6 +1,6 @@
 import { SEOServicePage } from "@/components/SEOServicePage";
 
-const data = {
+export const data = {
   seo: {
     title: "Dysport Kingsport TN | Balanced Wellness Medical Spa",
     description: "Dysport injections in Kingsport TN at Balanced Wellness Medical Spa. Fast-acting wrinkle relaxer with natural-looking results. Expert providers, free consultations. Call (423) 765-1393.",

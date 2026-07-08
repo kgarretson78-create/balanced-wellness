@@ -52,7 +52,36 @@ function askKelli(prompt?: string) {
   );
 }
 
-const homeFaqs = [
+/**
+ * SEO metadata for the homepage — shared with the static prerender
+ * (scripts/prerender.ts) so crawler-visible <head> tags stay in sync with the
+ * client-rendered <SEO> below.
+ */
+export const HOME_SEO = {
+  title:
+    "Balanced Wellness Medical Spa | Kingsport & Jonesborough TN | Book a Free Consultation",
+  description:
+    "Premier med spa in Kingsport TN and Jonesborough TN. Botox, dermal fillers, RF microneedling, CO2 laser, medical weight loss (Semaglutide/Tirzepatide), and hormone optimization. Board-certified providers. 8,000+ patients treated. 200+ 5-star reviews.",
+  keywords:
+    "Med Spa Kingsport TN, Med Spa Jonesborough TN, Botox Kingsport TN, RF Microneedling Kingsport, CO2 Laser Jonesborough TN, Medical Weight Loss Kingsport TN, dermal fillers Kingsport, Semaglutide Kingsport TN, hormone therapy Jonesborough TN",
+};
+
+/** Plain-text hero copy reused by the crawler prerender (no JSX styling). */
+export const HOME_H1 = "Balanced Wellness Medical Spa — Kingsport & Jonesborough, TN";
+export const HOME_SUBHEAD =
+  "Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you — with two convenient Tri-Cities locations.";
+
+/**
+ * Concise, natural-language answer to "What is Balanced Wellness Medical Spa?"
+ * Written for answer engines (ChatGPT, Perplexity, Gemini, Claude) and Google
+ * AI Overviews — factual, local, and free of unverifiable superlatives.
+ */
+export const HOME_QUICK_ANSWER = {
+  q: "What is Balanced Wellness Medical Spa?",
+  a: "Balanced Wellness Medical Spa is a provider-led medical spa and wellness clinic serving Kingsport, Jonesborough, and the greater Tri-Cities region of Northeast Tennessee. The practice combines aesthetic medicine — Botox, Dysport, Daxxify, dermal and lip filler, RF microneedling, and CO2 laser resurfacing — with medical wellness, including physician-supervised weight loss (Semaglutide and Tirzepatide), bioidentical hormone optimization for men and women, peptide therapy, and IV therapy, all under one roof at two Tennessee locations.",
+};
+
+export const homeFaqs = [
   {
     q: "What is the best med spa in Kingsport TN?",
     a: "Balanced Wellness Medical Spa is one of the most-reviewed and highest-rated med spas in Kingsport, TN, with over 8,000 patients treated, 200+ five-star Google ratings, and a full menu that combines aesthetics with medical wellness — Botox, dermal fillers, RF microneedling, CO2 laser resurfacing, medical weight loss (Semaglutide and Tirzepatide), bioidentical hormone therapy, and peptide therapy. Our Kingsport clinic is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — and we also have a second location in Jonesborough at 120 South Cherokee St, giving Tri-Cities patients more scheduling flexibility.",
@@ -62,16 +91,32 @@ const homeFaqs = [
     a: "Our Kingsport location is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Call (423) 765-1393 to book. Kingsport hours are Monday through Thursday 10 AM to 7 PM and Friday 9 AM to 5 PM. We also have a Jonesborough location at 120 South Cherokee St, Jonesborough, TN 37659 — (423) 646-2169 — open Monday through Friday 10 AM to 6 PM.",
   },
   {
+    q: "How does RF microneedling improve skin texture and acne scars?",
+    a: "RF microneedling combines fine microneedles with radiofrequency energy to create controlled micro-injuries and deliver heat into the deeper layers of the skin. This stimulates collagen and elastin remodeling, which smooths uneven texture, softens acne scars, refines enlarged pores, and firms skin laxity. At Balanced Wellness in Kingsport and Jonesborough, TN, most patients see progressive improvement over a series of treatments as new collagen forms during the following three to six months.",
+  },
+  {
+    q: "Where can I get hormone optimization for men in Kingsport or Jonesborough, TN?",
+    a: "Balanced Wellness Medical Spa offers men's hormone optimization at both its Kingsport and Jonesborough, TN locations. Our providers evaluate symptoms such as low energy, reduced libido, brain fog, and loss of muscle tone, then use lab testing to build a personalized, medically supervised plan that may include testosterone optimization, peptide therapy, and metabolic support. Men across the Tri-Cities can begin in person or through our Tennessee telehealth program. Call (423) 765-1393 to schedule a consultation.",
+  },
+  {
+    q: "Does Balanced Wellness offer women's hormone and wellness care?",
+    a: "Yes. Balanced Wellness provides bioidentical hormone replacement therapy (BHRT) and women's wellness care in Kingsport and Jonesborough, TN. We support women navigating perimenopause, menopause, low energy, mood changes, weight gain, and low libido with lab-guided, provider-supervised plans. Care can begin in person or through Tennessee telehealth, and every new patient starts with a complimentary consultation.",
+  },
+  {
+    q: "What adult and concierge wellness services does Balanced Wellness offer?",
+    a: "Balanced Wellness offers a concierge-style adult wellness program that brings hormone optimization, peptide therapy, medical weight loss, IV therapy, and aesthetic treatments together under one provider-led practice in the Tri-Cities. Rather than a one-size-fits-all menu, each plan is built around your goals, labs, and lifestyle, with VIP memberships available for patients who want ongoing, coordinated care.",
+  },
+  {
+    q: "What is the difference between Botox, Dysport, and Daxxify?",
+    a: "Botox, Dysport, and Daxxify are all FDA-approved neuromodulators that relax the muscles responsible for frown lines, forehead lines, and crow's feet. Botox and Dysport typically last about three to four months, while Daxxify is formulated to last longer for many patients. At Balanced Wellness in Kingsport and Jonesborough, our providers recommend the option that best fits your anatomy and goals as part of full-face balancing — an approach especially popular with women 40+ who want natural-looking refinement rather than a frozen look.",
+  },
+  {
     q: "How much does Botox cost in Kingsport TN?",
     a: "Botox pricing at Balanced Wellness Medical Spa starts between $200–$600 per session depending on the areas treated. We offer free consultations to provide an exact quote tailored to your goals, and our VIP membership plans include discounts on all injectable treatments. Call (423) 765-1393 for current pricing.",
   },
   {
     q: "How much does CO2 laser resurfacing cost?",
     a: "CO2 laser resurfacing at Balanced Wellness Medical Spa typically ranges from $800–$2,500 depending on the treatment area and depth. Fractional treatments start lower. We offer flexible payment options through CareCredit and Cherry. Book a free consultation to get an exact quote.",
-  },
-  {
-    q: "What does RF Microneedling treat?",
-    a: "RF Microneedling treats fine lines, wrinkles, acne scars, enlarged pores, uneven skin texture, stretch marks, and skin laxity. It combines microneedling with radiofrequency energy to stimulate deep collagen production, resulting in firmer, smoother skin. Results improve progressively over 3–6 months.",
   },
   {
     q: "How much does medical weight loss cost?",
@@ -146,9 +191,9 @@ export default function Home() {
     <PageLayout>
       <LocalBusinessSchema />
       <SEO
-        title="Balanced Wellness Medical Spa | Kingsport & Jonesborough TN | Book a Free Consultation"
-        description="Premier med spa in Kingsport TN and Jonesborough TN. Botox, dermal fillers, RF microneedling, CO2 laser, medical weight loss (Semaglutide/Tirzepatide), and hormone optimization. Board-certified providers. 8,000+ patients treated. 200+ 5-star reviews."
-        keywords="Med Spa Kingsport TN, Med Spa Jonesborough TN, Botox Kingsport TN, RF Microneedling Kingsport, CO2 Laser Jonesborough TN, Medical Weight Loss Kingsport TN, dermal fillers Kingsport, Semaglutide Kingsport TN, hormone therapy Jonesborough TN"
+        title={HOME_SEO.title}
+        description={HOME_SEO.description}
+        keywords={HOME_SEO.keywords}
       />
 
       {/* ─────────────────────────  HERO  ───────────────────────── */}

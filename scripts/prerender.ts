@@ -33,6 +33,14 @@ import { data as onlineSkincareData } from "../src/pages/seo/OnlineSkincareKings
 import { data as womensHealthData } from "../src/pages/seo/WomensHealthKingsport.tsx";
 import { data as mensHealthData } from "../src/pages/seo/MensHealthKingsport.tsx";
 import { data as telehealthData } from "../src/pages/Telehealth.tsx";
+import {
+  HOME_SEO,
+  HOME_H1,
+  HOME_SUBHEAD,
+  HOME_QUICK_ANSWER,
+  homeFaqs,
+} from "../src/pages/Home.tsx";
+import { SIGNATURE_TREATMENTS, PRIMARY_CONCERNS } from "../src/lib/site.ts";
 import { LOCATIONS } from "../src/lib/booking.ts";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -882,6 +890,92 @@ async function prerenderIVLoungeRoute(
   await writeRoute(routePath, html);
 }
 
+// ---------------------------------------------------------------------------
+// Homepage prerender — the single most-cited URL for answer engines. Without
+// this, JS-less crawlers (GPTBot, ClaudeBot, PerplexityBot, Google AI) see an
+// empty #root at "/". We render an H1, a quick answer, the treatment menu,
+// concern links, FAQs, and both locations as crawler-visible markup.
+// ---------------------------------------------------------------------------
+function renderHomeBody(canonicalUrl: string): string {
+  const treatments = SIGNATURE_TREATMENTS.map(
+    (t) =>
+      `<li><a href="${escapeAttr(t.href)}"><strong>${escapeHtml(t.name)}</strong></a> — ${escapeHtml(t.desc)}</li>`,
+  ).join("\n          ");
+  const concerns = PRIMARY_CONCERNS.map(
+    (c) =>
+      `<li><a href="${escapeAttr(c.href)}">${escapeHtml(c.label)}</a> — ${escapeHtml(c.blurb)}</li>`,
+  ).join("\n          ");
+  const faqs = homeFaqs
+    .map(
+      (f) => `
+        <div>
+          <h3>${escapeHtml(f.q)}</h3>
+          <p>${escapeHtml(f.a)}</p>
+        </div>`,
+    )
+    .join("");
+
+  return `
+    <div id="prerender-content" data-prerender>
+      <header>
+        <h1>${escapeHtml(HOME_H1)}</h1>
+        <p>${escapeHtml(HOME_SUBHEAD)}</p>
+        <p><a href="/book">Book a Free Consultation</a> · <a href="tel:423-765-1393">Call (423) 765-1393</a></p>
+      </header>
+      <section aria-label="Quick Answer">
+        <h2>${escapeHtml(HOME_QUICK_ANSWER.q)}</h2>
+        <p>${escapeHtml(HOME_QUICK_ANSWER.a)}</p>
+      </section>
+      <section>
+        <h2>Signature Treatments in Kingsport &amp; Jonesborough, TN</h2>
+        <ul>
+          ${treatments}
+        </ul>
+      </section>
+      <section>
+        <h2>What Brings You Here Today?</h2>
+        <ul>
+          ${concerns}
+        </ul>
+      </section>
+      <section>
+        <h2>Frequently Asked Questions</h2>${faqs}
+      </section>
+      <section>
+        <h2>Two Convenient Tri-Cities Locations</h2>
+        <address>
+          <strong>Kingsport</strong><br>
+          1309 South John B Dennis Hwy, Suite 104<br>
+          Kingsport, TN 37660<br>
+          <a href="tel:423-765-1393">(423) 765-1393</a>
+        </address>
+        <address>
+          <strong>Jonesborough</strong><br>
+          120 South Cherokee St<br>
+          Jonesborough, TN 37659<br>
+          <a href="tel:423-646-2169">(423) 646-2169</a>
+        </address>
+      </section>
+      <p><a href="${escapeAttr(canonicalUrl)}">Balanced Wellness Medical Spa — Kingsport &amp; Jonesborough, TN</a></p>
+    </div>
+  `;
+}
+
+async function prerenderHomeRoute(template: string) {
+  const canonicalUrl = `${ORIGIN}/`;
+  const jsonLd = [LOCAL_BUSINESS_SCHEMA, faqPageSchema(homeFaqs, canonicalUrl)];
+  let html = applyHeadToTemplate(template, {
+    title: HOME_SEO.title,
+    description: HOME_SEO.description,
+    keywords: HOME_SEO.keywords,
+    canonicalUrl,
+    jsonLd,
+  });
+  html = injectBody(html, renderHomeBody(canonicalUrl));
+  // Home route "/" writes back to dist/index.html (the crawler entry point).
+  await writeRoute("/", html);
+}
+
 async function main() {
   const templatePath = path.join(DIST, "index.html");
   const template = await fs.readFile(templatePath, "utf8");
@@ -891,6 +985,7 @@ async function main() {
     throw new Error("[prerender] dist/index.html missing <div id=\"root\"> — build first.");
   }
 
+  await prerenderHomeRoute(template);
   await prerenderServiceRoute("/botox-kingsport-tn", botoxData as ServicePageData, template);
   await prerenderServiceRoute("/dysport-kingsport-tn", dysportData as ServicePageData, template);
   await prerenderServiceRoute("/daxxify-kingsport-tn", daxxifyData as ServicePageData, template);

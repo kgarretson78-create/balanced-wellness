@@ -664,21 +664,21 @@ export default function Home() {
       </Section>
 
       {/* ────────────────────────  FAQ  ──────────────────────── */}
-      <Section className="luxury-gradient-dark text-white relative overflow-hidden">
+      <Section className="luxury-gradient-dark text-foreground relative overflow-hidden">
         <div className="absolute top-0 right-[10%] w-[300px] h-[300px] rounded-full bg-champagne/5 blur-[100px]" />
         <div className="relative z-10">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/[0.06] border border-white/[0.08] text-champagne text-xs font-medium uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/70 border border-primary/10 text-gold-ink text-xs font-medium uppercase tracking-wider mb-4">
               <HelpCircle className="w-3.5 h-3.5" /> Frequently Asked Questions
             </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">Med Spa FAQ — Kingsport &amp; Jonesborough TN</h2>
-            <p className="text-white/40 text-sm max-w-2xl mx-auto">Common questions about treatments, pricing, and what to expect at Balanced Wellness.</p>
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Med Spa FAQ — Kingsport &amp; Jonesborough TN</h2>
+            <p className="text-foreground/60 text-sm max-w-2xl mx-auto">Common questions about treatments, pricing, and what to expect at Balanced Wellness.</p>
           </div>
           <div className="max-w-3xl mx-auto space-y-4">
             {homeFaqs.map((faq, i) => (
-              <motion.div key={faq.q} {...item(i)} className="p-6 rounded-2xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.06] transition-all duration-500">
+              <motion.div key={faq.q} {...item(i)} className="p-6 rounded-2xl bg-white/70 border border-primary/10 hover:bg-white transition-all duration-500">
                 <h3 className="font-bold text-champagne mb-3 text-[15px]">{faq.q}</h3>
-                <p className="text-sm text-white/50 leading-relaxed">{faq.a}</p>
+                <p className="text-sm text-foreground/65 leading-relaxed">{faq.a}</p>
               </motion.div>
             ))}
           </div>

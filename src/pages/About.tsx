@@ -21,11 +21,11 @@ export default function About() {
     <PageLayout>
       <SEO title="About Us | Balanced Wellness Medical Spa Kingsport & Jonesborough TN" description="Meet the team at Balanced Wellness Medical Spa. Board-certified providers delivering luxury aesthetics, weight loss, and wellness medicine in Kingsport & Jonesborough TN." keywords="about Balanced Wellness, med spa team Kingsport TN, board certified providers Jonesborough TN, medical spa about, aesthetic medicine team" />
       <div className="relative h-[50vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/90 to-primary/20" />
+        <div className="absolute inset-0 page-hero-luxury" />
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <p className="text-champagne uppercase tracking-widest text-sm font-semibold mb-4">Our Story</p>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">About Balanced Wellness</h1>
-          <p className="text-xl text-white/80 font-light">Premier Medical Spa in Kingsport & Jonesborough TN</p>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">About Balanced Wellness</h1>
+          <p className="text-xl text-foreground/65 font-light">Premier Medical Spa in Kingsport & Jonesborough TN</p>
         </div>
       </div>
 

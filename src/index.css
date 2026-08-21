@@ -172,8 +172,16 @@
   }
 
   .luxury-gradient-dark {
-    background: linear-gradient(160deg, hsl(24 9% 8%) 0%, hsl(24 8% 12%) 50%, hsl(28 7% 16%) 100%);
-  }
+      background: radial-gradient(circle at 78% 24%, hsl(348 62% 91% / 0.92), transparent 29%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(347 42% 96%) 54%, hsl(18 30% 93%) 100%);
+    }
+
+    .luxury-gradient-night {
+      background: linear-gradient(160deg, hsl(20 14% 15%) 0%, hsl(18 12% 19%) 50%, hsl(15 14% 24%) 100%);
+    }
+
+    .page-hero-luxury {
+      background: radial-gradient(circle at 78% 25%, hsl(348 62% 89% / 0.9), transparent 30%), radial-gradient(circle at 12% 92%, hsl(15 46% 80% / 0.28), transparent 28%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(347 42% 96%) 55%, hsl(18 30% 93%) 100%);
+    }
 
   .glow-primary {
     box-shadow: 0 4px 24px hsl(24 8% 14% / 0.16), 0 1px 4px hsl(24 8% 14% / 0.10);

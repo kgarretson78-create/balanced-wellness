@@ -88,7 +88,7 @@ export function EmailSignupPopup() {
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
           >
-            <div className="luxury-gradient-dark p-6 text-center">
+            <div className="luxury-gradient-night p-6 text-center">
               <button
                 onClick={handleClose}
                 className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"

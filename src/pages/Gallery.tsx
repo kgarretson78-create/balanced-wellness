@@ -61,7 +61,7 @@ const galleryItems: GalleryItem[] = [
       category: "Skin Tightening",
       title: "Agnes & Scarlett RF Skin Tightening",
       beforeImage: "/images/skintightening-before.jpg",
-      afterImage: "/images/rfmicroneedling-after.jpg",
+      afterImage: "/images/skintightening-after.jpg",
       description: "Dramatic jawline definition and neck tightening using Agnes and Scarlett RF technology for a sculpted, youthful profile.",
     },
     ];

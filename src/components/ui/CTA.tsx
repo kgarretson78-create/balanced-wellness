@@ -32,10 +32,10 @@ export function CTA({
 
       <div className="max-w-3xl mx-auto px-4 relative z-10 text-center">
         <div className="decorative-line mx-auto mb-8" />
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-white mb-5 text-balance leading-tight">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-5 text-balance leading-tight">
           {title}
         </h2>
-        <p className="text-sm md:text-base text-white/40 mb-10 max-w-xl mx-auto leading-relaxed">
+        <p className="text-sm md:text-base text-foreground/60 mb-10 max-w-xl mx-auto leading-relaxed">
           {subtitle}
         </p>
         {linkTo ? (

@@ -77,7 +77,7 @@ export default function FlexiblePayments() {
       />
 
       <div className="relative h-[44vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/90 to-primary/30" />
+        <div className="absolute inset-0 page-hero-luxury" />
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-1/4 w-72 h-72 rounded-full bg-champagne blur-3xl" />
           <div className="absolute bottom-10 right-1/4 w-96 h-96 rounded-full bg-primary blur-3xl" />
@@ -91,10 +91,10 @@ export default function FlexiblePayments() {
           <p className="text-champagne uppercase tracking-[0.25em] text-xs font-semibold mb-4">
             Pay Your Way
           </p>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
             Flexible Payment Options at Balanced Wellness
           </h1>
-          <p className="text-lg sm:text-xl text-white/85 font-light max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-foreground/65 font-light max-w-2xl mx-auto">
             Confidence should feel accessible. Pay in full or choose a flexible payment option that
             fits your life.
           </p>

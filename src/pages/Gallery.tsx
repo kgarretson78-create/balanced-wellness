@@ -36,7 +36,7 @@ const galleryItems: GalleryItem[] = [
       id: "lip-filler-2",
       category: "Lip Filler",
       title: "Natural Lip Volume",
-      beforeImage: "/images/before-lips-branded.jpg",
+      beforeImage: "/images/skintightening-after.jpg",
       afterImage: "/images/after-lips-branded.jpg",
       description: "Subtle lip volume enhancement with premium hyaluronic acid filler for beautifully balanced results.",
     },

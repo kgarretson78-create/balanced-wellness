@@ -142,15 +142,6 @@ export const PROVIDERS: Provider[] = [
     photo: "/images/shelly-ketron.webp",
     photoAlt: "Shelly Ketron, PA-C at Balanced Wellness Medical Spa",
   },
-  {
-    name: "Stephanie Childress",
-    credential: "FNP-C",
-    title: "Family Nurse Practitioner",
-    bio: "Stephanie Childress, FNP-C, brings over 15 years of nursing experience to Balanced Wellness, including the last eight years as a Family Nurse Practitioner. Her transition into aesthetic medicine was a natural extension of her clinical expertise and passion for helping others look and feel their most confident. By combining a deep understanding of anatomy and physiology, Stephanie delivers results that are both natural and refined. She approaches each patient with intention and precision, while maintaining a strong focus on individualized care.\n\nOutside of her professional life, she is a devoted wife and proud mother of two boys. She enjoys cooking, gardening, and spending time outdoors with her family.",
-    initials: "SC",
-    photo: "/images/stephanie-childress.webp",
-    photoAlt: "Stephanie Childress, FNP-C at Balanced Wellness Medical Spa",
-  },
 ];
 
 /**

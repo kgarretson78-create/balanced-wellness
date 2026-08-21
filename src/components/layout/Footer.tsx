@@ -4,7 +4,7 @@ import { LOCATIONS } from "@/lib/booking";
 
 export function Footer() {
   return (
-    <footer className="luxury-gradient-dark text-white/90 pt-20 pb-8 relative overflow-hidden">
+    <footer className="luxury-gradient-night text-white/90 pt-20 pb-8 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-champagne/40 to-transparent" />
       <div className="absolute top-[20%] right-0 w-[300px] h-[300px] rounded-full bg-primary/3 blur-[100px]" />
       <div className="absolute bottom-[10%] left-[8%] w-[260px] h-[260px] rounded-full bg-champagne/[0.04] blur-[110px]" />

@@ -163,6 +163,74 @@
     text-wrap: balance;
   }
 
+    .brand-logo-link {
+      position: relative;
+      z-index: 1;
+      padding: 0.35rem 0;
+    }
+
+    .brand-logo-embed {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 136px;
+      height: 62px;
+      padding: 0.2rem 0.75rem;
+      overflow: hidden;
+      border: 1px solid hsl(15 46% 58% / 0.28);
+      border-radius: 999px;
+      background: linear-gradient(135deg, hsl(40 38% 99% / 0.94), hsl(348 62% 97% / 0.8));
+      box-shadow: 0 5px 18px hsl(15 46% 35% / 0.08), inset 0 0 0 1px hsl(0 0% 100% / 0.7);
+      transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
+    }
+
+    .brand-logo-embed::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid hsl(15 46% 58% / 0.2);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .brand-logo-embed::after {
+      content: '';
+      position: absolute;
+      top: -55%;
+      left: 18%;
+      width: 64%;
+      height: 120%;
+      background: hsl(0 0% 100% / 0.46);
+      transform: rotate(24deg);
+      filter: blur(16px);
+      pointer-events: none;
+    }
+
+    .brand-logo-link:hover .brand-logo-embed {
+      border-color: hsl(15 46% 58% / 0.48);
+      box-shadow: 0 8px 24px hsl(15 46% 35% / 0.13), inset 0 0 0 1px hsl(0 0% 100% / 0.78);
+      transform: translateY(-1px);
+    }
+
+    .brand-logo-image {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scale(1.12);
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 640px) {
+      .brand-logo-embed {
+        width: 122px;
+        height: 56px;
+        padding-inline: 0.6rem;
+      }
+    }
+
   .luxury-gradient {
     background: linear-gradient(160deg, hsl(40 38% 97%) 0%, hsl(347 42% 96%) 48%, hsl(36 26% 94%) 100%);
   }

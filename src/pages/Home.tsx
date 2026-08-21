@@ -197,7 +197,7 @@ export default function Home() {
       />
 
       {/* ─────────────────────────  HERO  ───────────────────────── */}
-      <section className="relative overflow-hidden luxury-gradient-dark min-h-[92vh] flex items-center">
+      <section className="relative overflow-hidden luxury-gradient-hero min-h-[92vh] flex items-center">
         {/* Cinematic, video-ready backdrop. Real clinic reel drops into HERO_VIDEO_SRC. */}
         {HERO_VIDEO_SRC ? (
           <video
@@ -223,16 +223,16 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
           >
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/[0.06] backdrop-blur-sm border border-white/10 text-white/80 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase mb-8">
+            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/[0.68] backdrop-blur-sm border border-primary/10 text-foreground/70 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase mb-8">
               <MapPin className="w-3.5 h-3.5 text-champagne" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-serif font-bold text-white leading-[1.06] mb-6 text-balance">
+            <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-serif font-bold text-foreground leading-[1.06] mb-6 text-balance">
               Look Better. Feel Better.{" "}
               <span className="italic text-gradient-gold">Live Balanced.</span>
             </h1>
 
-            <p className="text-base md:text-lg text-white/60 mb-10 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-foreground/65 mb-10 leading-relaxed max-w-2xl mx-auto">
               Personalized aesthetic medicine, wellness, weight loss, hormone
               optimization, and regenerative treatments designed around you.
             </p>
@@ -249,7 +249,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => askKelli("What brings you here today?")}
-                className="px-8 py-4 bg-white/[0.06] text-white text-center font-medium rounded-full border border-white/15 backdrop-blur-sm hover:bg-white/[0.12] transition-all duration-300 text-sm flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-primary/[0.06] text-foreground text-center font-medium rounded-full border border-primary/15 backdrop-blur-sm hover:bg-primary/[0.10] transition-all duration-300 text-sm flex items-center justify-center gap-2"
               >
                 <Bot className="w-4 h-4 text-champagne" /> Take the AI Beauty Assessment
               </button>
@@ -257,17 +257,17 @@ export default function Home() {
 
             <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
               <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-champagne text-champagne" />)}</div>
-              <span className="text-sm font-medium text-white/70">5.0</span>
-              <span className="text-white/25">·</span>
-              <span className="text-sm text-white/50">200+ five-star reviews · 8,000+ patients treated</span>
+              <span className="text-sm font-medium text-foreground/70">5.0</span>
+              <span className="text-foreground/25">·</span>
+              <span className="text-sm text-foreground/55">200+ five-star reviews · 8,000+ patients treated</span>
             </div>
           </motion.div>
         </div>
 
         {/* Scroll affordance */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-white/40">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-foreground/40">
           <span className="text-[10px] uppercase tracking-[0.2em]">Explore</span>
-          <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
+          <div className="w-px h-8 bg-gradient-to-b from-primary/40 to-transparent" />
         </div>
       </section>
 

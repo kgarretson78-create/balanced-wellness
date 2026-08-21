@@ -68,13 +68,11 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-[80px] lg:h-[68px]">
           <Link href="/" className="brand-logo-link flex-shrink-0 flex items-center group" aria-label="Balanced Wellness Medical Spa — Kingsport & Jonesborough TN">
-              <span className="brand-logo-embed" aria-hidden="true">
-                <img
-                  src="/images/logo.png"
-                  alt="Balanced Wellness Medical Spa — Kingsport & Jonesborough TN"
-                  className="brand-logo-image transition-all duration-500 group-hover:scale-[1.06]"
-                />
-              </span>
+              <img
+                src="/images/logo.png"
+                alt="Balanced Wellness Medical Spa — Kingsport & Jonesborough TN"
+                className="brand-logo-image transition-all duration-500 group-hover:opacity-80"
+              />
             </Link>
 
           <nav className="hidden lg:flex items-center space-x-7">

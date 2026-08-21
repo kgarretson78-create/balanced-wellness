@@ -95,6 +95,13 @@ app.get("/health", (_req, res) => {
   });
 });
 
+// Serve source image assets explicitly as a production fallback. This keeps
+// public images available even when a deployment's built asset directory is incomplete.
+app.use("/images", express.static(path.resolve(process.cwd(), "public", "images"), {
+  maxAge: "7d",
+  immutable: false,
+}));
+
 // Explicit static SEO files — guarantees correct Content-Type and avoids
 // any chance of the SPA fallback swallowing them.
 app.get("/robots.txt", (_req, res) => {

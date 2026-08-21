@@ -21,11 +21,11 @@ export default function WeightLoss() {
     <PageLayout>
       <SEO title="Medical Weight Loss Kingsport TN | Semaglutide | Balanced Wellness Medical Spa" description="Medically supervised weight loss programs in Kingsport & Jonesborough TN. Semaglutide, Tirzepatide, metabolic reset, and body contouring for lasting results." keywords="weight loss clinic Kingsport TN, Semaglutide Kingsport TN, Tirzepatide Jonesborough TN, medical weight loss, body contouring" />
       <div className="relative h-[55vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/90 to-primary/20" />
+        <div className="absolute inset-0 page-hero-luxury" />
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <p className="text-champagne uppercase tracking-widest text-sm font-semibold mb-4">Transform Your Health</p>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">Medical Weight Loss</h1>
-          <p className="text-xl text-white/80 font-light">Science-backed programs to help you achieve your goal weight safely.</p>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">Medical Weight Loss</h1>
+          <p className="text-xl text-foreground/65 font-light">Science-backed programs to help you achieve your goal weight safely.</p>
         </div>
       </div>
 

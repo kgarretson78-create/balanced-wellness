@@ -3,7 +3,6 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Section } from "@/components/ui/Section";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
-import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { motion, AnimatePresence } from "framer-motion";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 
@@ -11,81 +10,65 @@ interface GalleryItem {
   id: string;
   category: string;
   title: string;
-  beforeImage?: string;
-  afterImage?: string;
-  combinedImage?: string;
+  beforeImage: string;
+  afterImage: string;
   description: string;
 }
 
 const galleryItems: GalleryItem[] = [
     {
-      id: "lip-enhancement-1",
+      id: "co2-laser-1",
+      category: "CO2 Laser",
+      title: "CO2 Laser Skin Resurfacing",
+      beforeImage: "/images/laser-before.jpg",
+      afterImage: "/images/laser-after.jpg",
+      description: "Advanced CO2 laser treatment dramatically improving skin texture, reducing acne scarring, and revealing smoother skin.",
+    },
+    {
+      id: "lip-filler-1",
       category: "Lip Filler",
-      title: "Lip Enhancement",
-      combinedImage: "/images/before-afters/01-lip-enhancement.jpg",
+      title: "Lip Filler Enhancement",
+      beforeImage: "/images/lips-before.jpg",
+      afterImage: "/images/lips-after.jpg",
       description: "Full lip augmentation creating naturally plump, symmetrical lips with expertly placed dermal filler.",
     },
     {
-      id: "facial-balancing-1",
+      id: "lip-filler-2",
       category: "Lip Filler",
-      title: "Facial Balancing Filler",
-      combinedImage: "/images/before-afters/02-facial-balancing-filler.jpg",
-      description: "Subtle facial balancing with expertly placed filler for beautifully proportioned, natural-looking results.",
+      title: "Natural Lip Volume",
+      beforeImage: "/images/before-lips-branded.jpg",
+      afterImage: "/images/after-lips-branded.jpg",
+      description: "Subtle lip volume enhancement with premium hyaluronic acid filler for beautifully balanced results.",
     },
     {
-      id: "perioral-rejuvenation-1",
-      category: "Lip Filler",
-      title: "Lip & Perioral Rejuvenation",
-      combinedImage: "/images/before-afters/03-lip-perioral-rejuvenation.jpg",
-      description: "Refined lip enhancement and perioral rejuvenation for a smoother, more balanced appearance.",
-    },
-    {
-      id: "gummy-smile-1",
-      category: "Lip Filler",
-      title: "Gummy Smile Correction",
-      combinedImage: "/images/before-afters/04-gummy-smile-correction.jpg",
-      description: "Precision injectable treatment designed to create a more balanced, confident smile.",
-    },
-    {
-      id: "lower-face-profile-1",
-      category: "Lip Filler",
-      title: "Lower Face Balancing — Profile",
-      combinedImage: "/images/before-afters/05-lower-face-balancing-profile.jpg",
-      description: "Strategic lower-face balancing to refine profile proportions while preserving a natural look.",
-    },
-    {
-      id: "lower-face-front-1",
-      category: "Lip Filler",
-      title: "Lower Face Balancing — Front",
-      combinedImage: "/images/before-afters/06-lower-face-balancing-front.jpg",
-      description: "Thoughtful filler placement for harmonious lower-face proportions and elegant definition.",
-    },
-    {
-      id: "lip-enhancement-kelli-1",
-      category: "Lip Filler",
-      title: "Lip Enhancement",
-      combinedImage: "/images/before-afters/07-lip-enhancement-kelli.jpg",
-      description: "Natural lip volume enhancement with premium hyaluronic acid filler for beautifully balanced results.",
-    },
-    {
-      id: "weightloss-130-1",
+      id: "weightloss-1",
       category: "Weight Loss",
-      title: "130-Lb Weight Loss Transformation",
-      combinedImage: "/images/before-afters/08-130-lb-weight-loss.jpg",
+      title: "Weight Loss Transformation",
+      beforeImage: "/images/before-weightloss.jpg",
+      afterImage: "/images/after-weightloss.jpg",
       description: "Incredible body transformation achieved through our medically supervised weight loss program.",
     },
     {
-      id: "weightloss-100-1",
-      category: "Weight Loss",
-      title: "100-Lb Weight Loss Transformation",
-      combinedImage: "/images/before-afters/09-100-lb-weight-loss.jpg",
-      description: "A significant body transformation supported by an individualized, medically supervised weight loss plan.",
+      id: "rfmicroneedling-1",
+      category: "RF Microneedling",
+      title: "RF Microneedling Skin Rejuvenation",
+      beforeImage: "/images/rfmicroneedling-before.jpg",
+      afterImage: "/images/rfmicroneedling-after.jpg",
+      description: "Remarkable skin smoothing and texture improvement around the mouth and chin area with advanced RF microneedling treatments.",
+    },
+    {
+      id: "skintightening-1",
+      category: "Skin Tightening",
+      title: "Agnes & Scarlett RF Skin Tightening",
+      beforeImage: "/images/skintightening-before.jpg",
+      afterImage: "/images/after-skin-tightening.jpg",
+      description: "Dramatic jawline definition and neck tightening using Agnes and Scarlett RF technology for a sculpted, youthful profile.",
     },
     ];
 
     const categories = ["All", "CO2 Laser", "RF Microneedling", "Lip Filler", "Botox", "Daxxify", "Dysport", "Weight Loss", "Skin Tightening"];
 
-export default function Gallery() {
+    export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState("All");
   const { open: openBookingChooser } = useBookingChooser();
 
@@ -164,18 +147,16 @@ export default function Gallery() {
                     transition={{ duration: 0.45, delay: i * 0.08 }}
                   >
                     <div className="luxury-card overflow-hidden">
-                      {item.combinedImage ? (
-                          <img
-                            src={item.combinedImage}
-                            alt={item.title + " before and after result"}
-                            className="block w-full aspect-square object-cover"
-                          />
-                        ) : (
-                          <BeforeAfterSlider
-                            beforeImage={item.beforeImage || ""}
-                            afterImage={item.afterImage || ""}
-                          />
-                        )}
+                      <div className="before-after-board grid grid-cols-2 gap-px bg-border">
+                          <div className="bg-background">
+                            <div className="before-after-label">Before</div>
+                            <img src={item.beforeImage} alt={item.title + " before"} className="block w-full aspect-square object-cover" />
+                          </div>
+                          <div className="bg-background">
+                            <div className="before-after-label">After</div>
+                            <img src={item.afterImage} alt={item.title + " after"} className="block w-full aspect-square object-cover" />
+                          </div>
+                        </div>
                       <div className="p-5 text-center">
                         <span className="inline-block px-3 py-0.5 bg-primary/[0.06] text-primary rounded-full text-[11px] font-semibold uppercase tracking-wider mb-2">
                           {item.category}

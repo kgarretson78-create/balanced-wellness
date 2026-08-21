@@ -97,8 +97,8 @@ export default function Gallery() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-xs text-champagne uppercase tracking-[0.2em] font-semibold mb-5">Real Results</p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white mb-4">Before & After Gallery</h1>
-            <p className="text-base text-white/40 font-light max-w-xl mx-auto leading-relaxed">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-foreground mb-4">Before & After Gallery</h1>
+            <p className="text-base text-foreground/60 font-light max-w-xl mx-auto leading-relaxed">
               See the transformative results our patients achieve at Balanced Wellness Medical Spa.
             </p>
             <div className="decorative-line mx-auto mt-6" />

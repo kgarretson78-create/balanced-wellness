@@ -365,3 +365,50 @@
     letter-spacing: -0.02em;
   }
 }
+
+
+    .before-after-board {
+      border-bottom: 1px solid hsl(var(--border));
+    }
+
+    .before-after-label {
+      padding: 0.65rem 0.5rem 0.55rem;
+      color: hsl(var(--foreground) / 0.62);
+      background: linear-gradient(180deg, hsl(var(--card)), hsl(var(--background)));
+      font-family: var(--app-font-sans);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      line-height: 1;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .brand-logo-link {
+      width: 162px;
+      height: 78px;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .brand-logo-link .brand-logo-image {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform: scale(1.3);
+      mix-blend-mode: multiply;
+    }
+
+    @media (max-width: 640px) {
+      .brand-logo-link {
+        width: 145px;
+        height: 70px;
+      }
+
+      .brand-logo-link .brand-logo-image {
+        transform: scale(1.24);
+      }
+    }

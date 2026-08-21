@@ -68,11 +68,11 @@ export default function Contact() {
     <PageLayout>
       <SEO title="Contact Us | Balanced Wellness Medical Spa Kingsport & Jonesborough TN" description="Contact Balanced Wellness Medical Spa. Kingsport: (423) 765-1393, 1309 S John B Dennis Hwy. Jonesborough: (423) 646-2169, 120 S Cherokee St. Two convenient Tri-Cities TN locations." keywords="contact medical spa Kingsport TN, med spa phone number Jonesborough TN, Balanced Wellness address, med spa directions Tri-Cities" />
       <div className="relative h-[45vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/90 to-primary/20" />
+        <div className="absolute inset-0 page-hero-luxury" />
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <p className="text-champagne uppercase tracking-widest text-sm font-semibold mb-4">Get In Touch</p>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">Contact Us</h1>
-          <p className="text-xl text-white/80 font-light">We'd love to hear from you. Reach out or visit one of our clinics.</p>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">Contact Us</h1>
+          <p className="text-xl text-foreground/65 font-light">We'd love to hear from you. Reach out or visit one of our clinics.</p>
         </div>
       </div>
 

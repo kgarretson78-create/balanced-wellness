@@ -22,11 +22,11 @@ export default function Wellness() {
     <PageLayout>
       <SEO title="Wellness & Longevity Kingsport TN | IV Therapy & Peptides | Balanced Wellness Medical Spa" description="IV hydration therapy, peptide therapy, NAD+, nutrient injections, and longevity medicine in Kingsport & Jonesborough TN. Optimize your health from within." keywords="wellness clinic Kingsport TN, IV therapy Kingsport TN, peptide therapy Jonesborough TN, NAD+ therapy, longevity medicine" />
       <div className="relative h-[55vh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-br from-foreground via-foreground/90 to-primary/20" />
+        <div className="absolute inset-0 page-hero-luxury" />
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <p className="text-champagne uppercase tracking-widest text-sm font-semibold mb-4">Optimize From Within</p>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-white mb-4">Wellness & Longevity</h1>
-          <p className="text-xl text-white/80 font-light">Optimize your internal health to radiate outward vitality.</p>
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">Wellness & Longevity</h1>
+          <p className="text-xl text-foreground/65 font-light">Optimize your internal health to radiate outward vitality.</p>
         </div>
       </div>
 

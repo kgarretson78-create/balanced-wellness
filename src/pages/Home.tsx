@@ -24,6 +24,7 @@ import {
   HEADLINE_STATS,
 } from "@/lib/site";
 import { useEffect } from "react";
+import { HourglassFigureSection } from "@/components/HourglassFigureSection";
 
 /**
  * Website 3.0 — luxury, concern-first homepage.
@@ -449,6 +450,8 @@ export default function Home() {
           ))}
         </div>
       </Section>
+
+      <HourglassFigureSection item={item} />
 
       {/* ──────────────────  KELLIAI CONCIERGE  ────────────────── */}
       <Section className="bg-background">

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { PageLayout } from "@/components/layout/PageLayout";
@@ -195,6 +195,10 @@ export default function SkinAnalyzer() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", consent: false });
   const [submitted, setSubmitted] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const cameraVideoRef = useRef<HTMLVideoElement>(null);
+  const cameraStreamRef = useRef<MediaStream | null>(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraError, setCameraError] = useState("");
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) return;
@@ -204,6 +208,50 @@ export default function SkinAnalyzer() {
     };
     reader.readAsDataURL(file);
   }, []);
+
+  const stopCamera = useCallback(() => {
+    cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
+    cameraStreamRef.current = null;
+    setCameraOpen(false);
+  }, []);
+
+  const openCamera = useCallback(async () => {
+    setCameraError("");
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraError("Camera capture is not available in this browser. Please choose an image file instead.");
+      return;
+    }
+    try {
+      cameraStreamRef.current = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "user" } }, audio: false });
+      setCameraOpen(true);
+    } catch {
+      setCameraError("We couldn't access your camera. Check your browser permission or choose an image file instead.");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!cameraOpen || !cameraVideoRef.current || !cameraStreamRef.current) return;
+    cameraVideoRef.current.srcObject = cameraStreamRef.current;
+    cameraVideoRef.current.play().catch(() => undefined);
+  }, [cameraOpen]);
+
+  useEffect(() => () => {
+    cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
+  }, []);
+
+  const captureCameraPhoto = useCallback(() => {
+    const video = cameraVideoRef.current;
+    if (!video || !video.videoWidth || !video.videoHeight) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d")?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      handleFile(new File([blob], "beauty-preview.jpg", { type: "image/jpeg" }));
+      stopCamera();
+    }, "image/jpeg", 0.92);
+  }, [handleFile, stopCamera]);
 
   const startAnalysis = useCallback(() => {
     setStep("analyzing");
@@ -347,23 +395,24 @@ export default function SkinAnalyzer() {
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="border-2 border-dashed border-primary/30 rounded-2xl p-12 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/[0.02] transition-all"
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="border-2 border-dashed border-primary/30 rounded-2xl p-10 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/[0.02] transition-all"
                   onClick={() => fileRef.current?.click()}
                   onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    const f = e.dataTransfer.files[0];
-                    if (f) handleFile(f);
-                  }}
+                  onDrop={(e) => { e.preventDefault(); e.stopPropagation(); const f = e.dataTransfer.files[0]; if (f) handleFile(f); }}
                 >
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
-                    <Upload className="w-7 h-7 text-primary" />
-                  </div>
-                  <p className="font-semibold text-foreground mb-1">Tap to upload or drag & drop</p>
-                  <p className="text-xs text-foreground/50">JPG, PNG up to 10MB</p>
+                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5"><Upload className="w-7 h-7 text-primary" /></div>
+                  <p className="font-semibold text-foreground mb-1">Upload a Beauty Preview photo</p>
+                  <p className="text-xs text-foreground/50">JPG, PNG up to 10MB · drag & drop also supported</p>
                 </motion.div>
-              ) : (
+                <div className="flex flex-col sm:flex-row justify-center gap-3 mt-5">
+                  <button type="button" onClick={openCamera} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors"><Camera className="w-4 h-4" /> Take a photo</button>
+                  <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-border bg-white text-foreground text-sm font-medium hover:bg-secondary transition-colors"><Upload className="w-4 h-4 text-primary" /> Choose a file</button>
+                </div>
+                {cameraError && <p role="alert" className="text-xs text-destructive mt-3">{cameraError}</p>}
+) : (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                   <div className="relative w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg">
                     <img src={preview} alt="Your selfie" className="w-full h-full object-cover" />
@@ -395,6 +444,18 @@ export default function SkinAnalyzer() {
               </div>
             </div>
           </motion.section>
+        )}
+
+
+        {cameraOpen && (
+          <motion.div key="camera" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] bg-foreground/70 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Take a Beauty Preview photo">
+            <motion.div initial={{ y: 18, scale: 0.98 }} animate={{ y: 0, scale: 1 }} className="w-full max-w-lg rounded-3xl bg-background p-5 sm:p-7 shadow-2xl">
+              <div className="flex items-center justify-between mb-4"><div><p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold">Beauty Preview</p><h3 className="text-2xl font-serif font-bold text-foreground">Take a photo</h3></div><button type="button" onClick={stopCamera} className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-foreground/60 hover:bg-secondary" aria-label="Close camera"><span aria-hidden="true" className="text-xl leading-none">×</span></button></div>
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-foreground/10"><video ref={cameraVideoRef} muted playsInline className="w-full h-full object-cover -scale-x-100" /></div>
+              <p className="text-xs text-foreground/50 text-center mt-3">Use natural light and keep your face centered without makeup for the clearest preview.</p>
+              <button type="button" onClick={captureCameraPhoto} className="w-full mt-5 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"><Camera className="w-4 h-4" /> Capture photo</button>
+            </motion.div>
+          </motion.div>
         )}
 
         {/* Analyzing Step */}

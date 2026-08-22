@@ -118,6 +118,7 @@ export function Navbar() {
             </div>
 
             <Link href="/memberships" className={navLinkClass("/memberships")}>Memberships</Link>
+            <a href="https://kelliai.ai/hourglassfigure" target="_blank" rel="noopener noreferrer" className={navLinkClass("/hourglassfigure")}>Hourglass Figure</a>
             <Link href="/gallery" className={navLinkClass("/gallery")}>Gallery</Link>
             <Link href="/about" className={navLinkClass("/about")}>About</Link>
             <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
@@ -173,6 +174,7 @@ export function Navbar() {
               )}
 
               <Link href="/memberships" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Memberships</Link>
+              <a href="https://kelliai.ai/hourglassfigure" target="_blank" rel="noopener noreferrer" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Hourglass Figure</a>
               <Link href="/gallery" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Gallery</Link>
               <Link href="/about" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">About</Link>
               <Link href="/contact" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Contact</Link>

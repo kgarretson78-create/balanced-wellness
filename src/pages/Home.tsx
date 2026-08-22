@@ -555,7 +555,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
           {[
             { before: "/images/laser-before.jpg", after: "/images/laser-after.jpg", title: "CO2 Laser Resurfacing" },
-            { before: "/images/lips-before.jpg", after: "/images/lips-after.jpg", title: "Lip Filler" },
+            { before: "/images/rfmicroneedling-after.jpg", after: "/images/lips-after.jpg", title: "Lip Filler" },
             { before: "/images/before-lips-branded.jpg", after: "/images/after-lips-branded.jpg", title: "Lip Filler — Natural Look" },
             { before: "/images/before-weightloss.jpg", after: "/images/after-weightloss.jpg", title: "Medical Weight Loss" },
           ].map((photo, i) => (

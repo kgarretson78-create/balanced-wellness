@@ -302,7 +302,7 @@ export default function SkinAnalyzer() {
     <PageLayout>
       <SEO
         title="AI Skin Analyzer | KelliAI | Balanced Wellness Medical Spa"
-        description="Upload a selfie and receive AI-powered personalized skincare and treatment recommendations from KelliAI at Balanced Wellness Medical Spa in Kingsport TN."
+        description="Upload a Beauty Preview photo and receive AI-powered personalized skincare and treatment recommendations from KelliAI at Balanced Wellness Medical Spa in Kingsport TN."
         keywords="AI skin analysis Kingsport TN, skin analyzer medical spa, KelliAI skin tool, personalized skincare recommendations, skin assessment Tri-Cities TN"
       />
 
@@ -334,7 +334,7 @@ export default function SkinAnalyzer() {
                 <span className="block text-gradient-gold mt-1">by KelliAI</span>
               </h1>
               <p className="text-lg md:text-xl text-foreground/60 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Upload a selfie and receive personalized skincare and treatment recommendations from our AI aesthetic assistant.
+                Upload a Beauty Preview photo and receive personalized skincare and treatment recommendations from our AI aesthetic assistant.
               </p>
               <motion.button
                 whileHover={{ scale: 1.03, y: -2 }}
@@ -347,7 +347,7 @@ export default function SkinAnalyzer() {
               </motion.button>
               <div className="mt-12 grid grid-cols-3 gap-6 max-w-lg mx-auto">
                 {[
-                  { icon: <Camera className="w-5 h-5" />, label: "Upload Selfie" },
+                  { icon: <Camera className="w-5 h-5" />, label: "Beauty Preview" },
                   { icon: <Zap className="w-5 h-5" />, label: "AI Analysis" },
                   { icon: <Star className="w-5 h-5" />, label: "Get Results" },
                 ].map((item, i) => (
@@ -375,7 +375,7 @@ export default function SkinAnalyzer() {
             <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
               <ProgressBar step="upload" />
               <div className="text-center mb-8">
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-3">Upload Your Selfie</h2>
+                <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-3">Upload Your Beauty Preview</h2>
                 <p className="text-foreground/60 text-sm max-w-md mx-auto">
                   Upload a clear photo of your face in natural lighting without makeup for the most accurate analysis.
                 </p>
@@ -415,7 +415,7 @@ export default function SkinAnalyzer() {
 ) : (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                   <div className="relative w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg">
-                    <img src={preview} alt="Your selfie" className="w-full h-full object-cover" />
+                    <img src={preview} alt="Your Beauty Preview photo" className="w-full h-full object-cover" />
                     <div className="absolute inset-0 rounded-2xl ring-2 ring-primary/20 ring-inset" />
                   </div>
                   <div className="flex gap-3 justify-center">

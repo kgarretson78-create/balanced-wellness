@@ -392,6 +392,7 @@ export default function SkinAnalyzer() {
                 }}
               />
               {!preview ? (
+                <>
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -412,7 +413,8 @@ export default function SkinAnalyzer() {
                   <button type="button" onClick={() => fileRef.current?.click()} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-border bg-white text-foreground text-sm font-medium hover:bg-secondary transition-colors"><Upload className="w-4 h-4 text-primary" /> Choose a file</button>
                 </div>
                 {cameraError && <p role="alert" className="text-xs text-destructive mt-3">{cameraError}</p>}
-) : (
+                </>
+              ) : (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                   <div className="relative w-48 h-48 mx-auto rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg">
                     <img src={preview} alt="Your Beauty Preview photo" className="w-full h-full object-cover" />

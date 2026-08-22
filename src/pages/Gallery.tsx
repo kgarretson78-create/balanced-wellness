@@ -30,7 +30,7 @@ const galleryItems: GalleryItem[] = [
       id: "lip-filler-1",
       category: "Lip Filler",
       title: "Lip Filler Enhancement",
-      beforeImage: "/images/lip-enhancement-before.jpg",
+      beforeImage: "/images/rfmicroneedling-after.jpg",
       afterImage: "/images/lips-after.jpg",
       description: "Full lip augmentation creating naturally plump, symmetrical lips with expertly placed dermal filler.",
     },

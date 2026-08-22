@@ -28,10 +28,10 @@ const CONFIG = {
     fontFamily: "Montserrat",
     headerFontFamily: "Montserrat",
     floatingEstimator: {
-      position: "bottom-right",
+      position: "bottom-left",
       // y offset lifts the estimator clear of the Kelli AI chat launcher, which
       // sits in the same corner at a lower z-index and would be covered at 0px.
-      offset: { x: "0px", y: "80px" },
+      offset: { x: "0px", y: "0px" },
       zIndex: 9999,
       ctaFontFamily: "Montserrat",
       bodyFontFamily: "Montserrat",

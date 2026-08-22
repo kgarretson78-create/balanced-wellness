@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 
 const HOURGLASS_URL = "https://kelliai.ai/hourglassfigure";
 
-export function HourglassFigureSection({ item }: { item: (index: number) => Record<string, unknown> }) {
+export function HourglassFigureSection({ item }: { item: (index: number) => any }) {
   return (
     <Section className="luxury-gradient border-y border-primary/10 overflow-hidden">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_.95fr] gap-10 lg:gap-16 items-center">

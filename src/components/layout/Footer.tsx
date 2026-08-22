@@ -38,6 +38,7 @@ export function Footer() {
               <li><Link href="/about" className="text-white/40 hover:text-white transition-colors duration-300">About Us</Link></li>
               <li><Link href="/services" className="text-white/40 hover:text-white transition-colors duration-300">All Services</Link></li>
               <li><Link href="/memberships" className="text-white/40 hover:text-white transition-colors duration-300">Memberships</Link></li>
+              <li><a href="https://kelliai.ai/hourglassfigure" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-white transition-colors duration-300">Hourglass Figure</a></li>
               <li><Link href="/gallery" className="text-white/40 hover:text-white transition-colors duration-300">Before & After</Link></li>
               <li><Link href="/contact" className="text-white/40 hover:text-white transition-colors duration-300">Contact</Link></li>
               <li><Link href="/sms-consent" className="text-white/40 hover:text-white transition-colors duration-300">Text Us</Link></li>

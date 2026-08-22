@@ -11,7 +11,6 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
-import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
@@ -550,7 +549,7 @@ export default function Home() {
         <div className="text-center mb-12">
           <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Real Results</p>
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Before &amp; After Transformations</h2>
-          <p className="text-foreground/45 mt-3 text-sm">Drag to reveal actual patient results at Balanced Wellness Medical Spa.</p>
+          <p className="text-foreground/45 mt-3 text-sm">View actual patient results side by side at Balanced Wellness Medical Spa.</p>
           <div className="decorative-line mx-auto mt-6" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
@@ -561,7 +560,24 @@ export default function Home() {
             { before: "/images/before-weightloss.jpg", after: "/images/after-weightloss.jpg", title: "Medical Weight Loss" },
           ].map((photo, i) => (
             <motion.div key={photo.title} {...item(i)} className="luxury-card overflow-hidden">
-              <BeforeAfterSlider beforeImage={photo.before} afterImage={photo.after} />
+              <div className="grid grid-cols-2 divide-x divide-border">
+                  <div className="bg-background">
+                    <div className="before-after-label">Before</div>
+                    <img
+                      src={photo.before}
+                      alt={photo.title + " before"}
+                      className={photo.title === "Medical Weight Loss" ? "block w-full aspect-square object-contain bg-muted" : "block w-full aspect-square object-cover"}
+                    />
+                  </div>
+                  <div className="bg-background">
+                    <div className="before-after-label">After</div>
+                    <img
+                      src={photo.after}
+                      alt={photo.title + " after"}
+                      className={photo.title === "Medical Weight Loss" ? "block w-full aspect-square object-contain bg-muted" : "block w-full aspect-square object-cover"}
+                    />
+                  </div>
+                </div>
               <div className="p-4 text-center"><h3 className="text-sm font-serif font-bold text-foreground">{photo.title}</h3></div>
             </motion.div>
           ))}

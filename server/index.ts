@@ -84,6 +84,10 @@ app.use(express.json({ limit: "15mb" }));
 app.use("/api", kelliaiRouter);
 
 // Health check
+app.get(["/sculpt", "/sculpt/"], (_req, res) => {
+  res.redirect(301, "https://kelliai.ai/hourglassfigure");
+});
+
 app.get("/health", (_req, res) => {
   res.json({
     status: "ok",

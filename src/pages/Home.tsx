@@ -503,7 +503,7 @@ export default function Home() {
           <p className="text-foreground/65 text-base max-w-xl mx-auto leading-relaxed">Every plan is created and supervised by experienced clinicians — never a one-size-fits-all menu.</p>
           <div className="decorative-line mx-auto mt-6" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className={`grid grid-cols-1 gap-6 mx-auto ${PROVIDERS.length === 1 ? "max-w-2xl" : "md:grid-cols-2 max-w-4xl"}`}>`
           {PROVIDERS.map((p, i) => (
             <motion.div key={p.name} {...item(i)} className="luxury-card p-7 flex gap-5 items-start">
               {p.photo ? (

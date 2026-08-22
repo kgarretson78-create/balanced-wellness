@@ -1,3 +1,4 @@
+// Homepage gallery references stay aligned with the full Gallery page.
 import { Link } from "wouter";
 import { motion, useReducedMotion } from "framer-motion";
 import {

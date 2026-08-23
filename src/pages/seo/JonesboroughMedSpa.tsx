@@ -3,13 +3,13 @@ import { LocalSEOPage } from "@/components/LocalSEOPage";
 const data = {
   seo: {
     title: "Jonesborough Med Spa | Balanced Wellness Medical Spa",
-    description: "Jonesborough TN med spa — Balanced Wellness offers Botox, dermal fillers, CO2 laser resurfacing, RF microneedling, IV therapy, and medical weight loss programs. 120 Cherokee St. Call (423) 646-2169.",
+    description: "Jonesborough TN med spa — Balanced Wellness offers Botox, dermal fillers, CO2 laser resurfacing, RF microneedling, IV therapy, and medical weight loss programs. 120 South Cherokee St. Call (423) 646-2169.",
     keywords: "Jonesborough med spa, med spa Jonesborough TN, medical spa Jonesborough Tennessee, Botox Jonesborough TN, dermal fillers Jonesborough, CO2 laser Jonesborough, weight loss Jonesborough TN, RF microneedling Jonesborough",
   },
   hero: {
     badge: "Jonesborough, Tennessee • Historic Downtown",
     h1: "Jonesborough Med Spa",
-    subheadline: "Balanced Wellness Medical Spa in historic downtown Jonesborough — offering Botox, dermal fillers, CO2 resurfacing, RF microneedling, IV therapy, and weight loss programs at 120 Cherokee St.",
+    subheadline: "Balanced Wellness Medical Spa in historic downtown Jonesborough — offering Botox, dermal fillers, CO2 resurfacing, RF microneedling, IV therapy, and weight loss programs at 120 South Cherokee St.",
   },
   intro: {
     h2: "Your Trusted Med Spa in Historic Jonesborough",
@@ -34,7 +34,7 @@ const data = {
     "Locally owned and operated — we are proud members of the Jonesborough community",
     "Board-certified providers perform every treatment with expert precision",
     "Full-service med spa — aesthetics, weight loss, hormones, and wellness under one roof",
-    "Convenient downtown Jonesborough location at 120 S Cherokee St",
+    "Convenient downtown Jonesborough location at 120 South Cherokee St",
     "Same luxury experience and provider team as our Kingsport location",
     "8,000+ patients treated across both locations with outstanding results",
     "Free consultations — no pressure, just honest recommendations tailored to you",

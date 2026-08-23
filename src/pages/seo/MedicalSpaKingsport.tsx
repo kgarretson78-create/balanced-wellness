@@ -85,7 +85,7 @@ export const data = {
     },
     {
       q: "Do you see patients from Johnson City, Bristol, or Jonesborough at the Kingsport clinic?",
-      a: "Yes. Our Kingsport location regularly serves patients from Johnson City, Bristol, Jonesborough, Greeneville, Rogersville, and surrounding Tri-Cities communities. For patients closer to Washington County, our Jonesborough clinic at 120 S Cherokee St may be more convenient.",
+      a: "Yes. Our Kingsport location regularly serves patients from Johnson City, Bristol, Jonesborough, Greeneville, Rogersville, and surrounding Tri-Cities communities. For patients closer to Washington County, our Jonesborough clinic at 120 South Cherokee St may be more convenient.",
     },
     {
       q: "How do I book a medical spa appointment in Kingsport?",
@@ -143,14 +143,14 @@ export const data = {
     headline: "Visiting Our Kingsport Medical Spa",
     paragraphs: [
       "Our Kingsport flagship sits on South John B Dennis Highway, just off I-26 — making it an easy drive from Johnson City, Bristol, Greeneville, Rogersville, and Southwest Virginia. On-site parking is available directly outside Suite 104, and we plan appointment lengths so you're never rushed in or out.",
-      "If our Kingsport schedule is full or you're closer to Washington County, we can usually offer the same treatment at our Jonesborough clinic (120 S Cherokee St) within a similar timeframe.",
+      "If our Kingsport schedule is full or you're closer to Washington County, we can usually offer the same treatment at our Jonesborough clinic (120 South Cherokee St) within a similar timeframe.",
     ],
     points: [
       "Address: 1309 S John B Dennis Hwy, Suite 104, Kingsport, TN 37660",
       "Phone: (423) 765-1393 — call or text for help choosing the right appointment",
       "Easy access from I-26 and Eastman Road; on-site parking outside Suite 104",
       "Serves Kingsport, Johnson City, Bristol, Jonesborough, Greeneville, Rogersville, and Southwest Virginia",
-      "Second location: 120 S Cherokee St, Jonesborough, TN 37659 — about 25 minutes south",
+      "Second location: 120 South Cherokee St, Jonesborough, TN 37659 — about 25 minutes south",
     ],
   },
 };

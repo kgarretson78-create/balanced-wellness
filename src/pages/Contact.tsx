@@ -66,7 +66,7 @@ export default function Contact() {
 
   return (
     <PageLayout>
-      <SEO title="Contact Us | Balanced Wellness Medical Spa Kingsport & Jonesborough TN" description="Contact Balanced Wellness Medical Spa. Kingsport: (423) 765-1393, 1309 S John B Dennis Hwy. Jonesborough: (423) 646-2169, 120 S Cherokee St. Two convenient Tri-Cities TN locations." keywords="contact medical spa Kingsport TN, med spa phone number Jonesborough TN, Balanced Wellness address, med spa directions Tri-Cities" />
+      <SEO title="Contact Us | Balanced Wellness Medical Spa Kingsport & Jonesborough TN" description="Contact Balanced Wellness Medical Spa. Kingsport: (423) 765-1393, 1309 S John B Dennis Hwy. Jonesborough: (423) 646-2169, 120 South Cherokee St. Two convenient Tri-Cities TN locations." keywords="contact medical spa Kingsport TN, med spa phone number Jonesborough TN, Balanced Wellness address, med spa directions Tri-Cities" />
       <div className="relative h-[45vh] flex items-center justify-center">
         <div className="absolute inset-0 page-hero-luxury" />
         <div className="relative z-10 text-center px-4 max-w-4xl">

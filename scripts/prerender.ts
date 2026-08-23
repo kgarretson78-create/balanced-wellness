@@ -84,7 +84,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   "@id": `${ORIGIN}/#organization`,
   name: "Balanced Wellness Medical Spa",
   description:
-    "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and Hormone Optimization in Kingsport & Jonesborough, TN. Two convenient Tri-Cities locations, board-certified providers, 8,000+ patients treated, 200+ five-star reviews.",
+    "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and Hormone Optimization in Kingsport & Jonesborough, TN. Two convenient Tri-Cities locations with licensed medical providers and physician-supervised protocols, 8,000+ patients treated, and 200+ five-star reviews.",
   url: ORIGIN,
   telephone: "+1-423-765-1393",
   image: `${ORIGIN}/images/logo.jpeg`,

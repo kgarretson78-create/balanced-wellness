@@ -294,11 +294,11 @@ export const data = {
     },
     {
       q: "Do you serve Johnson City TN at the IV Lounge?",
-      a: "Yes — many of our IV Lounge guests come from Johnson City, Jonesborough, Bristol, and the broader Tri-Cities. We have a Kingsport location at 1309 S John B Dennis Hwy, Suite 104, and a Jonesborough location at 120 S Cherokee St that's convenient for Johnson City residents. Choose the location that works best when you book.",
+      a: "Yes — many of our IV Lounge guests come from Johnson City, Jonesborough, Bristol, and the broader Tri-Cities. We have a Kingsport location at 1309 S John B Dennis Hwy, Suite 104, and a Jonesborough location at 120 South Cherokee St that's convenient for Johnson City residents. Choose the location that works best when you book.",
     },
     {
       q: "What are your IV Lounge hours in Kingsport and Jonesborough?",
-      a: "Our Kingsport location at 1309 S John B Dennis Hwy, Suite 104 is open Monday through Thursday 10 AM–7 PM and Friday 9 AM–5 PM, with Saturdays by appointment. Our Jonesborough location at 120 S Cherokee St is open Monday through Friday 10 AM–6 PM, with Saturdays by appointment. Call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169 to confirm same-day availability.",
+      a: "Our Kingsport location at 1309 S John B Dennis Hwy, Suite 104 is open Monday through Thursday 10 AM–7 PM and Friday 9 AM–5 PM, with Saturdays by appointment. Our Jonesborough location at 120 South Cherokee St is open Monday through Friday 10 AM–6 PM, with Saturdays by appointment. Call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169 to confirm same-day availability.",
     },
     {
       q: "Do you offer NAD+ therapy, B12, or vitamin injections in addition to IV drips?",

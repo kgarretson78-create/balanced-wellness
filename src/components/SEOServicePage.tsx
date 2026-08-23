@@ -86,7 +86,7 @@ export interface SEOServicePageProps {
 const CANONICAL_ORIGIN = "https://www.balancedmedicalspa.com";
 
 const DIFFERENTIATORS = [
-  { title: "Two convenient TN locations", desc: "Kingsport (1309 S John B Dennis Hwy, Ste 104) and Jonesborough (120 S Cherokee St) — pick whichever is closer or fits your schedule." },
+  { title: "Two convenient TN locations", desc: "Kingsport (1309 S John B Dennis Hwy, Ste 104) and Jonesborough (120 South Cherokee St) — pick whichever is closer or fits your schedule." },
   { title: "8,000+ patients treated", desc: "A high-volume aesthetic and wellness practice across the Tri-Cities, not a side service." },
   { title: "200+ five-star reviews", desc: "Sustained five-star feedback from real patients in Kingsport, Jonesborough, and the surrounding region." },
   { title: "Aesthetics + medical wellness under one roof", desc: "Injectables, lasers, RF microneedling, medical weight loss, hormone therapy, peptide therapy, and IV therapy together — not separate clinics." },

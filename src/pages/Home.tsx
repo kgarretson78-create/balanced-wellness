@@ -689,7 +689,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {[
             { id: "kingsport" as LocationId, city: "Kingsport", address: "1309 South John B Dennis Hwy, Suite 104", zip: "Kingsport, TN 37660", phone: "(423) 765-1393", tel: "423-765-1393", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.5494!3d36.5149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1309+S+John+B+Dennis+Hwy+%23104%2C+Kingsport%2C+TN+37660!5e0!3m2!1sen!2sus!4v1" },
-            { id: "jonesborough" as LocationId, city: "Jonesborough", address: "120 South Cherokee St", zip: "Jonesborough, TN 37659", phone: "(423) 646-2169", tel: "423-646-2169", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.473!3d36.294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s120+S+Cherokee+St%2C+Jonesborough%2C+TN+37659!5e0!3m2!1sen!2sus!4v1" },
+            { id: "jonesborough" as LocationId, city: "Jonesborough", address: "120 South Cherokee St", zip: "Jonesborough, TN 37659", phone: "(423) 646-2169", tel: "423-646-2169", mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.473!3d36.294!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s120+South+Cherokee+St%2C+Jonesborough%2C+TN+37659!5e0!3m2!1sen!2sus!4v1" },
           ].map((loc) => (
             <motion.div key={loc.city} {...fadeUp} className="luxury-card p-7">
               <h3 className="text-xl font-serif font-bold text-foreground mb-4">{loc.city} Location</h3>

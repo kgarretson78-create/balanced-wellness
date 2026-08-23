@@ -61,7 +61,7 @@ export function LocalBusinessSchema() {
           openingHoursSpecification: JONESBOROUGH_HOURS,
           address: {
             "@type": "PostalAddress",
-            streetAddress: "120 Cherokee St",
+            streetAddress: "120 South Cherokee St",
             addressLocality: "Jonesborough",
             addressRegion: "TN",
             postalCode: "37659",
@@ -72,7 +72,7 @@ export function LocalBusinessSchema() {
             latitude: 36.2948,
             longitude: -82.4732,
           },
-          hasMap: "https://maps.google.com/?q=120+Cherokee+St,+Jonesborough,+TN+37659",
+          hasMap: "https://maps.google.com/?q=120+South+Cherokee+St,+Jonesborough,+TN+37659",
           availableService: [
             "Botox", "Dysport", "Daxxify", "Dermal Fillers", "CO2 Laser Resurfacing", "RF Microneedling",
             "IV Therapy", "Medical Weight Loss", "Skin Rejuvenation", "Hormone Optimization",

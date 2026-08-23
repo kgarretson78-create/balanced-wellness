@@ -256,4 +256,4 @@ npm run dev
 ## Locations
 
 - Kingsport: 1309 S John B Dennis Hwy, Ste 104, Kingsport TN 37660 — (423) 765-1393
-- Jonesborough: 120 S Cherokee St, Jonesborough TN 37867 — (423) 646-2169
+- Jonesborough: 120 South Cherokee St, Jonesborough TN 37659 — (423) 646-2169

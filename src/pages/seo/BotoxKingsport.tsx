@@ -130,7 +130,7 @@ export const data = {
     },
     {
       q: "How do I book Botox in Kingsport or Jonesborough?",
-      a: "Click 'Book a Consultation' on this page to choose between our Kingsport location (1309 S John B Dennis Hwy, Ste 104, Kingsport, TN 37660) and our Jonesborough location (120 S Cherokee St, Jonesborough, TN 37659). You can also call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169.",
+      a: "Click 'Book a Consultation' on this page to choose between our Kingsport location (1309 S John B Dennis Hwy, Ste 104, Kingsport, TN 37660) and our Jonesborough location (120 South Cherokee St, Jonesborough, TN 37659). You can also call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169.",
     },
   ],
   relatedLinks: [

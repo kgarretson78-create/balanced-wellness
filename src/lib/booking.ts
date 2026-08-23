@@ -113,7 +113,7 @@ export const LOCATIONS: Record<LocationId, BookingLocation> = {
     id: "jonesborough",
     name: "Jonesborough",
     city: "Jonesborough, TN",
-    address: "120 S Cherokee St, Jonesborough, TN 37659",
+    address: "120 South Cherokee St, Jonesborough, TN 37659",
     phone: "(423) 646-2169",
     tel: "tel:423-646-2169",
     smsTel: "sms:+14236462169",

@@ -3,7 +3,7 @@ import { LocalSEOPage } from "@/components/LocalSEOPage";
 export const data = {
   seo: {
     title: "Medical Spa Jonesborough TN | Balanced Wellness Medical Spa",
-    description: "Medical spa in Jonesborough TN — Balanced Wellness offers Botox, fillers, laser treatments, medical weight loss, and hormone therapy. Located at 120 S Cherokee St. Free consultations.",
+    description: "Medical spa in Jonesborough TN — Balanced Wellness offers Botox, fillers, laser treatments, medical weight loss, and hormone therapy. Located at 120 South Cherokee St. Free consultations.",
     keywords: "medical spa Jonesborough TN, med spa Jonesborough Tennessee, aesthetic clinic Jonesborough TN, Botox Jonesborough TN, cosmetic treatments Jonesborough, wellness clinic Jonesborough Tennessee",
   },
   hero: {
@@ -35,7 +35,7 @@ export const data = {
     "Licensed medical providers for all treatments — safety and expertise you can trust",
     "Same luxury experience as our Kingsport flagship — in your neighborhood",
     "Full-service clinic: aesthetics, weight loss, hormones, and wellness under one roof",
-    "Convenient location at 120 S Cherokee St in historic downtown Jonesborough",
+    "Convenient location at 120 South Cherokee St in historic downtown Jonesborough",
     "Flexible scheduling including some extended hours for busy professionals",
     "Free consultations — no pressure, just honest recommendations",
     "Serving Jonesborough, Johnson City, Erwin, Greeneville, and Washington County",

@@ -992,7 +992,7 @@ export function KelliAIChat() {
     }
 
     if (lower.includes("location") || lower.includes("where") || lower.includes("address") || lower.includes("directions")) {
-      addBotMessage("We have two convenient locations:\n\n\ud83d\udccd Kingsport: 1309 S John B Dennis Hwy, Suite 104, TN 37660\nPhone: (423) 765-1393\n\n\ud83d\udccd Jonesborough: 120 S Cherokee St, TN 37659\nPhone: (423) 646-2169\n\nBoth locations offer our full range of services!", {
+      addBotMessage("We have two convenient locations:\n\n\ud83d\udccd Kingsport: 1309 S John B Dennis Hwy, Suite 104, TN 37660\nPhone: (423) 765-1393\n\n\ud83d\udccd Jonesborough: 120 South Cherokee St, TN 37659\nPhone: (423) 646-2169\n\nBoth locations offer our full range of services!", {
         buttons: [{ label: "Book at Either Location", icon: "calendar", action: "book" }],
       });
       return;

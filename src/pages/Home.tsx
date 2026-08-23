@@ -11,7 +11,6 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
-import { LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
@@ -23,7 +22,6 @@ import {
   TRUST_SIGNALS,
   HEADLINE_STATS,
 } from "@/lib/site";
-import { useEffect } from "react";
 import { HourglassFigureSection } from "@/components/HourglassFigureSection";
 
 /**
@@ -68,7 +66,7 @@ export const HOME_SEO = {
 };
 
 /** Plain-text hero copy reused by the crawler prerender (no JSX styling). */
-export const HOME_H1 = "Balanced Wellness Medical Spa — Kingsport & Jonesborough, TN";
+export const HOME_H1 = "Medical Spa & Wellness Clinic in Kingsport & Jonesborough, TN";
 export const HOME_SUBHEAD =
   "Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you — with two convenient Tri-Cities locations.";
 
@@ -163,34 +161,10 @@ export default function Home() {
           transition: { duration: 0.5, delay: i * 0.06, ease: easeOut as unknown as number[] },
         };
 
-  useEffect(() => {
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: homeFaqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.q,
-        acceptedAnswer: { "@type": "Answer", text: faq.a },
-      })),
-    };
-    const existing = document.getElementById("home-faq-schema");
-    if (existing) {
-      existing.textContent = JSON.stringify(faqSchema);
-    } else {
-      const script = document.createElement("script");
-      script.id = "home-faq-schema";
-      script.type = "application/ld+json";
-      script.textContent = JSON.stringify(faqSchema);
-      document.head.appendChild(script);
-    }
-    return () => {
-      document.getElementById("home-faq-schema")?.remove();
-    };
-  }, []);
+
 
   return (
     <PageLayout>
-      <LocalBusinessSchema />
       <SEO
         title={HOME_SEO.title}
         description={HOME_SEO.description}
@@ -229,13 +203,13 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-serif font-bold text-foreground leading-[1.06] mb-6 text-balance">
-              Look Better. Feel Better.{" "}
-              <span className="italic text-gradient-gold">Live Balanced.</span>
+              Medical Spa &amp; Wellness Clinic in{" "}
+              <span className="italic text-gradient-gold">Kingsport &amp; Jonesborough, TN</span>
             </h1>
 
             <p className="text-base md:text-lg text-foreground/65 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Personalized aesthetic medicine, wellness, weight loss, hormone
-              optimization, and regenerative treatments designed around you.
+              <span className="font-semibold text-foreground/80">Look Better. Feel Better. Live Balanced.</span>{" "}
+              Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">

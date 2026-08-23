@@ -14,7 +14,7 @@ export function LocalBusinessSchema() {
       "@type": "MedicalBusiness",
       "@id": "https://www.balancedmedicalspa.com/#organization",
       name: "Balanced Wellness Medical Spa",
-      description: "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and Hormone Optimization in Kingsport & Jonesborough, TN. Two convenient Tri-Cities locations, board-certified providers, 8,000+ patients treated, 200+ five-star reviews.",
+      description: "Premier luxury medical spa offering Botox, Dermal Fillers, RF Microneedling, CO2 Laser Resurfacing, Medical Weight Loss, and Hormone Optimization in Kingsport & Jonesborough, TN. Two convenient Tri-Cities locations with licensed medical providers and physician-supervised protocols, 8,000+ patients treated, and 200+ five-star reviews.",
       url: "https://www.balancedmedicalspa.com",
       telephone: "+1-423-765-1393",
       image: "https://www.balancedmedicalspa.com/images/logo.jpeg",
@@ -154,7 +154,7 @@ export function ServiceSchema({ serviceName, description, canonicalUrl, faqs, br
         procedureType: "Noninvasive",
         followup: "Follow-up appointment recommended 2–4 weeks after treatment.",
         preparation: "Consultation required prior to treatment.",
-        howPerformed: "Performed by board-certified medical professionals at Balanced Wellness Medical Spa.",
+        howPerformed: "Performed by licensed medical providers at Balanced Wellness Medical Spa.",
         recognizingAuthority: {
           "@type": "Organization",
           name: "American Medical Association",

@@ -85,7 +85,7 @@ app.use("/api", kelliaiRouter);
 
 // Health check
 app.get(["/sculpt", "/sculpt/"], (_req, res) => {
-  res.redirect(301, "https://kelliai.ai/hourglassfigure");
+  res.redirect(301, "https://app.kelliai.ai/hourglassbody.html");
 });
 
 app.get("/health", (_req, res) => {

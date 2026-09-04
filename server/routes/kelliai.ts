@@ -19,6 +19,32 @@ import pg from "pg";
 
 const router = Router();
 const { Pool } = pg;
+const KELLIAI_PUBLIC_API = (process.env.KELLIAI_PUBLIC_API || "https://app.kelliai.ai/api").replace(/\/$/, "");
+
+const previewTreatmentIds: Record<string, string> = {
+  lipfiller: "lip-filler",
+  "lip-filler": "lip-filler",
+  cheekfiller: "cheek-filler",
+  "cheek-filler": "cheek-filler",
+  botox: "botox-forehead",
+  laser: "chemical-peel",
+  glow: "hydrafacial",
+};
+
+async function postToKelliAI(path: string, body: unknown, timeoutMs = 100_000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(`${KELLIAI_PUBLIC_API}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 // ── Clients ─────────────────────────────────────────────────────────────────
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -222,10 +248,29 @@ router.post("/kelliai/voice", async (req: any, res: any) => {
 
 // ── POST /api/kelliai/lead ──────────────────────────────────────────────────
 router.post("/kelliai/lead", async (req: any, res: any) => {
-  if (!db) return res.status(503).json({ error: "Database not configured. Set DATABASE_URL." });
-
   const { firstName, email, phone, smsConsent, primaryGoal, treatmentInterest, preferredLocation, conversationSummary, messages } = req.body;
   if (!email && !phone) return res.status(400).json({ error: "Email or phone is required" });
+
+  if (!db) {
+    try {
+      const upstream = await postToKelliAI("/kelliai/leads", {
+        firstName,
+        email,
+        phone,
+        smsConsent,
+        primaryGoal,
+        treatmentInterest,
+        preferredLocation,
+        message: conversationSummary || "Balanced website KelliAI lead",
+        sourcePage: "balancedmedicalspa.com/kelliai",
+        conversation: messages,
+      }, 15_000);
+      const payload = await upstream.json().catch(() => ({}));
+      return res.status(upstream.ok ? 201 : upstream.status).json(payload);
+    } catch {
+      return res.status(502).json({ error: "Lead routing is temporarily unavailable" });
+    }
+  }
 
   // Whitelist preferredLocation values to avoid arbitrary text in this column.
   const safeLocation =
@@ -245,6 +290,59 @@ router.post("/kelliai/lead", async (req: any, res: any) => {
   } catch (error) {
     console.error("Lead capture error:", error);
     res.status(500).json({ error: "Failed to save lead" });
+  }
+});
+
+router.post("/subscribe", async (req: any, res: any) => {
+  const { firstName, email, phone, emailConsent, smsConsent } = req.body || {};
+  if (!email || typeof email !== "string") return res.status(400).json({ error: "Email is required" });
+  if (!emailConsent && !smsConsent) return res.status(400).json({ error: "Please select at least one contact method" });
+  if (smsConsent && !phone) return res.status(400).json({ error: "Phone is required for text updates" });
+  try {
+    const upstream = await postToKelliAI("/kelliai/leads", {
+      firstName,
+      email,
+      phone: phone || null,
+      smsConsent: Boolean(smsConsent),
+      treatmentInterest: "mailing_list",
+      preferredLocation: "unknown",
+      message: `Balanced mailing-list signup. Email consent: ${Boolean(emailConsent)}. SMS consent: ${Boolean(smsConsent)}.`,
+      sourcePage: "balancedmedicalspa.com/mailing-list",
+    }, 15_000);
+    const payload = await upstream.json().catch(() => ({}));
+    return res.status(upstream.ok ? 201 : upstream.status).json(payload);
+  } catch {
+    return res.status(502).json({ error: "Subscription routing is temporarily unavailable" });
+  }
+});
+
+router.post("/kelliai/treatment-preview", async (req: any, res: any) => {
+  const image = req.body?.image;
+  const treatment = String(req.body?.treatment || "").toLowerCase();
+  const treatmentId = previewTreatmentIds[treatment];
+  if (!image || typeof image !== "string") return res.status(400).json({ error: "A selfie is required" });
+  if (!treatmentId) return res.status(400).json({ error: "Unknown treatment preview" });
+  try {
+    const upstream = await postToKelliAI("/selfie/simulate", {
+      image,
+      treatmentId,
+      clinic: "balanced",
+    });
+    const payload: any = await upstream.json().catch(() => ({}));
+    if (!upstream.ok || !payload.image) {
+      return res.status(upstream.status || 502).json({
+        error: payload.error || "Preview generation failed",
+        configured: payload.configured,
+      });
+    }
+    return res.json({
+      previewImage: payload.image,
+      treatment: payload.treatment,
+      disclaimer: "This AI-generated preview is illustrative only. Actual results vary and require an in-person consultation.",
+    });
+  } catch (error: any) {
+    const timedOut = error?.name === "AbortError";
+    return res.status(timedOut ? 504 : 502).json({ error: timedOut ? "Preview timed out. Please try again." : "Preview generation failed" });
   }
 });
 

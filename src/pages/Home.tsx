@@ -223,9 +223,9 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => askKelli("What brings you here today?")}
-                className="px-8 py-4 bg-primary/[0.06] text-foreground text-center font-medium rounded-full border border-primary/15 backdrop-blur-sm hover:bg-primary/[0.10] transition-all duration-300 text-sm flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-primary text-white text-center font-semibold rounded-full border border-primary shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-300 text-sm flex items-center justify-center gap-2"
               >
-                <Bot className="w-4 h-4 text-champagne" /> Take the AI Beauty Assessment
+                <Sparkles className="w-4 h-4 text-champagne" /> Find My Best Treatments
               </button>
             </div>
 
@@ -464,7 +464,7 @@ export default function Home() {
               onClick={() => askKelli("What brings you here today?")}
               className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
             >
-              <MessageSquare className="w-4 h-4" /> Start the AI Beauty Assessment
+              <Sparkles className="w-4 h-4" /> Find My Best Treatments
             </button>
           </div>
         </div>

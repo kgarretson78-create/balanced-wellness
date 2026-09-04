@@ -198,6 +198,7 @@ export default function SkinAnalyzer() {
   const cameraVideoRef = useRef<HTMLVideoElement>(null);
   const cameraStreamRef = useRef<MediaStream | null>(null);
   const [cameraOpen, setCameraOpen] = useState(false);
+  const [capturedCameraPhoto, setCapturedCameraPhoto] = useState<string | null>(null);
   const [cameraError, setCameraError] = useState("");
 
   const handleFile = useCallback((file: File) => {
@@ -213,10 +214,12 @@ export default function SkinAnalyzer() {
     cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
     cameraStreamRef.current = null;
     setCameraOpen(false);
+    setCapturedCameraPhoto(null);
   }, []);
 
   const openCamera = useCallback(async () => {
     setCameraError("");
+    setCapturedCameraPhoto(null);
     if (!navigator.mediaDevices?.getUserMedia) {
       setCameraError("Camera capture is not available in this browser. Please choose an image file instead.");
       return;
@@ -246,12 +249,35 @@ export default function SkinAnalyzer() {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas.getContext("2d")?.drawImage(video, 0, 0, canvas.width, canvas.height);
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-      handleFile(new File([blob], "beauty-preview.jpg", { type: "image/jpeg" }));
-      stopCamera();
-    }, "image/jpeg", 0.92);
-  }, [handleFile, stopCamera]);
+    const imageData = canvas.toDataURL("image/jpeg", 0.92);
+    setCapturedCameraPhoto(imageData);
+    cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
+    cameraStreamRef.current = null;
+  }, []);
+
+  const retakeCameraPhoto = useCallback(async () => {
+    setCameraError("");
+    setCapturedCameraPhoto(null);
+    try {
+      cameraStreamRef.current = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "user" } }, audio: false });
+      requestAnimationFrame(() => {
+        if (!cameraVideoRef.current || !cameraStreamRef.current) return;
+        cameraVideoRef.current.srcObject = cameraStreamRef.current;
+        cameraVideoRef.current.play().catch(() => undefined);
+      });
+    } catch {
+      setCameraError("We couldn't restart your camera. Close this window and try again, or choose an image file instead.");
+    }
+  }, []);
+
+  const useCapturedCameraPhoto = useCallback(() => {
+    if (!capturedCameraPhoto) return;
+    setPreview(capturedCameraPhoto);
+    cameraStreamRef.current?.getTracks().forEach((track) => track.stop());
+    cameraStreamRef.current = null;
+    setCameraOpen(false);
+    setCapturedCameraPhoto(null);
+  }, [capturedCameraPhoto]);
 
   const startAnalysis = useCallback(() => {
     setStep("analyzing");
@@ -450,9 +476,23 @@ export default function SkinAnalyzer() {
           <motion.div key="camera" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] bg-foreground/70 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-label="Take a Beauty Preview photo">
             <motion.div initial={{ y: 18, scale: 0.98 }} animate={{ y: 0, scale: 1 }} className="w-full max-w-lg rounded-3xl bg-background p-5 sm:p-7 shadow-2xl">
               <div className="flex items-center justify-between mb-4"><div><p className="text-xs uppercase tracking-[0.18em] text-primary font-semibold">Beauty Preview</p><h3 className="text-2xl font-serif font-bold text-foreground">Take a photo</h3></div><button type="button" onClick={stopCamera} className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-foreground/60 hover:bg-secondary" aria-label="Close camera"><span aria-hidden="true" className="text-xl leading-none">×</span></button></div>
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-foreground/10"><video ref={cameraVideoRef} muted playsInline className="w-full h-full object-cover -scale-x-100" /></div>
+              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-foreground/10">
+                {capturedCameraPhoto ? (
+                  <img src={capturedCameraPhoto} alt="Captured Beauty Preview" className="w-full h-full object-cover -scale-x-100" />
+                ) : (
+                  <video ref={cameraVideoRef} muted playsInline className="w-full h-full object-cover -scale-x-100" />
+                )}
+              </div>
               <p className="text-xs text-foreground/50 text-center mt-3">Use natural light and keep your face centered without makeup for the clearest preview.</p>
-              <button type="button" onClick={captureCameraPhoto} className="w-full mt-5 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"><Camera className="w-4 h-4" /> Capture photo</button>
+              {capturedCameraPhoto ? (
+                <div className="grid grid-cols-2 gap-3 mt-5">
+                  <button type="button" onClick={retakeCameraPhoto} className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full border border-border bg-white text-foreground font-semibold hover:bg-secondary transition-colors">Retake</button>
+                  <button type="button" onClick={useCapturedCameraPhoto} className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors">Use This Photo <ArrowRight className="w-4 h-4" /></button>
+                </div>
+              ) : (
+                <button type="button" onClick={captureCameraPhoto} className="w-full mt-5 inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors"><Camera className="w-4 h-4" /> Capture photo</button>
+              )}
+              {cameraError && <p role="alert" className="text-xs text-destructive text-center mt-3">{cameraError}</p>}
             </motion.div>
           </motion.div>
         )}

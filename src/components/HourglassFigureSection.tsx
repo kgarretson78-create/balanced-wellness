@@ -2,7 +2,7 @@ import { ArrowUpRight, Dumbbell, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/Section";
 
-const HOURGLASS_URL = "https://kelliai.ai/hourglassfigure";
+const HOURGLASS_URL = "https://app.kelliai.ai/hourglassbody.html";
 
 export function HourglassFigureSection({ item }: { item: (index: number) => any }) {
   return (
@@ -17,9 +17,9 @@ export function HourglassFigureSection({ item }: { item: (index: number) => any 
             A guided wellness companion from KelliAI, pairing practical workouts with the encouragement and accountability to help you stay consistent between appointments.
           </p>
           <a href={HOURGLASS_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/20">
-            Explore Hourglass Figure <ArrowUpRight className="w-4 h-4" />
+            Open the Hourglass Figure App <ArrowUpRight className="w-4 h-4" />
           </a>
-          <p className="text-[11px] text-foreground/40 mt-4">Opens the program at kelliai.ai/hourglassfigure.</p>
+          <p className="text-[11px] text-foreground/40 mt-4">Powered by the KelliAI Metabolic Coach.</p>
         </motion.div>
         <motion.div {...item(1)} className="relative">
           <div className="absolute -inset-5 rounded-[2rem] bg-[radial-gradient(circle_at_30%_20%,hsl(var(--blush)/.5),transparent_58%)] blur-2xl" />

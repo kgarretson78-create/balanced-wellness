@@ -21,14 +21,25 @@ const router = Router();
 const { Pool } = pg;
 const KELLIAI_PUBLIC_API = (process.env.KELLIAI_PUBLIC_API || "https://app.kelliai.ai/api").replace(/\/$/, "");
 
-const previewTreatmentIds: Record<string, string> = {
-  lipfiller: "lip-filler",
-  "lip-filler": "lip-filler",
-  cheekfiller: "cheek-filler",
-  "cheek-filler": "cheek-filler",
-  botox: "botox-forehead",
-  laser: "chemical-peel",
-  glow: "hydrafacial",
+const previewTreatmentIds: Record<string, Record<string, string>> = {
+  balanced: {
+    lipfiller: "lip-filler",
+    "lip-filler": "lip-filler",
+    cheekfiller: "cheek-filler",
+    "cheek-filler": "cheek-filler",
+    botox: "botox-forehead",
+    laser: "chemical-peel",
+    glow: "hydrafacial",
+  },
+  skindulgence: {
+    lipfiller: "lip-filler",
+    "lip-filler": "lip-filler",
+    cheekfiller: "cheek-filler",
+    "cheek-filler": "cheek-filler",
+    botox: "botox-forehead",
+    laser: "laser-resurfacing",
+    glow: "laser-resurfacing",
+  },
 };
 
 async function postToKelliAI(path: string, body: unknown, timeoutMs = 100_000) {
@@ -319,14 +330,15 @@ router.post("/subscribe", async (req: any, res: any) => {
 router.post("/kelliai/treatment-preview", async (req: any, res: any) => {
   const image = req.body?.image;
   const treatment = String(req.body?.treatment || "").toLowerCase();
-  const treatmentId = previewTreatmentIds[treatment];
+  const clinic = process.env.KELLIAI_SELFIE_CLINIC === "skindulgence" ? "skindulgence" : "balanced";
+  const treatmentId = previewTreatmentIds[clinic][treatment];
   if (!image || typeof image !== "string") return res.status(400).json({ error: "A selfie is required" });
   if (!treatmentId) return res.status(400).json({ error: "Unknown treatment preview" });
   try {
     const upstream = await postToKelliAI("/selfie/simulate", {
       image,
       treatmentId,
-      clinic: "balanced",
+      clinic,
     });
     const payload: any = await upstream.json().catch(() => ({}));
     if (!upstream.ok || !payload.image) {

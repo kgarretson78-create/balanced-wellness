@@ -13,7 +13,6 @@ import HormoneOptimization from "./pages/HormoneOptimization";
 import Memberships from "./pages/Memberships";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
-import Book from "./pages/Book";
 import BookNow from "./pages/BookNow";
 import OnlineCare from "./pages/OnlineCare";
 import Telehealth from "./pages/Telehealth";
@@ -79,7 +78,7 @@ function Router() {
       <Route path="/memberships" component={Memberships} />
       <Route path="/gallery" component={Gallery} />
       <Route path="/about" component={About} />
-      <Route path="/book" component={Book} />
+      <Route path="/book" component={BookNow} />
       <Route path="/book-now" component={BookNow} />
       <Route path="/social-booking" component={BookNow} />
       <Route path="/online-care" component={OnlineCare} />

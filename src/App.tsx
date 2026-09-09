@@ -23,6 +23,7 @@ import SmsConsent from "./pages/SmsConsent";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import FlexiblePayments from "./pages/FlexiblePayments";
+import ObagiStore from "./pages/ObagiStore";
 import NotFound from "@/pages/not-found";
 import { KelliAIChat } from "./components/KelliAI";
 import { FloatingBookButton } from "./components/FloatingBookButton";
@@ -88,6 +89,7 @@ function Router() {
       <Route path="/contact" component={Contact} />
       <Route path="/skin-analyzer" component={SkinAnalyzer} />
       <Route path="/flexible-payments" component={FlexiblePayments} />
+      <Route path="/shop-obagi" component={ObagiStore} />
 
       {/* SEO Service Pages */}
       <Route path="/botox-kingsport-tn" component={BotoxKingsport} />

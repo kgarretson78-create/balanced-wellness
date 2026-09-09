@@ -119,6 +119,7 @@ export function Navbar() {
 
             <Link href="/memberships" className={navLinkClass("/memberships")}>Memberships</Link>
             <Link href="/gallery" className={navLinkClass("/gallery")}>Gallery</Link>
+            <Link href="/shop-obagi" className={navLinkClass("/shop-obagi")}>Shop Obagi</Link>
             <Link href="/about" className={navLinkClass("/about")}>About</Link>
             <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
             <Link href="/sms-consent" className={navLinkClass("/sms-consent")}>Text Us</Link>
@@ -174,6 +175,7 @@ export function Navbar() {
 
               <Link href="/memberships" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Memberships</Link>
               <Link href="/gallery" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Gallery</Link>
+              <Link href="/shop-obagi" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Shop Obagi</Link>
               <Link href="/about" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">About</Link>
               <Link href="/contact" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Contact</Link>
 

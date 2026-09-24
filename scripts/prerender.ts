@@ -28,6 +28,13 @@ import { data as kingsportSpaData } from "../src/pages/seo/MedicalSpaKingsport.t
 import { data as jonesboroughSpaData } from "../src/pages/seo/MedicalSpaJonesborough.tsx";
 import { data as ivLoungeData } from "../src/pages/seo/IVLoungeKingsport.tsx";
 import { data as peptideData } from "../src/pages/seo/PeptideTherapyKingsport.tsx";
+import { data as lipFillerData } from "../src/pages/seo/LipFillerKingsport.tsx";
+import { data as laserSkinData } from "../src/pages/seo/LaserSkinRejuvenation.tsx";
+import { data as skinTighteningData } from "../src/pages/seo/SkinTighteningKingsport.tsx";
+import { data as weightLossClinicData } from "../src/pages/seo/WeightLossClinicKingsport.tsx";
+import { data as wellnessClinicData } from "../src/pages/seo/WellnessClinicKingsport.tsx";
+import { data as kingsportMedSpaData } from "../src/pages/seo/KingsportMedSpa.tsx";
+import { data as jonesboroughMedSpaData } from "../src/pages/seo/JonesboroughMedSpa.tsx";
 import { data as onlineWeightLossData } from "../src/pages/seo/OnlineWeightLossKingsport.tsx";
 import { data as onlineSkincareData } from "../src/pages/seo/OnlineSkincareKingsport.tsx";
 import { data as womensHealthData } from "../src/pages/seo/WomensHealthKingsport.tsx";
@@ -1022,6 +1029,41 @@ async function main() {
   await prerenderServiceRoute(
     "/peptide-therapy-kingsport-tn",
     peptideData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/lip-filler-kingsport-tn",
+    lipFillerData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/laser-skin-rejuvenation-kingsport-tn",
+    laserSkinData as ServicePageData,
+    template,
+  );
+  await prerenderServiceRoute(
+    "/skin-tightening-kingsport-tn",
+    skinTighteningData as ServicePageData,
+    template,
+  );
+  await prerenderLocalRoute(
+    "/weight-loss-clinic-kingsport-tn",
+    weightLossClinicData as LocalPageData,
+    template,
+  );
+  await prerenderLocalRoute(
+    "/wellness-clinic-kingsport-tn",
+    wellnessClinicData as LocalPageData,
+    template,
+  );
+  await prerenderLocalRoute(
+    "/kingsport-med-spa",
+    kingsportMedSpaData as LocalPageData,
+    template,
+  );
+  await prerenderLocalRoute(
+    "/jonesborough-med-spa",
+    jonesboroughMedSpaData as LocalPageData,
     template,
   );
   await prerenderServiceRoute(

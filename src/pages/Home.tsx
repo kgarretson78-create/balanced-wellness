@@ -171,77 +171,92 @@ export default function Home() {
       />
 
       {/* ─────────────────────────  HERO  ───────────────────────── */}
-      <section className="relative overflow-hidden luxury-gradient-hero min-h-[92vh] flex items-center">
-        {/* Cinematic, video-ready backdrop. Real clinic reel drops into HERO_VIDEO_SRC. */}
-        {HERO_VIDEO_SRC ? (
-          <video
-            className="absolute inset-0 w-full h-full object-cover opacity-40"
-            src={HERO_VIDEO_SRC}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/images/logo.png"
-          />
-        ) : null}
+      <section className="site-editorial-hero relative overflow-hidden">
+        <div className="grid min-h-[86vh] lg:grid-cols-[1.08fr_0.92fr]">
+          <div className="relative z-10 flex items-center bg-[#1b1816] px-5 py-20 sm:px-10 lg:px-[7vw] lg:py-24">
+            <div aria-hidden="true" className="absolute -left-24 top-16 h-72 w-72 rounded-full bg-[hsl(var(--blush)/0.09)] blur-[100px]" />
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
+              className="relative max-w-3xl"
+            >
+              <div className="editorial-kicker mb-8 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--blush-ink))] px-4 py-2 text-white">
+                <MapPin className="h-3.5 w-3.5" />
+                Kingsport &amp; Jonesborough · Tri-Cities, TN
+              </div>
 
-        {/* Layered charcoal wash + soft brand glows (no generic stock imagery). */}
-        <div className="absolute inset-0 hero-overlay" />
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, hsl(0 0% 100%) 1px, transparent 0)", backgroundSize: "38px 38px" }} />
-        <div className="absolute -top-24 right-[-6%] w-[26rem] h-[26rem] rounded-full bg-champagne/10 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-6rem] left-[-6%] w-[22rem] h-[22rem] rounded-full bg-[hsl(var(--blush)/0.10)] blur-[120px] pointer-events-none" />
+              <img
+                src="/images/logo.png"
+                alt="Balanced Wellness Medical Spa"
+                className="mb-8 h-20 w-auto object-contain brightness-0 invert opacity-90"
+              />
 
-        <div className="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10 w-full py-24 md:py-28 text-center">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
-          >
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/[0.68] backdrop-blur-sm border border-primary/10 text-foreground/70 text-[11px] sm:text-xs font-medium tracking-[0.18em] uppercase mb-8">
-              <MapPin className="w-3.5 h-3.5 text-champagne" /> Kingsport &amp; Jonesborough · Tri-Cities, TN
+              <h1 className="max-w-3xl font-serif text-4xl font-medium leading-[1.03] tracking-[-0.025em] text-white sm:text-5xl lg:text-[4.25rem]">
+                Medical Spa &amp; Wellness Clinic in{" "}
+                <span className="text-[hsl(var(--blush))]">Kingsport &amp; Jonesborough, TN</span>
+              </h1>
+
+              <p className="mt-7 max-w-2xl text-sm leading-7 text-white/72 md:text-base">
+                <span className="font-semibold text-white">Look Better. Feel Better. Live Balanced.</span>{" "}
+                Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you.
+              </p>
+
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => openBookingChooser({ service: "Consultation" })}
+                  className="editorial-button group inline-flex items-center justify-center rounded-lg bg-[hsl(var(--blush-ink))] px-7 py-4 text-xs font-semibold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--blush))]"
+                >
+                  Book Your Consultation
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => askKelli("What brings you here today?")}
+                  className="editorial-button inline-flex items-center justify-center gap-2 rounded-lg border border-white/45 bg-transparent px-7 py-4 text-xs font-semibold text-white transition-all duration-300 hover:border-[hsl(var(--blush))] hover:bg-white/5"
+                >
+                  <Sparkles className="h-4 w-4 text-[hsl(var(--blush))]" />
+                  Find My Best Treatments
+                </button>
+              </div>
+
+              <div className="mt-9 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-white/12 pt-7">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="h-4 w-4 fill-[hsl(var(--blush))] text-[hsl(var(--blush))]" />
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-white/80">5.0</span>
+                <span className="text-white/25">·</span>
+                <span className="text-sm text-white/55">200+ five-star reviews · 8,000+ patients treated</span>
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="relative min-h-[440px] overflow-hidden lg:min-h-full">
+            {HERO_VIDEO_SRC ? (
+              <video
+                className="absolute inset-0 h-full w-full object-cover"
+                src={HERO_VIDEO_SRC}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/images/shelly-ketron.webp"
+              />
+            ) : (
+              <img
+                src="/images/shelly-ketron.webp"
+                alt="Shelly Ketron, PA-C at Balanced Wellness Medical Spa"
+                className="site-editorial-image absolute inset-0 h-full w-full object-cover object-center"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1b1816]/55 via-transparent to-transparent lg:bg-gradient-to-r lg:from-[#1b1816]/22 lg:via-transparent lg:to-transparent" />
+            <div className="warm-ivory-panel absolute bottom-6 left-6 border border-white/60 px-6 py-4 shadow-2xl sm:bottom-8 sm:left-8">
+              <img src="/images/logo.png" alt="Balanced Wellness Medical Spa" className="h-16 w-auto object-contain" />
             </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-serif font-bold text-foreground leading-[1.06] mb-6 text-balance">
-              Medical Spa &amp; Wellness Clinic in{" "}
-              <span className="italic text-gradient-gold">Kingsport &amp; Jonesborough, TN</span>
-            </h1>
-
-            <p className="text-base md:text-lg text-foreground/65 mb-10 leading-relaxed max-w-2xl mx-auto">
-              <span className="font-semibold text-foreground/80">Look Better. Feel Better. Live Balanced.</span>{" "}
-              Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
-              <button
-                type="button"
-                onClick={() => openBookingChooser({ service: "Consultation" })}
-                className="group px-8 py-4 bg-white text-foreground text-center font-semibold rounded-full shadow-xl hover:-translate-y-0.5 transition-all duration-300 text-sm"
-              >
-                Book Your Consultation
-                <ArrowRight className="inline w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button
-                type="button"
-                onClick={() => askKelli("What brings you here today?")}
-                className="px-8 py-4 bg-primary text-white text-center font-semibold rounded-full border border-primary shadow-lg shadow-primary/20 hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-300 text-sm flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4 text-champagne" /> Find My Best Treatments
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-2">
-              <div className="flex gap-0.5">{[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-champagne text-champagne" />)}</div>
-              <span className="text-sm font-medium text-foreground/70">5.0</span>
-              <span className="text-foreground/25">·</span>
-              <span className="text-sm text-foreground/55">200+ five-star reviews · 8,000+ patients treated</span>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scroll affordance */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-foreground/40">
-          <span className="text-[10px] uppercase tracking-[0.2em]">Explore</span>
-          <div className="w-px h-8 bg-gradient-to-b from-primary/40 to-transparent" />
+          </div>
         </div>
       </section>
 

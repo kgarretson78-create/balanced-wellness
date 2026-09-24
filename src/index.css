@@ -83,7 +83,7 @@
   --primary: 24 7% 16%;            /* soft black — main brand base color */
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 347 52% 94%;        /* soft blush */
+  --secondary: 10 42% 94%;        /* soft blush */
   --secondary-foreground: 24 7% 22%;
 
   --muted: 38 28% 94%;
@@ -95,9 +95,9 @@
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 347 22% 87%;
-  --input: 347 20% 83%;
-  --ring: 345 38% 42%;
+  --border: 10 24% 87%;
+  --input: 10 22% 83%;
+  --ring: 8 34% 44%;
 
   --sidebar: 40 26% 95%;
   --sidebar-foreground: 24 8% 15%;
@@ -108,17 +108,17 @@
   --sidebar-accent-foreground: 0 0% 100%;
   --sidebar-ring: 24 7% 16%;
 
-  --champagne: 15 46% 78%;         /* champagne gold tint */
-  --champagne-foreground: 15 27% 23%;
-  --gold: 14 46% 57%;              /* champagne gold — accent only */
-  --gold-ink: 14 44% 35%;          /* deep gold — accessible accent text on light */
-  --blush: 348 62% 83%;            /* soft blush accent */
-  --blush-ink: 345 38% 40%;        /* deep rose — accessible blush text on light */
+  --champagne: 8 45% 73%;         /* champagne gold tint */
+  --champagne-foreground: 8 27% 23%;
+  --gold: 8 38% 57%;              /* champagne gold — accent only */
+  --gold-ink: 7 34% 38%;          /* deep gold — accessible accent text on light */
+  --blush: 8 46% 75%;            /* soft blush accent */
+  --blush-ink: 7 34% 40%;        /* deep rose — accessible blush text on light */
   --sage: 150 24% 42%;             /* soft sage green accent */
   --sage-ink: 152 30% 27%;         /* deep sage — accessible green text on light */
 
-  --app-font-sans: 'Raleway', 'Lato', sans-serif;
-  --app-font-serif: 'Playfair Display', serif;
+  --app-font-sans: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+  --app-font-serif: 'Playfair Display', Didot, 'Bodoni 72', serif;
 
   --radius: 0.875rem;
 }
@@ -147,6 +147,12 @@
 
   p {
     line-height: 1.7;
+  }
+
+  button,
+  [role="button"],
+  nav {
+    font-family: 'Poppins', var(--app-font-sans);
   }
 }
 
@@ -180,7 +186,7 @@
       overflow: hidden;
       border: 1px solid hsl(15 46% 58% / 0.28);
       border-radius: 999px;
-      background: linear-gradient(135deg, hsl(40 38% 99% / 0.94), hsl(348 62% 97% / 0.8));
+      background: linear-gradient(135deg, hsl(40 38% 99% / 0.94), hsl(8 62% 97% / 0.8));
       box-shadow: 0 5px 18px hsl(15 46% 35% / 0.08), inset 0 0 0 1px hsl(0 0% 100% / 0.7);
       transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.5s ease;
     }
@@ -232,15 +238,15 @@
     }
 
   .luxury-gradient {
-    background: linear-gradient(160deg, hsl(40 38% 97%) 0%, hsl(347 42% 96%) 48%, hsl(36 26% 94%) 100%);
+    background: linear-gradient(160deg, hsl(40 38% 97%) 0%, hsl(10 42% 96%) 48%, hsl(36 26% 94%) 100%);
   }
 
   .luxury-gradient-hero {
-    background: radial-gradient(circle at 78% 30%, hsl(348 62% 91% / 0.92), transparent 29%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(347 42% 96%) 54%, hsl(18 30% 93%) 100%);
+    background: radial-gradient(circle at 78% 30%, hsl(8 62% 91% / 0.92), transparent 29%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(10 42% 96%) 54%, hsl(18 30% 93%) 100%);
   }
 
   .luxury-gradient-dark {
-      background: radial-gradient(circle at 78% 24%, hsl(348 62% 91% / 0.92), transparent 29%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(347 42% 96%) 54%, hsl(18 30% 93%) 100%);
+      background: radial-gradient(circle at 82% 16%, hsl(8 46% 75% / 0.16), transparent 30%), linear-gradient(135deg, hsl(24 8% 10%) 0%, hsl(20 8% 14%) 58%, hsl(14 9% 18%) 100%);
     }
 
     .luxury-gradient-night {
@@ -248,7 +254,7 @@
     }
 
     .page-hero-luxury {
-      background: radial-gradient(circle at 78% 25%, hsl(348 62% 89% / 0.9), transparent 30%), radial-gradient(circle at 12% 92%, hsl(15 46% 80% / 0.28), transparent 28%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(347 42% 96%) 55%, hsl(18 30% 93%) 100%);
+      background: radial-gradient(circle at 78% 25%, hsl(8 62% 89% / 0.9), transparent 30%), radial-gradient(circle at 12% 92%, hsl(15 46% 80% / 0.28), transparent 28%), linear-gradient(135deg, hsl(40 38% 98%) 0%, hsl(10 42% 96%) 55%, hsl(18 30% 93%) 100%);
     }
 
   .glow-primary {
@@ -260,7 +266,7 @@
   }
 
   .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(348 48% 72%), hsl(15 46% 58%), hsl(345 44% 44%));
+    background: linear-gradient(135deg, hsl(8 48% 72%), hsl(15 46% 58%), hsl(7 44% 44%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -296,7 +302,7 @@
   }
 
   .hero-overlay {
-    background: linear-gradient(145deg, hsl(40 38% 98% / 0.68) 0%, hsl(347 42% 96% / 0.34) 52%, hsl(18 30% 93% / 0.12) 100%);
+    background: linear-gradient(145deg, hsl(40 38% 98% / 0.68) 0%, hsl(10 42% 96% / 0.34) 52%, hsl(18 30% 93% / 0.12) 100%);
   }
 
   .luxury-shadow {
@@ -323,14 +329,14 @@
 
   .decorative-line {
     width: 56px;
-    height: 2px;
-    background: linear-gradient(90deg, hsl(345 38% 42%), hsl(15 46% 58%));
+    height: 1px;
+    background: linear-gradient(90deg, hsl(var(--blush-ink)), hsl(var(--blush)));
     border-radius: 2px;
   }
 
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, hsl(345 38% 42% / 0.22), hsl(15 46% 58% / 0.18), transparent);
+    background: linear-gradient(90deg, transparent, hsl(7 38% 42% / 0.22), hsl(15 46% 58% / 0.18), transparent);
   }
 
   .float-slow {
@@ -412,3 +418,35 @@
         transform: scale(1.24);
       }
     }
+
+/* Elevated editorial system inspired by the sister Skindulgence brand, recolored for Balanced. */
+.editorial-kicker {
+  font-family: 'Poppins', var(--app-font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.editorial-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsl(var(--blush)), transparent);
+}
+
+.editorial-button {
+  font-family: 'Poppins', var(--app-font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-editorial-hero {
+  background: hsl(24 8% 11%);
+}
+
+.site-editorial-image {
+  filter: saturate(0.72) contrast(1.02);
+}
+
+.warm-ivory-panel {
+  background: linear-gradient(145deg, hsl(40 38% 98%), hsl(12 38% 96%));
+}

@@ -22,7 +22,7 @@ export function CTA({
   const isExternal = linkTo?.startsWith("http") ?? false;
 
   const sharedClass =
-    "group inline-flex items-center px-8 py-3.5 bg-primary text-white font-semibold rounded-full shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm";
+    "group inline-flex items-center px-8 py-3.5 bg-[hsl(var(--blush-ink))] text-white font-semibold rounded-lg shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/35 hover:-translate-y-0.5 transition-all duration-300 shimmer text-sm";
 
   return (
     <section className="relative py-24 overflow-hidden luxury-gradient-dark">
@@ -32,10 +32,10 @@ export function CTA({
 
       <div className="max-w-3xl mx-auto px-4 relative z-10 text-center">
         <div className="decorative-line mx-auto mb-8" />
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-5 text-balance leading-tight">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-white mb-5 text-balance leading-tight">
           {title}
         </h2>
-        <p className="text-sm md:text-base text-foreground/60 mb-10 max-w-xl mx-auto leading-relaxed">
+        <p className="text-sm md:text-base text-white/62 mb-10 max-w-xl mx-auto leading-relaxed">
           {subtitle}
         </p>
         {linkTo ? (

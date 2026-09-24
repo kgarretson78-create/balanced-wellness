@@ -110,6 +110,8 @@ const data = {
   schemaDescription: "Non-surgical skin tightening treatments in Kingsport TN at Balanced Wellness Medical Spa. Radiofrequency and energy-based skin firming for face, neck, and body without surgery.",
 };
 
+export { data };
+
 export default function SkinTighteningKingsport() {
   return <SEOServicePage {...data} />;
 }

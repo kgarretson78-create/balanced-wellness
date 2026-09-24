@@ -113,6 +113,8 @@ const data = {
   schemaDescription: "Lip filler injections in Kingsport TN at Balanced Wellness Medical Spa. Hyaluronic acid lip augmentation for natural volume, symmetry, and definition.",
 };
 
+export { data };
+
 export default function LipFillerKingsport() {
   return <SEOServicePage {...data} />;
 }

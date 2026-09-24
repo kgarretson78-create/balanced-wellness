@@ -98,6 +98,8 @@ const data = {
   ],
 };
 
+export { data };
+
 export default function JonesboroughMedSpa() {
   return <LocalSEOPage {...data} />;
 }

@@ -93,6 +93,8 @@ const data = {
   ],
 };
 
+export { data };
+
 export default function WeightLossClinicKingsport() {
   return <LocalSEOPage {...data} />;
 }

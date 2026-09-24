@@ -111,6 +111,8 @@ const data = {
   schemaDescription: "Laser skin rejuvenation treatments in Kingsport TN at Balanced Wellness Medical Spa. IPL photofacials and laser resurfacing for sun damage, age spots, rosacea, and skin tone improvement.",
 };
 
+export { data };
+
 export default function LaserSkinRejuvenation() {
   return <SEOServicePage {...data} />;
 }

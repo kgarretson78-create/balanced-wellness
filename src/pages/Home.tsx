@@ -173,7 +173,7 @@ export default function Home() {
       {/* ─────────────────────────  HERO  ───────────────────────── */}
       <section className="site-editorial-hero relative overflow-hidden">
         <div className="grid min-h-[86vh] lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="relative z-10 flex items-center bg-[#1b1816] px-5 py-20 sm:px-10 lg:px-[7vw] lg:py-24">
+          <div className="relative z-10 flex items-center bg-[#1b1816] px-5 py-12 sm:px-10 sm:py-14 lg:px-[7vw] lg:py-16">
             <div aria-hidden="true" className="absolute -left-24 top-16 h-72 w-72 rounded-full bg-[hsl(var(--blush)/0.09)] blur-[100px]" />
             <motion.div
               initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
@@ -181,7 +181,7 @@ export default function Home() {
               transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
               className="relative max-w-3xl"
             >
-              <div className="editorial-kicker mb-8 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--blush-ink))] px-4 py-2 text-white">
+              <div className="editorial-kicker mb-5 inline-flex items-center gap-2 rounded-md bg-[hsl(var(--blush-ink))] px-4 py-2 text-white">
                 <MapPin className="h-3.5 w-3.5" />
                 Kingsport &amp; Jonesborough · Tri-Cities, TN
               </div>
@@ -189,20 +189,20 @@ export default function Home() {
               <img
                 src="/images/logo.png"
                 alt="Balanced Wellness Medical Spa"
-                className="mb-8 h-20 w-auto object-contain brightness-0 invert opacity-90"
+                className="mb-5 h-14 w-auto object-contain brightness-0 invert opacity-90"
               />
 
-              <h1 className="max-w-3xl font-serif text-4xl font-medium leading-[1.03] tracking-[-0.025em] text-white sm:text-5xl lg:text-[4.25rem]">
+              <h1 className="max-w-3xl font-serif text-4xl font-medium leading-[1.03] tracking-[-0.025em] text-white sm:text-5xl lg:text-[3.65rem]">
                 Medical Spa &amp; Wellness Clinic in{" "}
                 <span className="text-[hsl(var(--blush))]">Kingsport &amp; Jonesborough, TN</span>
               </h1>
 
-              <p className="mt-7 max-w-2xl text-sm leading-7 text-white/72 md:text-base">
+              <p className="mt-5 max-w-2xl text-sm leading-7 text-white/72 md:text-base">
                 <span className="font-semibold text-white">Look Better. Feel Better. Live Balanced.</span>{" "}
                 Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you.
               </p>
 
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <button
                   type="button"
                   onClick={() => openBookingChooser({ service: "Consultation" })}
@@ -221,7 +221,7 @@ export default function Home() {
                 </button>
               </div>
 
-              <div className="mt-9 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-white/12 pt-7">
+              <div className="mt-6 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-white/12 pt-5">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, j) => (
                     <Star key={j} className="h-4 w-4 fill-[hsl(var(--blush))] text-[hsl(var(--blush))]" />

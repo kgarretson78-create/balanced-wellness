@@ -94,6 +94,8 @@ const data = {
   ],
 };
 
+export { data };
+
 export default function WellnessClinicKingsport() {
   return <LocalSEOPage {...data} />;
 }

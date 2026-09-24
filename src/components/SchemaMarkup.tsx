@@ -22,6 +22,13 @@ export function LocalBusinessSchema() {
       priceRange: "$$",
       currenciesAccepted: "USD",
       paymentAccepted: "Cash, Credit Card, Debit Card, CareCredit, Cherry Financing",
+      knowsAbout: [
+        "Medical aesthetics in Kingsport and Jonesborough",
+        "Tri-Cities medical spa treatments",
+        "Injectables and facial balancing",
+        "Laser skin rejuvenation",
+        "Metabolic and hormone wellness",
+      ],
       medicalSpecialty: [
         "Botox",
         "Dysport",
@@ -44,6 +51,7 @@ export function LocalBusinessSchema() {
         { "@type": "City", name: "Johnson City" },
         { "@type": "City", name: "Bristol" },
         { "@type": "City", name: "Greeneville" },
+        { "@type": "AdministrativeArea", name: "Tri-Cities, Tennessee" },
         { "@type": "State", name: "Tennessee" },
       ],
       founder: {

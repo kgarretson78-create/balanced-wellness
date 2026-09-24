@@ -191,6 +191,17 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.balancedmedicalspa.com/bootox</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.balancedmedicalspa.com/shop-obagi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.balancedmedicalspa.com/privacy-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

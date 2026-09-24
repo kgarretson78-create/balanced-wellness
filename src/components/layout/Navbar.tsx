@@ -44,15 +44,15 @@ export function Navbar() {
 
   const navLinkClass = (path: string, isActive?: boolean) =>
     `text-[13px] font-medium tracking-wide transition-colors duration-300 ${
-      (isActive || location === path) ? 'text-primary' : 'text-foreground/60 hover:text-foreground'
+      (isActive || location === path) ? 'text-blush-ink' : 'text-foreground/65 hover:text-foreground'
     }`;
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]"
-          : "bg-white/60 backdrop-blur-md"
+          ? "bg-[#fbf8f1]/95 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]"
+          : "bg-[#fbf8f1]/88 backdrop-blur-md"
       }`}
     >
       <FlexiblePaymentsBand />
@@ -101,7 +101,7 @@ export function Navbar() {
                     transition={{ duration: 0.15 }}
                     id="services-menu"
                     role="menu"
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 rounded-xl bg-white/95 backdrop-blur-xl shadow-xl shadow-black/[0.06] border border-border/50 py-1.5"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 rounded-xl bg-[#fbf8f1]/98 backdrop-blur-xl shadow-xl shadow-black/[0.06] border border-border/50 py-1.5"
                   >
                     {serviceLinks.map((link) => (
                       <Link
@@ -127,7 +127,7 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => openBookingChooser()}
-              className="group flex items-center px-5 py-2 bg-gradient-to-r from-primary to-accent text-white text-[13px] font-semibold rounded-full shadow-sm shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-[1px] transition-all duration-300"
+              className="group flex items-center px-5 py-2 bg-primary text-white text-[12px] font-semibold uppercase tracking-[0.12em] rounded-lg shadow-sm shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-[1px] transition-all duration-300"
             >
               Book Now
               <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
@@ -150,7 +150,7 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white/95 backdrop-blur-xl border-t border-border/30 overflow-hidden"
+            className="lg:hidden bg-[#fbf8f1]/98 backdrop-blur-xl border-t border-border/30 overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-0.5 max-h-[80vh] overflow-y-auto">
               <Link href="/" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Home</Link>
@@ -192,7 +192,7 @@ export function Navbar() {
                     setMobileMenuOpen(false);
                     openBookingChooser();
                   }}
-                  className="block w-full text-center mt-4 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white text-sm font-semibold rounded-xl shadow-md shadow-primary/20"
+                  className="block w-full text-center mt-4 px-6 py-3 bg-primary text-white text-sm font-semibold uppercase tracking-[0.08em] rounded-lg shadow-md shadow-primary/20"
                 >
                   Book Appointment
                 </button>

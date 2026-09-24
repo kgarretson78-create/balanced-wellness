@@ -70,7 +70,7 @@ export default function BootoxEvent() {
                     <p className="text-xs font-semibold uppercase tracking-wider text-foreground/45">
                       Date
                     </p>
-                    <p className="mt-1 font-medium text-foreground">Sunday, October 25</p>
+                    <p className="mt-1 text-sm font-medium leading-6 text-foreground">Sunday, October 25</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3 rounded-lg bg-[#fbf8f1] p-4">

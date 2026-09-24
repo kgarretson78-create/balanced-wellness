@@ -24,6 +24,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import FlexiblePayments from "./pages/FlexiblePayments";
 import ObagiStore from "./pages/ObagiStore";
+import BootoxEvent from "./pages/BootoxEvent";
 import NotFound from "@/pages/not-found";
 import { KelliAIChat } from "./components/KelliAI";
 import { FloatingBookButton } from "./components/FloatingBookButton";
@@ -90,6 +91,7 @@ function Router() {
       <Route path="/skin-analyzer" component={SkinAnalyzer} />
       <Route path="/flexible-payments" component={FlexiblePayments} />
       <Route path="/shop-obagi" component={ObagiStore} />
+      <Route path="/bootox" component={BootoxEvent} />
 
       {/* SEO Service Pages */}
       <Route path="/botox-kingsport-tn" component={BotoxKingsport} />

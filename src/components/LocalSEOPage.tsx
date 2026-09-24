@@ -72,18 +72,29 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
   const primaryLocId = cityToLocationId(primaryLocation.city);
   const primaryBookingUrl = LOCATIONS[primaryLocId].bookingUrl;
   const handlePrimaryBooking = () => setPreferredLocation(primaryLocId);
+  const isJonesborough = primaryLocId === "jonesborough";
+  const primaryImage = isJonesborough
+    ? "/images/locations/jonesborough-exterior.webp"
+    : "/images/locations/kingsport-reception.webp";
+  const interiorImage = isJonesborough
+    ? "/images/locations/jonesborough-interior.webp"
+    : "/images/locations/kingsport-treatment-room.webp";
+  const imageAlt = isJonesborough
+    ? "Historic Balanced Wellness Medical Spa in downtown Jonesborough, Tennessee"
+    : "Balanced Wellness Medical Spa Kingsport reception with black, white, and gold finishes";
 
   return (
     <PageLayout>
       <SEO title={seo.title} description={seo.description} keywords={seo.keywords} />
       <LocalBusinessSchema />
 
-      {/* Hero */}
-      <section className="relative pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 luxury-gradient" />
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
+      {/* Location-led hero with softly embedded real clinic photography */}
+      <section className="relative overflow-hidden border-b border-border/50">
+        <img src={primaryImage} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover opacity-[0.14]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#fbf8f1]/100 via-[#fbf8f1]/94 to-[#fbf8f1]/74" />
+        <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-4 pb-16 pt-24 sm:px-6 lg:grid-cols-[1.08fr_.92fr] lg:px-8 lg:pb-20 lg:pt-28">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-[#fbf8f1]/80 px-4 py-1.5 text-sm font-medium text-primary shadow-sm backdrop-blur-md mb-6">
               <MapPin className="w-3.5 h-3.5" />
               {hero.badge}
             </div>
@@ -103,11 +114,23 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
               </Link>
               <a
                 href={`tel:${primaryLocation.tel}`}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-foreground font-semibold rounded-full border border-border hover:bg-secondary transition-all"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white/90 text-foreground font-semibold rounded-full border border-border hover:bg-white transition-all"
               >
                 <Phone className="w-4 h-4 text-primary" />
                 {primaryLocation.phone}
               </a>
+            </div>
+          </div>
+          <div className="relative hidden min-h-[410px] lg:block">
+            <div className="absolute inset-x-6 inset-y-0 overflow-hidden rounded-[2rem] border border-white/70 shadow-2xl shadow-black/10">
+              <img src={primaryImage} alt={imageAlt} className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1b1816]/28 via-transparent to-white/5" />
+            </div>
+            <div className="absolute -bottom-4 left-0 h-44 w-36 overflow-hidden rounded-2xl border-4 border-[#fbf8f1] shadow-xl">
+              <img src={interiorImage} alt={`${primaryLocation.city} clinic interior`} className="h-full w-full object-cover" />
+            </div>
+            <div className="brand-logo-embed absolute -bottom-3 right-0 !h-[68px] !w-[150px] bg-[#fbf8f1]/95 shadow-xl backdrop-blur-md">
+              <img src="/images/logo.png" alt="Balanced Wellness Medical Spa" className="brand-logo-image" />
             </div>
           </div>
         </div>

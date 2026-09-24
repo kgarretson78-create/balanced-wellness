@@ -983,6 +983,186 @@ async function prerenderHomeRoute(template: string) {
   await writeRoute("/", html);
 }
 
+
+interface HubPageData {
+  route: string;
+  title: string;
+  description: string;
+  keywords: string;
+  h1: string;
+  quickAnswer: string;
+  intro: string[];
+  services: { name: string; href: string; description: string }[];
+  faqs: FAQ[];
+}
+
+const HUB_PAGES: HubPageData[] = [
+  {
+    route: "/services",
+    title: "Med Spa Services in Kingsport & Jonesborough TN | Balanced Wellness",
+    description: "Explore Botox, fillers, laser treatments, medical weight loss, IV therapy, hormone optimization, and wellness services in Kingsport, Jonesborough, and the Tri-Cities.",
+    keywords: "med spa services Kingsport TN, medical spa Jonesborough TN, Tri-Cities med spa, Botox Kingsport, laser treatments Jonesborough",
+    h1: "Medical Spa Services in Kingsport & Jonesborough, TN",
+    quickAnswer: "Balanced Wellness provides medical aesthetics and wellness care at two Tri-Cities locations. Services include neurotoxins, dermal fillers, laser and RF treatments, medical weight loss, IV therapy, peptide therapy, and hormone optimization.",
+    intro: [
+      "Our licensed medical team builds personalized treatment plans around your goals, health history, skin, and lifestyle.",
+      "Patients visit us from Kingsport, Jonesborough, Johnson City, Bristol, Greeneville, and communities throughout Northeast Tennessee."
+    ],
+    services: [
+      { name: "Injectables & Fillers", href: "/injectables", description: "Botox, Dysport, Daxxify, Jeuveau, and dermal filler." },
+      { name: "Laser & Skin Treatments", href: "/laser-treatments", description: "Laser resurfacing, IPL, RF microneedling, and skin rejuvenation." },
+      { name: "Medical Weight Loss", href: "/weight-loss", description: "Provider-guided metabolic and GLP-1 programs." },
+      { name: "Wellness & IV Therapy", href: "/wellness", description: "IV hydration, vitamin injections, NAD+, and peptide support." },
+      { name: "Hormone Optimization", href: "/hormone-optimization", description: "Lab-guided hormone and longevity care for women and men." }
+    ],
+    faqs: [
+      { q: "Where is Balanced Wellness Medical Spa located?", a: "Balanced Wellness has locations in Kingsport at 1309 South John B Dennis Hwy, Suite 104, and Jonesborough at 120 South Cherokee Street." },
+      { q: "Do you serve the entire Tri-Cities area?", a: "Yes. We welcome patients from Kingsport, Jonesborough, Johnson City, Bristol, Greeneville, and surrounding Northeast Tennessee communities." },
+      { q: "How do I choose the right treatment?", a: "Start with a consultation. A provider will review your goals, medical history, and options before recommending a personalized plan." }
+    ]
+  },
+  {
+    route: "/injectables",
+    title: "Botox, Dysport & Dermal Fillers | Kingsport & Jonesborough TN",
+    description: "Natural-looking Botox, Dysport, Daxxify, Jeuveau, lip filler, and dermal filler treatments in Kingsport and Jonesborough, serving the Tri-Cities.",
+    keywords: "Botox Kingsport TN, Botox Jonesborough TN, dermal fillers Tri-Cities, lip filler Kingsport, Dysport Jonesborough",
+    h1: "Injectables & Dermal Fillers in Kingsport and Jonesborough",
+    quickAnswer: "Balanced Wellness offers personalized neurotoxin and filler treatments designed to soften expression lines, restore volume, and preserve natural facial movement.",
+    intro: ["Every injectable plan begins with an assessment of facial anatomy, movement, proportions, and your preferred level of correction.", "Treatments are available at our Kingsport and Jonesborough medical spas for patients throughout the Tri-Cities."],
+    services: [
+      { name: "Botox", href: "/botox-kingsport-tn", description: "Targeted wrinkle-relaxing treatment with natural-looking results." },
+      { name: "Dysport", href: "/dysport-kingsport-tn", description: "A fast-acting neurotoxin option for dynamic lines." },
+      { name: "Daxxify", href: "/daxxify-kingsport-tn", description: "A peptide-powered, longer-lasting frown-line treatment." },
+      { name: "Lip & Dermal Filler", href: "/lip-filler-kingsport-tn", description: "Personalized volume and contour for lips and facial features." }
+    ],
+    faqs: [
+      { q: "How long do injectable appointments take?", a: "Most appointments take about 20 to 45 minutes, depending on the treatment area and plan." },
+      { q: "When will I see results?", a: "Neurotoxin results typically develop over several days. Filler results are visible immediately, with refinement as swelling settles." },
+      { q: "Can I book injectables in Jonesborough?", a: "Yes. Injectable consultations and treatments are available at both our Kingsport and Jonesborough locations." }
+    ]
+  },
+  {
+    route: "/laser-treatments",
+    title: "Laser Skin Treatments | Kingsport, Jonesborough & Tri-Cities TN",
+    description: "Advanced laser resurfacing, IPL, RF microneedling, skin tightening, and rejuvenation in Kingsport and Jonesborough, Tennessee.",
+    keywords: "laser treatments Kingsport TN, skin resurfacing Jonesborough, RF microneedling Tri-Cities, IPL Kingsport, skin tightening Tennessee",
+    h1: "Laser & Advanced Skin Treatments in the Tri-Cities",
+    quickAnswer: "Balanced Wellness uses advanced laser, light, and radiofrequency technology to improve tone, texture, laxity, unwanted hair, sun damage, and acne scarring.",
+    intro: ["Your treatment plan is selected for your skin type, concerns, goals, and appropriate downtime.", "Consultations and treatment options are available in Kingsport and Jonesborough for patients across Northeast Tennessee."],
+    services: [
+      { name: "Laser Skin Rejuvenation", href: "/laser-skin-rejuvenation-kingsport-tn", description: "Customized resurfacing for tone, texture, and sun damage." },
+      { name: "RF Microneedling", href: "/rf-microneedling-kingsport-tn", description: "Collagen remodeling for smoother, firmer skin." },
+      { name: "Skin Tightening", href: "/skin-tightening-kingsport-tn", description: "Non-surgical options for laxity and collagen support." }
+    ],
+    faqs: [
+      { q: "Which laser treatment is best for me?", a: "The best option depends on your skin type, concern, medical history, and downtime preference. A consultation is required before treatment." },
+      { q: "Do laser treatments require downtime?", a: "Downtime varies from minimal redness to several days of recovery depending on the device and treatment intensity." },
+      { q: "Are laser consultations available in both locations?", a: "Yes. Contact the Kingsport or Jonesborough team to confirm the best location for your selected technology." }
+    ]
+  },
+  {
+    route: "/weight-loss",
+    title: "Medical Weight Loss | Kingsport, Jonesborough & Tri-Cities TN",
+    description: "Provider-guided medical weight loss with personalized metabolic care in Kingsport and Jonesborough, serving Johnson City and the Tri-Cities.",
+    keywords: "medical weight loss Kingsport TN, weight loss Jonesborough TN, GLP-1 Tri-Cities, semaglutide Kingsport, tirzepatide Tennessee",
+    h1: "Medical Weight Loss in Kingsport & Jonesborough",
+    quickAnswer: "Balanced Wellness offers medically supervised weight-loss programs that may include lab review, nutrition support, metabolic guidance, and prescription treatment when clinically appropriate.",
+    intro: ["Programs are personalized to your health history, goals, labs, and provider assessment.", "Ongoing visits help track progress, manage side effects, and adjust the plan safely."],
+    services: [
+      { name: "Medical Weight Loss Program", href: "/medical-weight-loss-kingsport-tn", description: "Personalized treatment with provider oversight." },
+      { name: "Kingsport Weight Loss Clinic", href: "/weight-loss-clinic-kingsport-tn", description: "Local program information for Kingsport and the Tri-Cities." },
+      { name: "Online Weight Loss Care", href: "/online-weight-loss-kingsport-tn", description: "Convenient virtual follow-up options when appropriate." }
+    ],
+    faqs: [
+      { q: "Do I need lab work before starting?", a: "Your provider will determine which evaluation and laboratory testing are appropriate based on your health history." },
+      { q: "Are medications guaranteed?", a: "No. Prescription treatment is provided only when medically appropriate after a provider evaluation." },
+      { q: "Can patients from Johnson City use the Jonesborough location?", a: "Yes. Our Jonesborough office is convenient for many patients in Johnson City and Washington County." }
+    ]
+  },
+  {
+    route: "/wellness",
+    title: "IV Therapy & Wellness | Kingsport, Jonesborough & Tri-Cities TN",
+    description: "IV hydration, vitamin injections, peptide therapy, NAD+, and personalized wellness services in Kingsport and Jonesborough, Tennessee.",
+    keywords: "IV therapy Kingsport TN, wellness clinic Jonesborough TN, peptide therapy Tri-Cities, NAD IV Kingsport, vitamin injections Tennessee",
+    h1: "Wellness & IV Therapy in Kingsport and Jonesborough",
+    quickAnswer: "Balanced Wellness offers provider-guided IV hydration and wellness services designed to support hydration, energy, recovery, and individualized health goals.",
+    intro: ["A health screening helps our team determine which services are appropriate for you.", "Our Kingsport and Jonesborough offices serve patients throughout the Tri-Cities and Northeast Tennessee."],
+    services: [
+      { name: "IV Lounge", href: "/iv-lounge-kingsport-tn", description: "Hydration and nutrient drips administered by trained medical staff." },
+      { name: "Peptide Therapy", href: "/peptide-therapy-kingsport-tn", description: "Personalized peptide protocols when clinically appropriate." },
+      { name: "Kingsport Wellness Clinic", href: "/wellness-clinic-kingsport-tn", description: "Local wellness and longevity care in Kingsport." }
+    ],
+    faqs: [
+      { q: "How long does an IV appointment take?", a: "Many IV appointments take about 30 to 60 minutes, depending on the selected drip and your individual needs." },
+      { q: "Is IV therapy appropriate for everyone?", a: "No. A medical screening is required, and certain conditions or medications may affect eligibility." },
+      { q: "Do you offer wellness care near Johnson City?", a: "Yes. Our Jonesborough location serves many patients from Johnson City and nearby Washington County communities." }
+    ]
+  },
+  {
+    route: "/hormone-optimization",
+    title: "Hormone Optimization | Kingsport, Jonesborough & Tri-Cities TN",
+    description: "Lab-guided hormone optimization and longevity care for women and men in Kingsport and Jonesborough, serving the Tri-Cities.",
+    keywords: "hormone therapy Kingsport TN, hormone optimization Jonesborough, HRT Tri-Cities, testosterone therapy Kingsport, women's hormones Tennessee",
+    h1: "Hormone Optimization in Kingsport & Jonesborough",
+    quickAnswer: "Balanced Wellness provides individualized hormone care based on symptoms, health history, laboratory testing, and ongoing medical monitoring.",
+    intro: ["Our approach may include lifestyle guidance, targeted supplementation, or prescription therapy when clinically appropriate.", "Care is available for women and men at our Kingsport and Jonesborough locations and through eligible follow-up visits."],
+    services: [
+      { name: "Hormone Therapy", href: "/hormone-therapy-kingsport-tn", description: "Detailed program information and candidacy guidance." },
+      { name: "Women's Health", href: "/womens-health-kingsport-tn", description: "Personalized support for women's hormonal health." },
+      { name: "Men's Health", href: "/mens-health-kingsport-tn", description: "Lab-guided men's health and optimization care." },
+      { name: "Telehealth", href: "/telehealth", description: "Virtual follow-up options for eligible patients." }
+    ],
+    faqs: [
+      { q: "Is lab testing required for hormone therapy?", a: "Yes. Appropriate lab work and a medical evaluation are essential before starting or adjusting hormone treatment." },
+      { q: "How often is hormone therapy monitored?", a: "Monitoring frequency is personalized, but follow-up visits and repeat labs are used to evaluate safety and response." },
+      { q: "Do you treat both women and men?", a: "Yes. Balanced Wellness offers individualized hormone and wellness care for adult women and men." }
+    ]
+  }
+];
+
+function renderHubBody(d: HubPageData, canonicalUrl: string): string {
+  const services = d.services.map((s) => `<li><a href="${escapeAttr(s.href)}"><strong>${escapeHtml(s.name)}</strong></a> — ${escapeHtml(s.description)}</li>`).join("\n");
+  const faqs = d.faqs.map((f) => `<div><h3>${escapeHtml(f.q)}</h3><p>${escapeHtml(f.a)}</p></div>`).join("\n");
+  return `
+    <div id="prerender-content" data-prerender>
+      <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>${escapeHtml(d.h1)}</span></nav>
+      <header>
+        <h1>${escapeHtml(d.h1)}</h1>
+        <p>${escapeHtml(d.description)}</p>
+        <p><a href="/book">Book a Consultation</a> · <a href="tel:423-765-1393">Kingsport (423) 765-1393</a> · <a href="tel:423-646-2169">Jonesborough (423) 646-2169</a></p>
+      </header>
+      <section aria-label="Quick Answer"><h2>Quick Answer</h2><p>${escapeHtml(d.quickAnswer)}</p></section>
+      <section><h2>Local, Personalized Care</h2>${d.intro.map((p) => `<p>${escapeHtml(p)}</p>`).join("\n")}</section>
+      <section><h2>Popular Services</h2><ul>${services}</ul></section>
+      <section><h2>Frequently Asked Questions</h2>${faqs}</section>
+      <section>
+        <h2>Two Tri-Cities Locations</h2>
+        <address><strong>Kingsport</strong><br>1309 South John B Dennis Hwy, Suite 104<br>Kingsport, TN 37660<br><a href="tel:423-765-1393">(423) 765-1393</a></address>
+        <address><strong>Jonesborough</strong><br>120 South Cherokee Street<br>Jonesborough, TN 37659<br><a href="tel:423-646-2169">(423) 646-2169</a></address>
+      </section>
+      <p><a href="${escapeAttr(canonicalUrl)}">${escapeHtml(d.h1)} — Balanced Wellness Medical Spa</a></p>
+    </div>`;
+}
+
+async function prerenderHubRoute(d: HubPageData, template: string) {
+  const canonicalUrl = `${ORIGIN}${d.route}`;
+  const jsonLd = [
+    LOCAL_BUSINESS_SCHEMA,
+    medicalProcedureSchema(d.h1, d.description, canonicalUrl),
+    faqPageSchema(d.faqs, canonicalUrl),
+    breadcrumbsForService(d.h1, canonicalUrl),
+  ];
+  let html = applyHeadToTemplate(template, {
+    title: d.title,
+    description: d.description,
+    keywords: d.keywords,
+    canonicalUrl,
+    jsonLd,
+  });
+  html = injectBody(html, renderHubBody(d, canonicalUrl));
+  await writeRoute(d.route, html);
+}
+
 async function main() {
   const templatePath = path.join(DIST, "index.html");
   const template = await fs.readFile(templatePath, "utf8");
@@ -993,6 +1173,7 @@ async function main() {
   }
 
   await prerenderHomeRoute(template);
+  for (const hub of HUB_PAGES) await prerenderHubRoute(hub, template);
   await prerenderServiceRoute("/botox-kingsport-tn", botoxData as ServicePageData, template);
   await prerenderServiceRoute("/dysport-kingsport-tn", dysportData as ServicePageData, template);
   await prerenderServiceRoute("/daxxify-kingsport-tn", daxxifyData as ServicePageData, template);

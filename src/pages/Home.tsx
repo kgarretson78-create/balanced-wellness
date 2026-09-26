@@ -239,7 +239,7 @@ export default function Home() {
               Kingsport &amp; Jonesborough · Tri-Cities, TN
             </div>
 
-            <div className="mb-6 inline-flex rounded-2xl border border-white/55 bg-[#fbf8f1]/95 px-4 py-3 shadow-xl backdrop-blur-md">
+            <div className="mb-6 flex w-fit rounded-2xl border border-white/55 bg-[#fbf8f1]/95 px-4 py-3 shadow-xl backdrop-blur-md">
               <img
                 src="/images/logo.png"
                 alt="Balanced Wellness Medical Spa"

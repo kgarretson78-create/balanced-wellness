@@ -13,11 +13,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
           <div>
-            <img
-              src="/images/logo.png"
-              alt="Balanced Wellness Medical Spa"
-              className="h-16 w-auto object-contain mb-6 brightness-0 invert opacity-90"
-            />
+            <div className="mb-6 inline-flex rounded-2xl border border-white/15 bg-[#fbf8f1]/95 px-4 py-3 shadow-lg">
+              <img
+                src="/images/logo.png"
+                alt="Balanced Wellness Medical Spa"
+                className="h-16 w-auto object-contain"
+              />
+            </div>
             <p className="text-white/35 text-sm leading-relaxed mb-6">
               A modern medical spa blending aesthetics, wellness, and longevity medicine in Kingsport & Jonesborough TN.
             </p>

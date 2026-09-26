@@ -72,9 +72,9 @@ export default function SmsConsent() {
         <div className="max-w-5xl mx-auto px-6 py-5 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <img
-              src="/images/logo.jpeg"
+              src="/images/logo.png"
               alt="Balanced Wellness Medical Spa"
-              className="h-12 w-auto rounded"
+              className="h-12 w-auto object-contain"
             />
             <div className="hidden sm:block">
               <p className="text-[10px] tracking-[0.25em] uppercase text-[#b8956a] font-semibold">

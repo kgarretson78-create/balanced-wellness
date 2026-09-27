@@ -17,6 +17,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createElement, type ComponentType } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Router as WouterRouter } from "wouter";
+import SmsConsent from "../src/pages/SmsConsent.tsx";
+import PrivacyPolicy from "../src/pages/PrivacyPolicy.tsx";
+import TermsAndConditions from "../src/pages/TermsAndConditions.tsx";
 
 import { data as botoxData } from "../src/pages/seo/BotoxKingsport.tsx";
 import { data as dysportData } from "../src/pages/seo/DysportKingsport.tsx";
@@ -787,6 +793,31 @@ function injectBody(template: string, body: string): string {
   return template.replace('<div id="root"></div>', () => `<div id="root">${body}</div>`);
 }
 
+// Render these pages from the same React components visitors use. A carrier
+// reviewer fetching HTML without JavaScript can inspect the real form and
+// disclosures; the client bundle still takes over when JavaScript loads.
+async function prerenderComplianceRoute(
+  routePath: string,
+  component: ComponentType,
+  title: string,
+  description: string,
+  template: string,
+) {
+  const canonicalUrl = `${ORIGIN}${routePath}`;
+  const body = renderToStaticMarkup(
+    createElement(WouterRouter, { ssrPath: routePath }, createElement(component)),
+  );
+  let html = applyHeadToTemplate(template, {
+    title,
+    description,
+    keywords: "Balanced Wellness Medical Spa, SMS, privacy, terms",
+    canonicalUrl,
+    jsonLd: [],
+  });
+  html = injectBody(html, body);
+  await writeRoute(routePath, html);
+}
+
 async function prerenderServiceRoute(
   routePath: string,
   d: ServicePageData,
@@ -1171,6 +1202,25 @@ async function main() {
   if (!template.includes('<div id="root">')) {
     throw new Error("[prerender] dist/index.html missing <div id=\"root\"> — build first.");
   }
+
+  await prerenderComplianceRoute(
+    "/sms-consent", SmsConsent,
+    "SMS Consent | Balanced Wellness Medical Spa",
+    "Opt in to appointment reminders, customer care, and promotional texts from Balanced Wellness Medical Spa.",
+    template,
+  );
+  await prerenderComplianceRoute(
+    "/privacy-policy", PrivacyPolicy,
+    "Privacy Policy | Balanced Wellness Medical Spa",
+    "Read how Balanced Wellness Medical Spa uses and protects your information, including SMS consent.",
+    template,
+  );
+  await prerenderComplianceRoute(
+    "/terms-and-conditions", TermsAndConditions,
+    "Terms & Conditions | Balanced Wellness Medical Spa",
+    "Read Balanced Wellness Medical Spa website and SMS messaging terms and conditions.",
+    template,
+  );
 
   await prerenderHomeRoute(template);
   for (const hub of HUB_PAGES) await prerenderHubRoute(hub, template);

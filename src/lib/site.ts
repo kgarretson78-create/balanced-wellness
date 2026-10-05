@@ -144,6 +144,44 @@ export const PROVIDERS: Provider[] = [
   },
 ];
 
+export interface AestheticsTeamMember {
+  name: string;
+  firstName: string;
+  title: string;
+  brand?: string;
+  initials: string;
+  locationId: "kingsport" | "jonesborough";
+  bio: string;
+  photo?: string;
+  photoAlt?: string;
+  /** Present the portrait within an original introduction graphic, without altering it. */
+  introductionPortrait?: boolean;
+}
+
+/** Licensed aestheticians, kept separate from the medical-provider group. */
+export const AESTHETICS_TEAM: AestheticsTeamMember[] = [
+  {
+    name: "Meagan Templeton",
+    firstName: "Meagan",
+    title: "Head of Aesthetics · Licensed Aesthetician",
+    brand: "The Beauty Medic",
+    initials: "MT",
+    locationId: "kingsport",
+    bio: "Meagan Templeton, known as The Beauty Medic, is our Kingsport aesthetician and Head of Aesthetics at Balanced Wellness Medical Spa. She brings two years of experience as a licensed aesthetician, backed by 14 years as a medical assistant and nearly four years in the med spa industry.\n\nHer background in healthcare and aesthetics shapes a thoughtful, detail-oriented approach to skincare. Meagan enjoys building relationships with her clients and personalizing treatments around their skin and goals.\n\nShe aims to create a relaxing space where every client feels cared for and can build confidence in their skin.",
+    photo: "/images/meagan-templeton-introduction.jpg",
+    photoAlt: "Meagan Templeton, The Beauty Medic, Head of Aesthetics and licensed aesthetician in Kingsport",
+    introductionPortrait: true,
+  },
+  {
+    name: "Victoria Ledford",
+    firstName: "Victoria",
+    title: "Licensed Aesthetician",
+    initials: "VL",
+    locationId: "jonesborough" as const,
+    bio: "Victoria brings a passion for the art and science of skincare to Balanced Wellness Medical Spa in historic Jonesborough. She offers personalized facials, eyebrow lamination and tinting, and body waxing, with your comfort at the heart of every visit.\n\nHer approach is warm, welcoming, and judgment-free, creating space for you to feel relaxed and cared for while working toward your skin goals.\n\nOutside the treatment room, Victoria enjoys the outdoors, a great cup of coffee, local antique shops, baking, trying new food spots with friends, and spending time with her animals.",
+  },
+];
+
 /**
  * Practice leadership — operations, growth, and technology support for the
  * clinical team. Kept distinct from PROVIDERS so nobody here is presented as a

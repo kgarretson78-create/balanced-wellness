@@ -5,7 +5,9 @@ import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { Shield, Heart, Award, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { PROVIDERS, LEADERSHIP } from "@/lib/site";
+import { Link } from "wouter";
+import { PROVIDERS, AESTHETICS_TEAM, LEADERSHIP } from "@/lib/site";
+import { LOCATIONS } from "@/lib/booking";
 
 const fadeUp = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true } };
 
@@ -133,6 +135,55 @@ export default function About() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+
+        <div id="aesthetics-team" className="max-w-4xl mx-auto mt-16 scroll-mt-24">
+          <div className="text-center mb-8">
+            <Eyebrow tone="gold" className="mb-3">Aesthetics Team</Eyebrow>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Meet Our Aesthetics Team</h3>
+          </div>
+          <div className="space-y-6">
+          {AESTHETICS_TEAM.map((m) => {
+            const location = LOCATIONS[m.locationId];
+            return (
+              <motion.div key={m.name} {...fadeUp} className="luxury-card p-7 flex flex-col sm:flex-row gap-5 items-start">
+                {m.photo ? (
+                  <div className="relative flex-shrink-0 w-24 md:w-28 aspect-[488/705] overflow-hidden rounded-2xl border border-primary/10 luxury-shadow">
+                    <img
+                      src={m.photo}
+                      alt={m.photoAlt ?? `${m.name} at Balanced Wellness Medical Spa`}
+                      width={1080}
+                      height={1080}
+                      loading="lazy"
+                      decoding="async"
+                      className={m.introductionPortrait ? "absolute left-0 top-0 h-auto" : "h-full w-full object-cover object-top"}
+                      style={m.introductionPortrait ? { width: "221.311475%", maxWidth: "none", transform: "translate(-51.944444%, -2.870370%)" } : undefined}
+                    />
+                  </div>
+                ) : (
+                  <div aria-hidden="true" className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
+                    <span className="text-2xl font-serif font-bold text-gradient-gold">{m.initials}</span>
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <h4 className="text-lg font-serif font-bold text-foreground">{m.name}</h4>
+                  {m.brand && <p className="text-sm font-serif italic text-gold-ink mt-0.5 mb-1.5">{m.brand}</p>}
+                  <p className="text-[11px] text-foreground/60 uppercase tracking-wider mb-2.5">{m.title} · {location.name}</p>
+                  <div className="space-y-2">
+                    {m.bio.split("\n\n").map((para, i) => (
+                      <p key={i} className="text-sm text-foreground/70 leading-relaxed">{para}</p>
+                    ))}
+                  </div>
+                  <p className="text-sm text-foreground/70 leading-relaxed mt-5">For appointments with {m.firstName}, choose {location.name} and ask for her when booking.</p>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 mt-4">
+                    <Link href="/book-now" className="inline-flex items-center justify-center px-5 py-3 bg-[hsl(var(--blush-ink))] text-white text-sm font-semibold rounded-lg hover:shadow-lg transition-shadow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Book an Appointment</Link>
+                    <a href={location.tel} className="inline-flex items-center justify-center text-sm font-semibold text-gold-ink underline underline-offset-4 rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Call {location.phone}</a>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
           </div>
         </div>
 

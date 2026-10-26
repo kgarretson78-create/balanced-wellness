@@ -176,20 +176,16 @@ export interface TrustSignal {
 }
 
 /**
- * Trust signals kept deliberately claim-safe: no invented statistics beyond
- * the review/patient figures already used elsewhere on the site.
+ * Do not add review totals or ratings without a current, attributable source.
  */
 export const TRUST_SIGNALS: TrustSignal[] = [
   { label: "Licensed Providers", detail: "Care led by PA-C and FNP clinicians", icon: Stethoscope },
   { label: "Medical Oversight", detail: "Physician-supervised protocols", icon: Syringe },
-  { label: "Verified 5-Star Reviews", detail: "200+ five-star patient reviews", icon: Sparkles },
+  { label: "Two Tennessee Locations", detail: "Kingsport & Jonesborough", icon: Sparkles },
   { label: "Flexible Financing", detail: "CareCredit & Cherry available", icon: Scale },
 ];
 
 /** Headline stats reused across hero and trust sections. */
 export const HEADLINE_STATS: { number: string; label: string }[] = [
-  { number: "8,000+", label: "Patients Treated" },
-  { number: "200+", label: "5-Star Reviews" },
-  { number: "5.0", label: "Google Rating" },
   { number: "2", label: "Tri-Cities Locations" },
 ];

@@ -36,7 +36,6 @@ const data = {
     "Full-service med spa — aesthetics, weight loss, hormones, and wellness under one roof",
     "Convenient downtown Jonesborough location at 120 South Cherokee St",
     "Same luxury experience and provider team as our Kingsport location",
-    "8,000+ patients treated across both locations with outstanding results",
     "Free consultations — no pressure, just honest recommendations tailored to you",
     "Flexible scheduling and easy online booking for busy professionals",
   ],

@@ -107,38 +107,6 @@ export const data = {
     { name: "Medical Spa Jonesborough TN", path: "/medical-spa-jonesborough-tn", desc: "Our Jonesborough location." },
     { name: "VIP Memberships", path: "/memberships", desc: "Exclusive member savings." },
   ],
-  trust: {
-    headline: "Trusted by 8,000+ Tri-Cities Patients",
-    intro: "Balanced Wellness Medical Spa has earned 200+ five-star Google reviews and treated more than 8,000 patients across Kingsport, Jonesborough, Johnson City, and the surrounding Tri-Cities region. Patients consistently describe a calm, unhurried experience with results that look like them — only refreshed.",
-    proofCards: [
-      {
-        title: "Natural-looking results",
-        body: "Patients often mention that injectables, lip filler, and laser work at Balanced Wellness look natural — never overdone — because we plan conservatively and refine over follow-up visits.",
-      },
-      {
-        title: "Friendly, judgment-free care",
-        body: "First-time visitors frequently note how welcoming the team is, especially for patients who have never had Botox, weight loss medication, or hormone therapy before.",
-      },
-      {
-        title: "Clear, honest treatment plans",
-        body: "We walk you through realistic options, pricing, and timelines before anything is scheduled — no high-pressure consults, no surprise fees.",
-      },
-      {
-        title: "Medical-grade safety",
-        body: "Every treatment is performed or supervised by licensed medical providers, including nurse practitioners and physicians — not technicians without medical training.",
-      },
-      {
-        title: "Patients across the Tri-Cities",
-        body: "Our Kingsport clinic regularly sees patients from Johnson City, Bristol, Jonesborough, Greeneville, and Rogersville, plus Southwest Virginia.",
-      },
-      {
-        title: "Two locations, one standard of care",
-        body: "Whether you visit our Kingsport flagship or our Jonesborough clinic, you'll see the same providers, protocols, and pricing.",
-      },
-    ],
-    googleReviewsUrl: "https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa",
-    ctaText: "Read our Google reviews",
-  },
   locationDetails: {
     headline: "Visiting Our Kingsport Medical Spa",
     paragraphs: [

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  Sparkles, Bot, ChevronRight, Star, Phone, MapPin, ArrowRight,
+  Sparkles, Bot, ChevronRight, Phone, MapPin, ArrowRight,
   HelpCircle, MessageSquare, CalendarCheck, CheckCircle2, Play,
   Gem, ClipboardCheck, ShieldCheck,
 } from "lucide-react";
@@ -12,6 +12,7 @@ import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
+import { FeaturedReviews } from "@/components/FeaturedReviews";
 import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
@@ -85,7 +86,7 @@ export const HOME_SEO = {
   title:
     "Balanced Wellness Medical Spa | Kingsport & Jonesborough TN | Book a Free Consultation",
   description:
-    "Premier med spa in Kingsport TN and Jonesborough TN. Botox, dermal fillers, RF microneedling, CO2 laser, medical weight loss (Semaglutide/Tirzepatide), and hormone optimization. Board-certified providers. 8,000+ patients treated. 200+ 5-star reviews.",
+    "Medical spa in Kingsport TN and Jonesborough TN offering Botox, dermal fillers, RF microneedling, CO2 laser, medical weight loss, and hormone optimization. Explore services and book a consultation.",
   keywords:
     "Med Spa Kingsport TN, Med Spa Jonesborough TN, Botox Kingsport TN, RF Microneedling Kingsport, CO2 Laser Jonesborough TN, Medical Weight Loss Kingsport TN, dermal fillers Kingsport, Semaglutide Kingsport TN, hormone therapy Jonesborough TN",
 };
@@ -107,8 +108,8 @@ export const HOME_QUICK_ANSWER = {
 
 export const homeFaqs = [
   {
-    q: "What is the best med spa in Kingsport TN?",
-    a: "Balanced Wellness Medical Spa is one of the most-reviewed and highest-rated med spas in Kingsport, TN, with over 8,000 patients treated, 200+ five-star Google ratings, and a full menu that combines aesthetics with medical wellness — Botox, dermal fillers, RF microneedling, CO2 laser resurfacing, medical weight loss (Semaglutide and Tirzepatide), bioidentical hormone therapy, and peptide therapy. Our Kingsport clinic is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — and we also have a second location in Jonesborough at 120 South Cherokee St, giving Tri-Cities patients more scheduling flexibility.",
+    q: "What does Balanced Wellness Medical Spa offer in Kingsport TN?",
+    a: "Balanced Wellness Medical Spa in Kingsport, TN offers a menu that combines aesthetics with medical wellness — Botox, dermal fillers, RF microneedling, CO2 laser resurfacing, medical weight loss (Semaglutide and Tirzepatide), bioidentical hormone therapy, and peptide therapy. Our Kingsport clinic is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — and we also have a second location in Jonesborough at 120 South Cherokee St, giving Tri-Cities patients more scheduling flexibility.",
   },
   {
     q: "Where is Balanced Wellness Medical Spa located in Kingsport, TN?",
@@ -148,14 +149,6 @@ export const homeFaqs = [
   },
 ];
 
-const reviews = [
-  { name: "Sarah M.", location: "Kingsport", treatment: "Botox", text: "Absolutely love this place! The staff is incredibly knowledgeable and made me feel so comfortable. My results look completely natural — I get compliments all the time.", stars: 5 },
-  { name: "Jennifer T.", location: "Jonesborough", treatment: "Weight Loss", text: "Down 42 pounds and feeling better than I have in years. The team monitors everything closely and really cares about your progress. Life-changing experience.", stars: 5 },
-  { name: "Amanda R.", location: "Kingsport", treatment: "CO2 Laser", text: "My skin looks 10 years younger after my CO2 laser treatment. The provider walked me through every step and the results exceeded my expectations completely.", stars: 5 },
-  { name: "Michelle K.", location: "Jonesborough", treatment: "Lip Filler", text: "I was nervous about lip filler but they made it so easy. The results are gorgeous and so natural. I won't go anywhere else — these are my people!", stars: 5 },
-  { name: "Tara B.", location: "Kingsport", treatment: "RF Microneedling", text: "Three sessions in and my acne scars are dramatically reduced. The staff is professional and the facility is beautiful. Highly recommend to anyone in the Tri-Cities area.", stars: 5 },
-  { name: "Lisa W.", location: "Kingsport", treatment: "Hormones", text: "Finally feel like myself again after hormone optimization. Energy is back, mood is stable, sleeping great. Worth every penny and the team is so supportive.", stars: 5 },
-];
 
 const membershipTiers = [
   { tier: "Gold", price: "$99", bestFor: "Best for: New patients starting their aesthetic journey", annualSavings: "Save $200+ annually", highlights: ["10% off all treatments", "Monthly B12 injection", "Priority booking", "Birthday treatment credit"], popular: false },
@@ -276,14 +269,8 @@ export default function Home() {
             </div>
 
             <div className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-white/15 pt-5">
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, j) => (
-                  <Star key={j} className="h-4 w-4 fill-[hsl(var(--blush))] text-[hsl(var(--blush))]" />
-                ))}
-              </div>
-              <span className="text-sm font-medium text-white/85">5.0</span>
-              <span className="text-white/30">·</span>
-              <span className="text-sm text-white/65">200+ five-star reviews · 8,000+ patients treated</span>
+              <MapPin className="h-4 w-4 text-[hsl(var(--blush))]" />
+              <span className="text-sm text-white/85">Kingsport &amp; Jonesborough, Tennessee</span>
             </div>
           </motion.div>
         </div>
@@ -365,7 +352,7 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="flex flex-wrap justify-center gap-8">
             {HEADLINE_STATS.map((s, i) => (
               <motion.div key={s.label} {...item(i)} className="text-center">
                 <p className="text-3xl md:text-4xl font-serif font-bold text-primary stat-number">{s.number}</p>
@@ -675,38 +662,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* ────────────────  REVIEWS / TESTIMONIALS  ──────────────── */}
-      <Section className="luxury-gradient">
-        <div className="text-center mb-14">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Patient Stories</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">What Our Patients Say</h2>
-          <p className="text-foreground/45 text-sm">Real reviews from real patients across Kingsport and Jonesborough.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-          {reviews.map((review, i) => (
-            <motion.div key={review.name} {...item(i)} className="p-6 rounded-2xl bg-white border border-border hover:luxury-shadow transition-all duration-300">
-              <div className="flex gap-0.5 mb-3">{[...Array(review.stars)].map((_, j) => <Star key={j} className="w-4 h-4 fill-gold text-gold" />)}</div>
-              <p className="text-sm text-foreground/65 leading-relaxed mb-4 italic">"{review.text}"</p>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-foreground">{review.name}</p>
-                  <p className="text-[11px] text-foreground/40 uppercase tracking-wider mt-0.5">{review.location}</p>
-                </div>
-                <div className="px-2.5 py-1 rounded-full bg-primary/[0.06] border border-primary/10 text-primary text-[10px] font-semibold uppercase tracking-wide">{review.treatment}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-            <Star className="w-4 h-4 text-gold fill-gold" /> Read Google Reviews
-          </a>
-          <a href="https://www.facebook.com/balancedwellnessmedspa/reviews" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-            <Star className="w-4 h-4 text-gold fill-gold" /> Read Facebook Reviews
-          </a>
-        </div>
-      </Section>
+      <FeaturedReviews />
 
       {/* ─────────────  TELEHEALTH + ONLINE CARE GATEWAY  ───────────── */}
       <Section className="bg-background">

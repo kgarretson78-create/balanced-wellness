@@ -63,12 +63,12 @@ const KINGSPORT_HOURS: LocationHours = {
 
 const JONESBOROUGH_HOURS: LocationHours = {
   display: [
-    { days: "Monday - Friday", time: "10:00 AM - 6:00 PM" },
-    { days: "Saturday", time: "By Appointment Only" },
-    { days: "Sunday", time: "Closed" },
+    { days: "Monday - Thursday", time: "10:00 AM - 6:00 PM" },
+    { days: "Friday", time: "9:00 AM - 1:00 PM" },
   ],
   schema: [
-    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "10:00", closes: "18:00" },
+    { dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"], opens: "10:00", closes: "18:00" },
+    { dayOfWeek: ["Friday"], opens: "09:00", closes: "13:00" },
   ],
 };
 

@@ -1,87 +1,11 @@
-// Homepage gallery references stay aligned with the full Gallery page.
-import { useEffect, useState } from "react";
 import { Link } from "wouter";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import {
-  Sparkles, Bot, ChevronRight, Phone, MapPin, ArrowRight,
-  HelpCircle, MessageSquare, CalendarCheck, CheckCircle2, Play,
-  Gem, ClipboardCheck, ShieldCheck,
-} from "lucide-react";
+import { ArrowUpRight, ArrowRight, Plus, Phone } from "lucide-react";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { Section } from "@/components/ui/Section";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { CTA } from "@/components/ui/CTA";
 import { SEO } from "@/components/SEO";
 import { FeaturedReviews } from "@/components/FeaturedReviews";
-import { FlexiblePaymentsSection } from "@/components/FlexiblePaymentsSection";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 import { LOCATIONS, setPreferredLocation, type LocationId } from "@/lib/booking";
-import {
-  PRIMARY_CONCERNS,
-  BROWSE_CONCERNS,
-  SIGNATURE_TREATMENTS,
-  PROVIDERS,
-  TRUST_SIGNALS,
-  HEADLINE_STATS,
-} from "@/lib/site";
 
-/**
- * Website 3.0 — luxury, concern-first homepage.
- *
- * Cinematic hero (video-ready shell), "What brings you here today?" concern
- * routing, AI concierge entry, signature treatments, browse-by-concern,
- * providers, real results, memberships, telehealth, locations, FAQ + schema.
- *
- * All content is data-driven via src/lib/site.ts; every link points to a route
- * that already exists in src/App.tsx (no 404s).
- */
-
-/**
- * Cinematic hero background video. Left intentionally empty — drop in a real,
- * brand-shot clinic reel here (e.g. "/video/hero.mp4") and it renders
- * automatically behind the charcoal gradient. No generic stock is used.
- */
-const HERO_SLIDES = [
-  {
-    src: "/images/locations/kingsport-reception.webp",
-    city: "Kingsport",
-    detail: "Modern black, ivory & gold",
-    position: "center 44%",
-  },
-  {
-    src: "/images/locations/jonesborough-exterior.webp",
-    city: "Jonesborough",
-    detail: "Historic charm, elevated care",
-    position: "center 48%",
-  },
-  {
-    src: "/images/locations/kingsport-treatment-room.webp",
-    city: "Kingsport",
-    detail: "A modern treatment experience",
-    position: "center 54%",
-  },
-  {
-    src: "/images/locations/jonesborough-interior.webp",
-    city: "Jonesborough",
-    detail: "Warm, welcoming & beautifully restored",
-    position: "center 48%",
-  },
-] as const;
-
-const easeOut = [0.22, 1, 0.36, 1] as const;
-
-/** Fire the AI concierge with an optional seeded prompt. */
-function askKelli(prompt?: string) {
-  window.dispatchEvent(
-    new CustomEvent("askKelliAI", prompt ? { detail: { prompt } } : undefined),
-  );
-}
-
-/**
- * SEO metadata for the homepage — shared with the static prerender
- * (scripts/prerender.ts) so crawler-visible <head> tags stay in sync with the
- * client-rendered <SEO> below.
- */
 export const HOME_SEO = {
   title:
     "Balanced Wellness Medical Spa | Kingsport & Jonesborough TN | Book a Free Consultation",
@@ -92,7 +16,7 @@ export const HOME_SEO = {
 };
 
 /** Plain-text hero copy reused by the crawler prerender (no JSX styling). */
-export const HOME_H1 = "Medical Spa & Wellness Clinic in Kingsport & Jonesborough, TN";
+export const HOME_H1 = "Beautifully you. Perfectly balanced.";
 export const HOME_SUBHEAD =
   "Personalized aesthetic medicine, wellness, weight loss, hormone optimization, and regenerative treatments designed around you — with two convenient Tri-Cities locations.";
 
@@ -108,744 +32,128 @@ export const HOME_QUICK_ANSWER = {
 
 export const homeFaqs = [
   {
-    q: "What does Balanced Wellness Medical Spa offer in Kingsport TN?",
-    a: "Balanced Wellness Medical Spa in Kingsport, TN offers a menu that combines aesthetics with medical wellness — Botox, dermal fillers, RF microneedling, CO2 laser resurfacing, medical weight loss (Semaglutide and Tirzepatide), bioidentical hormone therapy, and peptide therapy. Our Kingsport clinic is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660 — and we also have a second location in Jonesborough at 120 South Cherokee St, giving Tri-Cities patients more scheduling flexibility.",
+    q: "Where can I visit Balanced Wellness?",
+    a: "Visit our Kingsport location at 1309 South John B Dennis Hwy, Suite 104, or our Jonesborough location at 120 South Cherokee St. Choose your location when booking so you see the right schedule.",
   },
   {
-    q: "Where is Balanced Wellness Medical Spa located in Kingsport, TN?",
-    a: "Our Kingsport location is at 1309 South John B Dennis Hwy, Suite 104, Kingsport, TN 37660. Call (423) 765-1393 to book. Kingsport hours are Monday through Thursday 10 AM to 7 PM and Friday 9 AM to 5 PM. We also have a Jonesborough location at 120 South Cherokee St, Jonesborough, TN 37659 — (423) 646-2169 — open Monday through Friday 10 AM to 6 PM.",
+    q: "How do I choose a treatment?",
+    a: "Start with a consultation. Share your goals and questions with the team, then discuss options, suitability, pricing, and next steps with your provider before deciding.",
   },
   {
-    q: "How does RF microneedling improve skin texture and acne scars?",
-    a: "RF microneedling combines fine microneedles with radiofrequency energy to create controlled micro-injuries and deliver heat into the deeper layers of the skin. This stimulates collagen and elastin remodeling, which smooths uneven texture, softens acne scars, refines enlarged pores, and firms skin laxity. At Balanced Wellness in Kingsport and Jonesborough, TN, most patients see progressive improvement over a series of treatments as new collagen forms during the following three to six months.",
-  },
-  {
-    q: "Where can I get hormone optimization for men in Kingsport or Jonesborough, TN?",
-    a: "Balanced Wellness Medical Spa offers men's hormone optimization at both its Kingsport and Jonesborough, TN locations. Our providers evaluate symptoms such as low energy, reduced libido, brain fog, and loss of muscle tone, then use lab testing to build a personalized, medically supervised plan that may include testosterone optimization, peptide therapy, and metabolic support. Men across the Tri-Cities can begin in person or through our Tennessee telehealth program. Call (423) 765-1393 to schedule a consultation.",
-  },
-  {
-    q: "Does Balanced Wellness offer women's hormone and wellness care?",
-    a: "Yes. Balanced Wellness provides bioidentical hormone replacement therapy (BHRT) and women's wellness care in Kingsport and Jonesborough, TN. We support women navigating perimenopause, menopause, low energy, mood changes, weight gain, and low libido with lab-guided, provider-supervised plans. Care can begin in person or through Tennessee telehealth, and every new patient starts with a complimentary consultation.",
-  },
-  {
-    q: "What adult and concierge wellness services does Balanced Wellness offer?",
-    a: "Balanced Wellness offers a concierge-style adult wellness program that brings hormone optimization, peptide therapy, medical weight loss, IV therapy, and aesthetic treatments together under one provider-led practice in the Tri-Cities. Rather than a one-size-fits-all menu, each plan is built around your goals, labs, and lifestyle, with VIP memberships available for patients who want ongoing, coordinated care.",
-  },
-  {
-    q: "What is the difference between Botox, Dysport, and Daxxify?",
-    a: "Botox, Dysport, and Daxxify are all FDA-approved neuromodulators that relax the muscles responsible for frown lines, forehead lines, and crow's feet. Botox and Dysport typically last about three to four months, while Daxxify is formulated to last longer for many patients. At Balanced Wellness in Kingsport and Jonesborough, our providers recommend the option that best fits your anatomy and goals as part of full-face balancing — an approach especially popular with women 40+ who want natural-looking refinement rather than a frozen look.",
-  },
-  {
-    q: "How much does Botox cost in Kingsport TN?",
-    a: "Botox pricing at Balanced Wellness Medical Spa starts between $200–$600 per session depending on the areas treated. We offer free consultations to provide an exact quote tailored to your goals, and our VIP membership plans include discounts on all injectable treatments. Call (423) 765-1393 for current pricing.",
-  },
-  {
-    q: "How much does CO2 laser resurfacing cost?",
-    a: "CO2 laser resurfacing at Balanced Wellness Medical Spa typically ranges from $800–$2,500 depending on the treatment area and depth. Fractional treatments start lower. We offer flexible payment options through CareCredit and Cherry. Book a free consultation to get an exact quote.",
-  },
-  {
-    q: "How much does medical weight loss cost?",
-    a: "Medical weight loss programs at Balanced Wellness start with a free consultation. Semaglutide and Tirzepatide programs typically range from $250–$500/month depending on the protocol and dosage. Many patients see significant results within 3–6 months. Call either location to learn about current pricing and specials.",
+    q: "How do I book an appointment?",
+    a: "Select Book an Appointment, choose Kingsport or Jonesborough, and continue to that location's booking page. For help, call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169.",
   },
 ];
 
-
-const membershipTiers = [
-  { tier: "Gold", price: "$99", bestFor: "Best for: New patients starting their aesthetic journey", annualSavings: "Save $200+ annually", highlights: ["10% off all treatments", "Monthly B12 injection", "Priority booking", "Birthday treatment credit"], popular: false },
-  { tier: "Platinum", price: "$199", bestFor: "Best for: Regular patients who want consistent results", annualSavings: "Save $600+ annually", highlights: ["15% off all treatments", "Monthly facial or peel", "Complimentary consultations", "VIP events access", "Rollover unused credits"], popular: true },
-  { tier: "Diamond", price: "$349", bestFor: "Best for: Patients committed to total wellness & aesthetics", annualSavings: "Save $1,200+ annually", highlights: ["20% off all treatments", "Monthly injectable credit", "Quarterly IV therapy", "Exclusive member pricing", "Concierge scheduling", "Complimentary skin analysis"], popular: false },
+const treatmentEdit = [
+  { number: "01", name: "Injectables", detail: "Botox · Dysport · Daxxify · Dermal filler", href: "/injectables" },
+  { number: "02", name: "Skin & laser", detail: "Laser treatments · RF microneedling · Skin care", href: "/laser-treatments" },
+  { number: "03", name: "Medical wellness", detail: "Weight management · Hormone consultations · IV therapy", href: "/wellness" },
+  { number: "04", name: "Online care", detail: "Explore our virtual consultation options", href: "/online-care" },
+];
+const spaces: { id: LocationId; label: string; image: string; caption: string; href: string }[] = [
+  { id: "kingsport", label: "The Kingsport studio", image: "/images/locations/kingsport-reception.webp", caption: "Modern lines. A warm welcome.", href: "/medical-spa-kingsport-tn" },
+  { id: "jonesborough", label: "The Jonesborough house", image: "/images/locations/jonesborough-interior.webp", caption: "Historic character. Thoughtful details.", href: "/medical-spa-jonesborough-tn" },
 ];
 
 export default function Home() {
   const { open: openBookingChooser } = useBookingChooser();
-  const prefersReducedMotion = useReducedMotion();
-  const [heroSlide, setHeroSlide] = useState(0);
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    const timer = window.setInterval(
-      () => setHeroSlide((current) => (current + 1) % HERO_SLIDES.length),
-      5600,
-    );
-    return () => window.clearInterval(timer);
-  }, [prefersReducedMotion]);
-
-  // Motion presets respect the user's reduced-motion preference.
-  const fadeUp = prefersReducedMotion
-    ? { initial: { opacity: 1, y: 0 } }
-    : {
-        initial: { opacity: 0, y: 24 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-60px" },
-        transition: { duration: 0.7, ease: easeOut as unknown as number[] },
-      };
-  const item = (i: number) =>
-    prefersReducedMotion
-      ? { initial: { opacity: 1, y: 0 } }
-      : {
-          initial: { opacity: 0, y: 20 },
-          whileInView: { opacity: 1, y: 0 },
-          viewport: { once: true, margin: "-40px" },
-          transition: { duration: 0.5, delay: i * 0.06, ease: easeOut as unknown as number[] },
-        };
-
-
-
+  const book = () => openBookingChooser({ service: "Consultation" });
   return (
     <PageLayout>
-      <SEO
-        title={HOME_SEO.title}
-        description={HOME_SEO.description}
-        keywords={HOME_SEO.keywords}
-      />
-
-      {/* ─────────────────────────  HERO  ───────────────────────── */}
-      <section className="site-editorial-hero relative isolate min-h-[86vh] overflow-hidden bg-[#211d1a]">
-        <div className="absolute inset-0">
-          <AnimatePresence initial={false}>
-            <motion.img
-              key={HERO_SLIDES[heroSlide].src}
-              src={HERO_SLIDES[heroSlide].src}
-              alt={`${HERO_SLIDES[heroSlide].city} Balanced Wellness Medical Spa interior`}
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: HERO_SLIDES[heroSlide].position }}
-              initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, scale: 1.025 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 1.15, ease: "easeOut" }}
-            />
-          </AnimatePresence>
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(25,21,19,0.94)_0%,rgba(25,21,19,0.82)_38%,rgba(25,21,19,0.36)_68%,rgba(25,21,19,0.16)_100%)]" />
-          <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(25,21,19,0.62)_0%,transparent_42%,rgba(25,21,19,0.12)_100%)]" />
-          <div aria-hidden="true" className="absolute -left-28 top-24 h-80 w-80 rounded-full bg-[hsl(var(--blush)/0.14)] blur-[110px]" />
-        </div>
-
-        <div className="relative z-10 mx-auto flex min-h-[86vh] max-w-[1440px] items-center px-5 py-16 sm:px-10 lg:px-[7vw]">
-          <motion.div
-            initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: easeOut as unknown as number[] }}
-            className="max-w-[720px]"
-          >
-            <div className="editorial-kicker mb-6 inline-flex items-center gap-2 rounded-md border border-white/20 bg-black/20 px-4 py-2 text-white backdrop-blur-sm">
-              <MapPin className="h-3.5 w-3.5 text-[hsl(var(--blush))]" />
-              Kingsport &amp; Jonesborough · Tri-Cities, TN
+      <SEO title={HOME_SEO.title} description={HOME_SEO.description} keywords={HOME_SEO.keywords} />
+      <div className="bw-editorial">
+        <section className="bw-hero" aria-labelledby="bw-hero-title">
+          <div className="bw-hero-copy">
+            <p className="bw-eyebrow">Kingsport &amp; Jonesborough, Tennessee</p>
+            <h1 id="bw-hero-title">Beautifully you.<br /><em>Perfectly</em><br />balanced.</h1>
+            <div className="bw-hero-rule" />
+            <p className="bw-hero-intro">A personal approach to medical aesthetics and wellness. Considered care, in a space that feels like you.</p>
+            <div className="bw-actions">
+              <button type="button" onClick={book} className="bw-button">Book an appointment <ArrowUpRight aria-hidden="true" size={17} /></button>
+              <a href="#the-treatment-edit" className="bw-text-link">Explore treatments <ArrowRight aria-hidden="true" size={15} /></a>
             </div>
+            <p className="bw-hero-footnote">Balanced Wellness Medical Spa</p>
+          </div>
+          <figure className="bw-hero-image">
+            <img src="/images/editorial/beauty-pink-gloves.jpeg" alt="Editorial beauty portrait with pink gloves" width="1120" height="1950" fetchPriority="high" />
+            <figcaption><span>The art of being you.</span><span>Balanced <ArrowUpRight aria-hidden="true" size={16} /></span></figcaption>
+          </figure>
+        </section>
 
-            <div className="mb-6 flex w-fit rounded-2xl border border-white/55 bg-[#fbf8f1]/95 px-4 py-3 shadow-xl backdrop-blur-md">
-              <img
-                src="/images/logo.png"
-                alt="Balanced Wellness Medical Spa"
-                className="h-12 w-auto object-contain sm:h-14"
-              />
+        <div className="bw-brand-line" aria-label="Medical aesthetics, skin and wellness"><span>Medical aesthetics</span><span aria-hidden="true">✦</span><span>Skin</span><span aria-hidden="true">✦</span><span>Wellness</span><span aria-hidden="true">✦</span><span>Balanced</span></div>
+
+        <section className="bw-intro bw-wrap" aria-labelledby="bw-approach-title">
+          <figure className="bw-provider-photo">
+            <img src="/images/shelly-ketron.webp" alt="Shelly Ketron, PA-C, at Balanced Wellness Medical Spa" width="900" height="900" loading="lazy" />
+            <figcaption>Shelly Ketron <span>PA-C</span></figcaption>
+          </figure>
+          <div className="bw-intro-copy">
+            <p className="bw-eyebrow">The Balanced approach</p>
+            <h2 id="bw-approach-title">Your goals.<br /><em>A considered approach.</em></h2>
+            <p>There is no one-size-fits-all version of you. Start with a conversation about what matters to you, then explore your options with our team.</p>
+            <p>From aesthetic treatments to wellness consultations, we make room for questions and an individual plan.</p>
+            <Link href="/about" className="bw-text-link">Meet the people behind Balanced <ArrowUpRight aria-hidden="true" size={17} /></Link>
+          </div>
+        </section>
+
+        <section className="bw-visual-edit" aria-label="The Balanced aesthetic">
+          <figure className="bw-silk-frame"><img src="/images/editorial/blush-silk.jpeg" alt="Editorial beauty portrait framed in blush silk" loading="lazy" width="710" height="1536" /></figure>
+          <div className="bw-visual-caption"><p className="bw-eyebrow">Beauty, on your terms</p><p>A little intention.<br /><em>A lot of you.</em></p><span>Medical aesthetics · Personal attention</span></div>
+          <figure><img src="/images/editorial/pink-treatment-detail.jpeg" alt="Aesthetic treatment detail with pink gloves" loading="lazy" width="1078" height="1661" /></figure>
+        </section>
+
+        <section className="bw-treatment-section" id="the-treatment-edit" aria-labelledby="bw-treatment-title">
+          <div className="bw-wrap">
+            <div className="bw-section-heading">
+              <div><p className="bw-eyebrow">A thoughtful collection</p><h2 id="bw-treatment-title">The treatment <em>edit.</em></h2></div>
+              <Link href="/services" className="bw-text-link">View all services <ArrowUpRight aria-hidden="true" size={17} /></Link>
             </div>
-
-            <h1 className="max-w-3xl font-serif text-4xl font-medium leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl lg:text-[4.1rem]">
-              Where advanced care meets{" "}
-              <span className="italic text-[hsl(var(--blush))]">beautiful balance.</span>
-            </h1>
-
-            <p className="mt-6 max-w-2xl text-sm leading-7 text-white/80 md:text-base">
-              Personalized aesthetics, wellness, weight loss, hormone optimization and regenerative care—delivered with intention in two distinct East Tennessee spaces.
-            </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <button
-                type="button"
-                onClick={() => openBookingChooser({ service: "Consultation" })}
-                className="editorial-button group inline-flex items-center justify-center rounded-lg bg-[hsl(var(--blush-ink))] px-7 py-4 text-xs font-semibold text-white shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[hsl(var(--blush))]"
-              >
-                Book Your Consultation
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
-              <button
-                type="button"
-                onClick={() => askKelli("What brings you here today?")}
-                className="editorial-button inline-flex items-center justify-center gap-2 rounded-lg border border-white/45 bg-black/10 px-7 py-4 text-xs font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-[hsl(var(--blush))] hover:bg-white/10"
-              >
-                <Sparkles className="h-4 w-4 text-[hsl(var(--blush))]" />
-                Find My Best Treatments
-              </button>
-            </div>
-
-            <div className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-2 border-t border-white/15 pt-5">
-              <MapPin className="h-4 w-4 text-[hsl(var(--blush))]" />
-              <span className="text-sm text-white/85">Kingsport &amp; Jonesborough, Tennessee</span>
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="absolute bottom-6 right-5 z-20 w-[min(88vw,390px)] rounded-2xl border border-white/20 bg-[#211d1a]/68 p-4 text-white shadow-2xl backdrop-blur-md sm:bottom-8 sm:right-8">
-          <div className="flex items-end justify-between gap-5">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[hsl(var(--blush))]">Now viewing</p>
-              <p className="mt-1 font-serif text-xl">{HERO_SLIDES[heroSlide].city}</p>
-              <p className="mt-0.5 text-xs text-white/62">{HERO_SLIDES[heroSlide].detail}</p>
-            </div>
-            <div className="flex gap-2" aria-label="Choose a location photo">
-              {HERO_SLIDES.map((slide, index) => (
-                <button
-                  key={slide.src}
-                  type="button"
-                  onClick={() => setHeroSlide(index)}
-                  aria-label={`Show ${slide.city} photo ${index + 1}`}
-                  aria-current={heroSlide === index ? "true" : undefined}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${heroSlide === index ? "w-8 bg-[hsl(var(--blush))]" : "w-4 bg-white/35 hover:bg-white/70"}`}
-                />
+            <div className="bw-treatment-list">
+              {treatmentEdit.map(treatment => (
+                <Link key={treatment.number} href={treatment.href} className="bw-treatment-row">
+                  <span className="bw-treatment-number">{treatment.number}</span>
+                  <h3>{treatment.name}</h3><p>{treatment.detail}</p><ArrowUpRight aria-hidden="true" className="bw-treatment-arrow" />
+                </Link>
               ))}
             </div>
+            <p className="bw-treatment-note">Your provider will discuss suitability and options with you. Individual experiences and results vary.</p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ───────────  WHAT BRINGS YOU HERE TODAY? (concern-first)  ─────────── */}
-      <Section className="bg-background">
-        <div className="text-center mb-12 md:mb-16">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Start Here</p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4 text-balance">What brings you here today?</h2>
-          <p className="text-foreground/50 text-sm md:text-base max-w-xl mx-auto">Choose a goal and we'll guide you to the right care — no guesswork.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
-          {PRIMARY_CONCERNS.map((c, i) => (
-            <motion.div key={c.label} {...item(i)}>
-              <Link
-                href={c.href}
-                className="group flex flex-col items-center text-center h-full p-5 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-primary/[0.06] text-primary flex items-center justify-center mb-3 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                  <c.icon className="w-5 h-5" />
-                </div>
-                <h3 className="text-sm font-serif font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{c.label}</h3>
-                <p className="text-[11px] text-foreground/45 leading-snug">{c.blurb}</p>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-          <button
-            type="button"
-            onClick={() => askKelli("What brings you here today?")}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
-          >
-            <Bot className="w-4 h-4" /> Not sure? Ask KelliAI
-          </button>
-          <Link href="/services" className="inline-flex items-center text-primary font-semibold text-sm hover:underline underline-offset-4">
-            Browse all treatments <ChevronRight className="w-4 h-4 ml-1" />
-          </Link>
-        </div>
-      </Section>
-
-      {/* ───────────────────────  TRUST BAR  ─────────────────────── */}
-      <section className="luxury-gradient border-y border-border/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            {TRUST_SIGNALS.map((t, i) => (
-              <motion.div key={t.label} {...item(i)} className="flex items-start gap-3 p-5 rounded-2xl bg-white border border-border luxury-shadow">
-                <div className="w-10 h-10 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center flex-shrink-0">
-                  <t.icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-foreground leading-tight">{t.label}</p>
-                  <p className="text-xs text-foreground/50 mt-0.5 leading-snug">{t.detail}</p>
-                </div>
-              </motion.div>
-            ))}
+        <section className="bw-spaces bw-wrap" id="locations" aria-labelledby="bw-spaces-title">
+          <div className="bw-section-heading">
+            <div><p className="bw-eyebrow">Two places. One Balanced welcome.</p><h2 id="bw-spaces-title">Find your <em>space.</em></h2></div>
+            <p>Choose the location that fits your day.<br />We'll help you with the next step.</p>
           </div>
-          <div className="flex flex-wrap justify-center gap-8">
-            {HEADLINE_STATS.map((s, i) => (
-              <motion.div key={s.label} {...item(i)} className="text-center">
-                <p className="text-3xl md:text-4xl font-serif font-bold text-primary stat-number">{s.number}</p>
-                <p className="text-[11px] text-foreground/50 mt-1 uppercase tracking-wider">{s.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ──────────────  THE BALANCED DIFFERENCE (premium positioning)  ────────────── */}
-      <Section className="bg-background">
-        <div className="text-center mb-12 md:mb-16">
-          <Eyebrow tone="gold" className="mb-4">The Balanced Difference</Eyebrow>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4 text-balance">
-            Full-face balancing for women 40+
-          </h2>
-          <p className="text-foreground/55 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-            We're the trusted choice for natural-looking refinement — never the
-            fast, one-size-fits-all option. Every treatment is guided by a plan
-            built entirely around your goals.
-          </p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
-          {[
-            {
-              icon: Sparkles,
-              title: "Full-Face Balancing for Women 40+",
-              desc: "Aging shows across the whole face — not one line. Our providers assess your full facial harmony, restoring natural-looking refinement that still looks like you, only more rested and radiant.",
-            },
-            {
-              icon: ClipboardCheck,
-              title: "A Plan Built Around Your Goals",
-              desc: "No cookie-cutter menus. We map a personalized, long-term strategy to your goals, your timeline, and your comfort — so each visit builds intentionally toward the results you want.",
-            },
-            {
-              icon: ShieldCheck,
-              title: "The Trusted Choice, Not a Shortcut",
-              desc: "Advanced provider training, medical oversight, and premium products are the standard here. It's refined, confidence-building care you can trust for years — not a quick fix.",
-            },
-          ].map((c, i) => (
-            <motion.div
-              key={c.title}
-              {...item(i)}
-              className="luxury-card p-7 flex flex-col h-full"
-            >
-              <div className="w-11 h-11 rounded-xl bg-gold/[0.08] text-gold-ink flex items-center justify-center mb-4">
-                <c.icon className="w-5 h-5" />
-              </div>
-              <h3 className="text-lg font-serif font-bold text-foreground mb-2">{c.title}</h3>
-              <p className="text-sm text-foreground/55 leading-relaxed">{c.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-          <button
-            type="button"
-            onClick={() => openBookingChooser({ service: "Full-Face Balancing Consultation" })}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
-          >
-            <Gem className="w-4 h-4" /> Book Your Full-Face Consultation
-          </button>
-          <button
-            type="button"
-            onClick={() => askKelli("I'm over 40 — what does full-face balancing involve?")}
-            className="inline-flex items-center gap-2 px-7 py-3 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm"
-          >
-            <Bot className="w-4 h-4 text-primary" /> Ask about full-face balancing
-          </button>
-        </div>
-      </Section>
-
-      {/* ───────────────────  AESTHETICS EDITORIAL  ─────────────────── */}
-      <Section className="bg-[#f7f3ed]">
-        <motion.div
-          {...fadeUp}
-          className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-[0_24px_70px_rgba(36,27,23,0.10)] lg:grid-cols-[1.08fr_0.92fr]"
-        >
-          <div className="relative min-h-[360px] overflow-hidden lg:min-h-[520px]">
-            <img
-              src="/images/aesthetics-facial.webp"
-              alt="Luxury facial treatment at Balanced Wellness Medical Spa"
-              className="absolute inset-0 h-full w-full object-cover object-center"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/22 via-transparent to-transparent" />
-          </div>
-          <div className="flex items-center px-7 py-10 sm:px-10 lg:px-12">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[hsl(var(--blush-ink))]">Aesthetics at Balanced</p>
-              <h2 className="mt-4 font-serif text-4xl leading-[1.06] tracking-[-0.025em] text-[#211d1a] sm:text-5xl">
-                Refined results. <span className="italic text-[hsl(var(--blush-ink))]">Never overdone.</span>
-              </h2>
-              <p className="mt-6 text-sm leading-7 text-[#4f4742] sm:text-base">
-                From personalized facials and advanced skin treatments to injectables and laser care, every plan is designed around your features, your goals and your comfort.
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Link
-                  href="/services"
-                  className="editorial-button inline-flex items-center rounded-lg bg-[#211d1a] px-6 py-3.5 text-xs font-semibold text-white transition hover:bg-[hsl(var(--blush-ink))]"
-                >
-                  Explore Aesthetics <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => openBookingChooser({ service: "Aesthetics Consultation" })}
-                  className="editorial-button rounded-lg border border-[#211d1a]/25 px-6 py-3.5 text-xs font-semibold text-[#211d1a] transition hover:border-[hsl(var(--blush-ink))] hover:text-[hsl(var(--blush-ink))]"
-                >
-                  Book a Consultation
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </Section>
-
-      {/* ───────────────────  SIGNATURE TREATMENTS  ─────────────────── */}
-      <Section className="bg-background">
-        <div className="text-center mb-12 md:mb-16">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">What We're Known For</p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground mb-4">Signature Treatments</h2>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {SIGNATURE_TREATMENTS.map((t, i) => (
-            <motion.div key={t.name} {...item(i)} className="relative">
-              {t.badge && <div className="absolute -top-2.5 left-4 z-10 px-3 py-0.5 bg-primary text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{t.badge}</div>}
-              <Link href={t.href} className="group block h-full p-6 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 transition-all duration-500">
-                <div className="w-11 h-11 rounded-xl bg-primary/[0.06] text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                  <t.icon className="w-5 h-5" />
+          <div className="bw-location-grid">
+            {spaces.map(space => {
+              const location = LOCATIONS[space.id];
+              return <article className="bw-location-card" key={space.id}>
+                <Link href={space.href} className="bw-location-image"><img src={space.image} alt={`Inside Balanced Wellness Medical Spa in ${location.city}`} width={space.id === "kingsport" ? 1152 : 1536} height={space.id === "kingsport" ? 1536 : 1152} loading="lazy" /><span>{location.city}</span></Link>
+                <div className="bw-location-details">
+                  <p className="bw-eyebrow">{space.caption}</p><h3>{space.label}</h3>
+                  <p>{space.id === "kingsport" ? "1309 S John B Dennis Hwy, Suite 104" : "120 South Cherokee St"}<br />{space.id === "kingsport" ? "Kingsport, TN 37660" : "Jonesborough, TN 37659"}</p>
+                  <div className="bw-location-actions"><a className="bw-text-link" href={location.bookingUrl} target="_blank" rel="noopener noreferrer" onClick={() => setPreferredLocation(space.id)}>{`Book ${location.name}`} <ArrowUpRight aria-hidden="true" size={16} /></a><a href={space.id === "kingsport" ? "tel:4237651393" : "tel:4236462169"} aria-label={`Call ${location.city}`}><Phone aria-hidden="true" size={16} />{space.id === "kingsport" ? "(423) 765-1393" : "(423) 646-2169"}</a></div>
                 </div>
-                <h3 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{t.name}</h3>
-                <p className="text-sm text-foreground/50 leading-relaxed mb-4">{t.desc}</p>
-                <span className="inline-flex items-center text-xs text-primary font-semibold gap-1 group-hover:gap-2 transition-all duration-200">
-                  See results, pricing &amp; what to expect <ChevronRight className="w-3 h-3" />
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
-      {/* ────────────────────  BROWSE BY CONCERN  ──────────────────── */}
-      <Section className="luxury-gradient">
-        <div className="text-center mb-10 md:mb-14">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Know what's bothering you?</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Browse by Concern</h2>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="flex flex-wrap justify-center gap-2.5 md:gap-3 max-w-4xl mx-auto">
-          {BROWSE_CONCERNS.map((c, i) => (
-            <motion.div key={`${c.label}-${i}`} {...item(i)}>
-              <Link
-                href={c.href}
-                className="group flex items-center gap-2.5 py-2.5 pl-3 pr-4 rounded-full bg-white border border-border hover:border-primary/30 hover:luxury-shadow transition-all duration-300"
-              >
-                <span className="w-8 h-8 rounded-full bg-primary/[0.06] text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                  <c.icon className="w-4 h-4" />
-                </span>
-                <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{c.label}</span>
-                <span className="text-[11px] text-foreground/40 hidden sm:inline">{c.blurb}</span>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
-
-      {/* ──────────────────  KELLIAI CONCIERGE  ────────────────── */}
-      <Section className="bg-background">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-primary/[0.06] border border-primary/10 text-primary text-xs font-medium uppercase tracking-wider mb-4">
-              <Bot className="w-3.5 h-3.5" /> Your Personal Concierge
-            </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-3">Meet KelliAI</h2>
-            <p className="text-foreground/50 text-sm max-w-xl mx-auto">Your virtual wellness concierge answers questions about treatments, candidacy, memberships, and pricing — instantly, 24/7. Then hands you off to book in seconds.</p>
+              </article>;
+            })}
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            {[
-              { prompt: "Which treatment is right for my wrinkles?" },
-              { prompt: "Am I a candidate for weight loss medication?" },
-              { prompt: "Compare memberships for me" },
-              { prompt: "What treats acne scars?" },
-              { prompt: "How much does Botox cost?" },
-              { prompt: "What helps with skin tightening?" },
-            ].map((q, i) => (
-              <motion.button
-                key={q.prompt}
-                {...item(i)}
-                onClick={() => askKelli(q.prompt)}
-                className="group flex items-center gap-3 p-4 rounded-2xl border border-border bg-white hover:luxury-shadow-lg hover:border-primary/20 transition-all duration-300 text-left"
-              >
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">{q.prompt}</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">Tap to ask KelliAI</p>
-                </div>
-                <ArrowRight className="w-4 h-4 text-primary/30 group-hover:text-primary group-hover:translate-x-1 transition-all flex-shrink-0" />
-              </motion.button>
-            ))}
-          </div>
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => askKelli("What brings you here today?")}
-              className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm"
-            >
-              <Sparkles className="w-4 h-4" /> Find My Best Treatments
-            </button>
-          </div>
-        </div>
-      </Section>
+        </section>
 
-      {/* ──────────────────────  PROVIDERS  ────────────────────── */}
-      <Section className="luxury-gradient">
-        <div className="text-center mb-12">
-          <Eyebrow tone="sage" className="mb-4">Your Care Team</Eyebrow>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Led by Licensed Medical Providers</h2>
-          <p className="text-foreground/65 text-base max-w-xl mx-auto leading-relaxed">Every plan is created and supervised by experienced clinicians — never a one-size-fits-all menu.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className={`grid grid-cols-1 gap-6 mx-auto ${PROVIDERS.length === 1 ? "max-w-2xl" : "md:grid-cols-2 max-w-4xl"}`}>`
-          {PROVIDERS.map((p, i) => (
-            <motion.div key={p.name} {...item(i)} className="luxury-card p-7 flex gap-5 items-start">
-              {p.photo ? (
-                <img
-                  src={p.photo}
-                  alt={p.photoAlt ?? `${p.name}, ${p.credential} at Balanced Wellness Medical Spa`}
-                  width={112}
-                  height={140}
-                  loading="lazy"
-                  decoding="async"
-                  className="flex-shrink-0 w-24 h-32 md:w-28 md:h-36 rounded-2xl object-cover object-top border border-primary/10 luxury-shadow"
-                />
-              ) : (
-                <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary/[0.06] border border-primary/10 flex items-center justify-center">
-                  <span className="text-2xl font-serif font-bold text-gradient-gold">{p.initials}</span>
-                </div>
-              )}
-              <div>
-                <h3 className="text-lg font-serif font-bold text-foreground">{p.name}<span className="text-sm font-sans font-semibold text-gold-ink">, {p.credential}</span></h3>
-                <p className="flex items-center gap-1.5 text-[11px] text-foreground/60 uppercase tracking-wider mb-2.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-sage" aria-hidden="true" />{p.title}
-                </p>
-                <div className="space-y-2">
-                  {(p.excerpt ?? p.bio).split("\n\n").map((para, j) => (
-                    <p key={j} className="text-sm text-foreground/70 leading-relaxed">{para}</p>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+        <div className="bw-reviews"><FeaturedReviews /></div>
 
-        <div className="text-center mt-12">
-          <Link href="/about#team" className="group inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/[0.06] px-6 py-3 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-gold/60 hover:bg-gold/10">
-            Meet the full team, including our practice leadership
-            <ChevronRight className="w-4 h-4 text-gold-ink transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
-        </div>
-      </Section>
+        <section className="bw-faq bw-wrap" aria-labelledby="bw-faq-title">
+          <div><p className="bw-eyebrow">Before your visit</p><h2 id="bw-faq-title">A few things<br /><em>to know.</em></h2><Link href="/contact" className="bw-text-link">Ask us a question <ArrowUpRight aria-hidden="true" size={17} /></Link></div>
+          <div className="bw-faq-list">{homeFaqs.map(faq => <details key={faq.q}><summary>{faq.q}<Plus aria-hidden="true" size={18} /></summary><p>{faq.a}</p></details>)}</div>
+        </section>
 
-      {/* ────────────────────  REAL RESULTS  ──────────────────── */}
-      <Section className="bg-background">
-        <div className="text-center mb-12">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">Real Results</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Before &amp; After Transformations</h2>
-          <p className="text-foreground/45 mt-3 text-sm">View actual patient results side by side at Balanced Wellness Medical Spa.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-10">
-          {[
-            { before: "/images/laser-before.jpg", after: "/images/laser-after.jpg", title: "CO2 Laser Resurfacing" },
-            { before: "/images/rfmicroneedling-after.jpg", after: "/images/lips-after.jpg", title: "Lip Filler" },
-            { before: "/images/before-lips-branded.jpg", after: "/images/after-lips-branded.jpg", title: "Lip Filler — Natural Look" },
-            { before: "/images/before-weightloss.jpg", after: "/images/after-weightloss.jpg", title: "Medical Weight Loss" },
-          ].map((photo, i) => (
-            <motion.div key={photo.title} {...item(i)} className="luxury-card overflow-hidden">
-              <div className="grid grid-cols-2 divide-x divide-border">
-                  <div className="bg-background">
-                    <div className="before-after-label">Before</div>
-                    <img
-                      src={photo.before}
-                      alt={photo.title + " before"}
-                      className={photo.title === "Medical Weight Loss" ? "block w-full aspect-square object-contain bg-muted" : "block w-full aspect-square object-cover"}
-                    />
-                  </div>
-                  <div className="bg-background">
-                    <div className="before-after-label">After</div>
-                    <img
-                      src={photo.after}
-                      alt={photo.title + " after"}
-                      className={photo.title === "Medical Weight Loss" ? "block w-full aspect-square object-contain bg-muted" : "block w-full aspect-square object-cover"}
-                    />
-                  </div>
-                </div>
-              <div className="p-4 text-center"><h3 className="text-sm font-serif font-bold text-foreground">{photo.title}</h3></div>
-            </motion.div>
-          ))}
-        </div>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/gallery" className="inline-flex items-center gap-2 px-7 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-            <Play className="w-4 h-4 text-primary" /> View Full Gallery
-          </Link>
-          <button type="button" onClick={() => openBookingChooser({ service: "Consultation" })} className="inline-block px-7 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">Book Your Consultation</button>
-        </div>
-      </Section>
-
-      <FeaturedReviews />
-
-      {/* ─────────────  TELEHEALTH + ONLINE CARE GATEWAY  ───────────── */}
-      <Section className="bg-background">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          <motion.div {...fadeUp} className="luxury-card p-8 flex flex-col">
-            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Telehealth</p>
-            <h3 className="text-2xl font-serif font-bold text-foreground mb-3">Care from anywhere in Tennessee</h3>
-            <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-1">Start weight loss, hormone, and skincare programs with a virtual consultation — no drive required. Prescriptions and refills handled through our secure online portal.</p>
-            <Link href="/online-care" className="inline-flex items-center gap-2 self-start px-6 py-2.5 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md shadow-primary/15 text-sm">
-              Explore Online Care <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
-          <motion.div {...fadeUp} className="luxury-card p-8 flex flex-col">
-            <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-3">Shop &amp; Refills</p>
-            <h3 className="text-2xl font-serif font-bold text-foreground mb-3">Medical-grade products &amp; Rx refills</h3>
-            <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-1">Reorder medical-grade skincare and prescription refills online, and take a personalized assessment to build your at-home regimen — reviewed by our providers.</p>
-            <Link href="/online-care" className="inline-flex items-center gap-2 self-start px-6 py-2.5 bg-white text-foreground font-medium rounded-full border border-border hover:luxury-shadow transition-all text-sm">
-              Shop &amp; Refill Online <ArrowRight className="w-4 h-4 text-primary" />
-            </Link>
-          </motion.div>
-        </div>
-      </Section>
-
-      <FlexiblePaymentsSection />
-
-      {/* ──────────────────────  MEMBERSHIPS  ────────────────────── */}
-      <Section className="luxury-gradient">
-        <div className="text-center mb-14">
-          <p className="text-xs text-primary uppercase tracking-[0.2em] font-semibold mb-4">VIP Memberships</p>
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Exclusive Wellness Memberships</h2>
-          <p className="text-foreground/45 mt-3 text-sm">Join our VIP program for exclusive savings, priority booking, and complimentary monthly treatments.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto mb-6">
-          {membershipTiers.map((m, i) => (
-            <motion.div key={m.tier} {...item(i)} className={`relative p-7 rounded-2xl bg-white border transition-all duration-500 ${m.popular ? "border-primary/30 luxury-shadow-lg md:scale-[1.03]" : "border-border hover:luxury-shadow"}`}>
-              {m.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-white text-[10px] uppercase tracking-widest font-bold rounded-full">Most Popular</div>}
-              <p className="text-xs text-primary font-semibold uppercase tracking-[0.15em] mb-1">{m.tier}</p>
-              <p className="text-3xl font-serif font-bold text-foreground mb-1">{m.price}<span className="text-sm font-sans font-normal text-foreground/40">/mo</span></p>
-              <p className="text-xs text-foreground/40 italic mb-1">{m.bestFor}</p>
-              <p className="text-xs font-semibold text-primary mb-4">✦ {m.annualSavings}</p>
-              <div className="section-divider my-4" />
-              <ul className="space-y-2.5 mb-7">
-                {m.highlights.map((h) => (
-                  <li key={h} className="flex items-start text-sm text-foreground/60">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-primary mr-2 mt-0.5 flex-shrink-0" /> {h}
-                  </li>
-                ))}
-              </ul>
-              <Link href="/memberships" className={`block text-center py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${m.popular ? "bg-primary text-white hover:bg-primary/90 shadow-md shadow-primary/20" : "border border-primary/30 text-primary hover:bg-primary hover:text-white"}`}>
-                Find My Best Membership Tier
-              </Link>
-            </motion.div>
-          ))}
-        </div>
-        <p className="text-center text-xs text-foreground/40">6-month minimum commitment. Cancel anytime after initial term.</p>
-      </Section>
-
-      {/* ────────────────────────  FAQ  ──────────────────────── */}
-      <Section className="luxury-gradient-dark text-foreground relative overflow-hidden">
-        <div className="absolute top-0 right-[10%] w-[300px] h-[300px] rounded-full bg-champagne/5 blur-[100px]" />
-        <div className="relative z-10">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-white/70 border border-primary/10 text-gold-ink text-xs font-medium uppercase tracking-wider mb-4">
-              <HelpCircle className="w-3.5 h-3.5" /> Frequently Asked Questions
-            </div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Med Spa FAQ — Kingsport &amp; Jonesborough TN</h2>
-            <p className="text-foreground/60 text-sm max-w-2xl mx-auto">Common questions about treatments, pricing, and what to expect at Balanced Wellness.</p>
-          </div>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {homeFaqs.map((faq, i) => (
-              <motion.div key={faq.q} {...item(i)} className="p-6 rounded-2xl bg-white/70 border border-primary/10 hover:bg-white transition-all duration-500">
-                <h3 className="font-bold text-champagne mb-3 text-[15px]">{faq.q}</h3>
-                <p className="text-sm text-foreground/65 leading-relaxed">{faq.a}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </Section>
-
-      {/* ──────────────────────  LOCATIONS  ────────────────────── */}
-      <Section className="luxury-gradient border-t border-border/50">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">Two Convenient Locations</h2>
-          <p className="text-foreground/45 mt-3 text-sm">Visit us in Kingsport or Jonesborough for a complimentary consultation.</p>
-          <div className="decorative-line mx-auto mt-6" />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-          {[
-            {
-              id: "kingsport" as LocationId,
-              city: "Kingsport",
-              address: "1309 South John B Dennis Hwy, Suite 104",
-              zip: "Kingsport, TN 37660",
-              phone: "(423) 765-1393",
-              tel: "423-765-1393",
-              image: "/images/locations/kingsport-reception.webp",
-              secondaryImage: "/images/locations/kingsport-treatment-room.webp",
-              imageAlt: "Balanced Wellness Medical Spa Kingsport reception with black floors, white desk, and gold details",
-              character: "Modern black, white & gold",
-              mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.5494!3d36.5149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1309+S+John+B+Dennis+Hwy+%23104%2C+Kingsport%2C+TN+37660!5e0!3m2!1sen!2sus!4v1",
-            },
-            {
-              id: "jonesborough" as LocationId,
-              city: "Jonesborough",
-              address: "120 South Cherokee St",
-              zip: "Jonesborough, TN 37659",
-              phone: "(423) 646-2169",
-              tel: "423-646-2169",
-              image: "/images/locations/jonesborough-exterior.webp",
-              secondaryImage: "/images/locations/jonesborough-interior.webp",
-              imageAlt: "Historic Balanced Wellness Medical Spa location in downtown Jonesborough Tennessee",
-              character: "Historic downtown charm",
-              mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3199.5!2d-82.473!3d36.294!2m3!1f0!2f0!3f0!2m3!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s120+South+Cherokee+St%2C+Jonesborough%2C+TN+37659!5e0!3m2!1sen!2sus!4v1",
-            },
-          ].map((loc) => (
-            <motion.div key={loc.city} {...fadeUp} className="luxury-card overflow-hidden">
-              <div className="relative h-56 overflow-hidden bg-[#eee7df]">
-                <img
-                  src={loc.image}
-                  alt={loc.imageAlt}
-                  className="h-full w-full object-cover transition-transform duration-700 hover:scale-[1.025]"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#fbf8f1]/95 via-[#fbf8f1]/12 to-white/5" />
-                <span className="editorial-kicker absolute left-5 top-5 rounded-full border border-white/65 bg-[#fbf8f1]/88 px-3 py-1.5 text-[hsl(var(--blush-ink))] shadow-sm backdrop-blur-md">
-                  {loc.character}
-                </span>
-                <div className="absolute bottom-4 right-4 h-24 w-20 overflow-hidden rounded-xl border-2 border-[#fbf8f1] shadow-xl sm:h-28 sm:w-24">
-                  <img src={loc.secondaryImage} alt={`${loc.city} treatment space`} className="h-full w-full object-cover" loading="lazy" />
-                </div>
-              </div>
-              <div className="relative bg-[#fbf8f1]/96 p-7">
-                <h3 className="text-xl font-serif font-bold text-foreground mb-4">{loc.city} Location</h3>
-                <div className="space-y-3 mb-5">
-                  <div className="flex items-start text-sm text-foreground/60">
-                    <MapPin className="w-4 h-4 mr-3 text-primary flex-shrink-0 mt-0.5" />
-                    <span>{loc.address}<br />{loc.zip}</span>
-                  </div>
-                  <a href={`tel:${loc.tel}`} className="flex items-center text-primary font-semibold text-sm hover:underline underline-offset-2">
-                    <Phone className="w-4 h-4 mr-3" /> {loc.phone}
-                  </a>
-                </div>
-                <div className="h-36 bg-muted rounded-xl overflow-hidden border border-border mb-4">
-                  <iframe src={loc.mapSrc} width="100%" height="100%" style={{ border: 0 }} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title={`${loc.city} Location Map`} />
-                </div>
-                <a
-                  href={LOCATIONS[loc.id].bookingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setPreferredLocation(loc.id)}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-sm shadow-primary/15"
-                >
-                  <CalendarCheck className="w-4 h-4" /> Book at {loc.city}
-                </a>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </Section>
-
-      <CTA
-        title="Ready to Look Better, Feel Better, and Live Balanced?"
-        subtitle="Schedule a complimentary consultation with our expert providers and discover a treatment plan built entirely around you."
-        buttonText="Book Your Consultation"
-      />
-
-      {/* ─────────────────  STICKY MOBILE CTA BAR  ───────────────── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white/95 backdrop-blur-md border-t border-border shadow-xl">
-        <div className="flex items-stretch">
-          <a href="tel:423-765-1393" className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-r border-border text-foreground/70 hover:bg-background transition-colors">
-            <Phone className="w-4 h-4 text-primary" />
-            <span className="text-[10px] font-medium uppercase tracking-wide">Call</span>
-          </a>
-          <button type="button" onClick={() => openBookingChooser({ service: "Consultation" })}
-            className="flex-[2] flex items-center justify-center py-3 bg-primary text-white font-semibold text-sm gap-2 hover:bg-primary/90 transition-colors">
-            <CalendarCheck className="w-4 h-4" /> Book Consultation
-          </button>
-          <button type="button" onClick={() => askKelli("What brings you here today?")} className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 border-l border-border text-foreground/70 hover:bg-background transition-colors">
-            <Bot className="w-4 h-4 text-primary" />
-            <span className="text-[10px] font-medium uppercase tracking-wide">KelliAI</span>
-          </button>
-        </div>
+        <section className="bw-final-cta">
+          <p className="bw-eyebrow">Your next chapter starts with a conversation</p>
+          <h2>Make time<br />for <em>you.</em></h2>
+          <button type="button" onClick={book} className="bw-button">Find your appointment <ArrowUpRight aria-hidden="true" size={18} /></button>
+          <p>Kingsport &amp; Jonesborough, Tennessee</p>
+        </section>
       </div>
     </PageLayout>
   );

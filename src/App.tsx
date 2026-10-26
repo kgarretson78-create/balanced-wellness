@@ -27,8 +27,6 @@ import ObagiStore from "./pages/ObagiStore";
 import BootoxEvent from "./pages/BootoxEvent";
 import NotFound from "@/pages/not-found";
 import { KelliAIChat } from "./components/KelliAI";
-import { FloatingBookButton } from "./components/FloatingBookButton";
-import { CherryFinancingWidget } from "./components/CherryFinancingWidget";
 import { EmailSignupPopup } from "./components/EmailSignupPopup";
 import { VisitorTracker } from "./components/VisitorTracker";
 import { BookingChooserProvider } from "./components/booking/LocationChooser";
@@ -141,8 +139,6 @@ function GlobalOverlays() {
     <>
       <EmailSignupPopup />
       <KelliAIChat />
-      <FloatingBookButton />
-      <CherryFinancingWidget />
     </>
   );
 }

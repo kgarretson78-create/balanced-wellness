@@ -53,7 +53,7 @@ const treatmentEdit = [
 ];
 const spaces: { id: LocationId; label: string; image: string; caption: string; href: string }[] = [
   { id: "kingsport", label: "The Kingsport studio", image: "/images/locations/kingsport-reception.webp", caption: "Modern lines. A warm welcome.", href: "/medical-spa-kingsport-tn" },
-  { id: "jonesborough", label: "The Jonesborough house", image: "/images/locations/jonesborough-interior.webp", caption: "Historic character. Thoughtful details.", href: "/medical-spa-jonesborough-tn" },
+  { id: "jonesborough", label: "The Jonesborough house", image: "/images/locations/jonesborough-house-20261026.jpg", caption: "Historic character. Thoughtful details.", href: "/medical-spa-jonesborough-tn" },
 ];
 
 export default function Home() {
@@ -130,7 +130,7 @@ export default function Home() {
             {spaces.map(space => {
               const location = LOCATIONS[space.id];
               return <article className="bw-location-card" key={space.id}>
-                <Link href={space.href} className="bw-location-image"><img src={space.image} alt={`Inside Balanced Wellness Medical Spa in ${location.city}`} width={space.id === "kingsport" ? 1152 : 1536} height={space.id === "kingsport" ? 1536 : 1152} loading="lazy" /><span>{location.city}</span></Link>
+                <Link href={space.href} className="bw-location-image"><img src={space.image} alt={space.id === "jonesborough" ? "Exterior of Balanced Wellness Medical Spa in Jonesborough" : `Inside Balanced Wellness Medical Spa in ${location.city}`} width={space.id === "kingsport" ? 1152 : 1536} height={space.id === "kingsport" ? 1536 : 1152} loading="lazy" /><span>{location.city}</span></Link>
                 <div className="bw-location-details">
                   <p className="bw-eyebrow">{space.caption}</p><h3>{space.label}</h3>
                   <p>{space.id === "kingsport" ? "1309 S John B Dennis Hwy, Suite 104" : "120 South Cherokee St"}<br />{space.id === "kingsport" ? "Kingsport, TN 37660" : "Jonesborough, TN 37659"}</p>

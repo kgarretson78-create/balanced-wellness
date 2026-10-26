@@ -13,14 +13,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
           <div>
-            <div className="mb-6 inline-flex rounded-2xl border border-white/15 bg-[#fbf8f1]/95 px-4 py-3 shadow-lg">
-              <img
-                src="/images/logo.png"
-                alt="Balanced Wellness Medical Spa"
-                className="h-16 w-auto object-contain"
-              />
-            </div>
-            <p className="text-white/35 text-sm leading-relaxed mb-6">
+            <div className="mb-6"><p className="font-serif text-4xl text-blush">Balanced</p><p className="text-[9px] uppercase tracking-[0.18em] mt-2 text-white/75">Wellness Medical Spa</p></div>
+            <p className="text-white/65 text-sm leading-relaxed mb-6">
               A modern medical spa blending aesthetics, wellness, and longevity medicine in Kingsport & Jonesborough TN.
             </p>
             <div className="flex space-x-2.5">
@@ -31,20 +25,22 @@ export function Footer() {
                 <Facebook className="w-4 h-4 text-white/60" />
               </a>
             </div>
+            <button type="button" onClick={() => window.dispatchEvent(new CustomEvent("balanced:open-offers"))} className="mt-5 text-xs text-white/80 underline underline-offset-4">Offers &amp; updates</button>
           </div>
 
           <div>
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-champagne font-semibold mb-6">Quick Links</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/" className="text-white/40 hover:text-white transition-colors duration-300">Home</Link></li>
-              <li><Link href="/about" className="text-white/40 hover:text-white transition-colors duration-300">About Us</Link></li>
-              <li><Link href="/services" className="text-white/40 hover:text-white transition-colors duration-300">All Services</Link></li>
-              <li><Link href="/memberships" className="text-white/40 hover:text-white transition-colors duration-300">Memberships</Link></li>
+              <li><Link href="/" className="text-white/65 hover:text-white transition-colors duration-300">Home</Link></li>
+              <li><Link href="/about" className="text-white/65 hover:text-white transition-colors duration-300">About Us</Link></li>
+              <li><Link href="/services" className="text-white/65 hover:text-white transition-colors duration-300">All Services</Link></li>
+              <li><Link href="/flexible-payments" className="text-white/60 hover:text-white transition-colors">Payment options</Link></li>
+              <li><Link href="/memberships" className="text-white/65 hover:text-white transition-colors duration-300">Memberships</Link></li>
               <li><a href="https://app.kelliai.ai/hourglassbody.html" target="_blank" rel="noopener noreferrer" className="text-blush hover:text-white transition-colors duration-300">Hourglass Figure App</a></li>
-              <li><Link href="/gallery" className="text-white/40 hover:text-white transition-colors duration-300">Before & After</Link></li>
+              <li><Link href="/gallery" className="text-white/65 hover:text-white transition-colors duration-300">Before & After</Link></li>
               <li><Link href="/shop-obagi" className="text-blush hover:text-white transition-colors duration-300">Shop Obagi Skincare</Link></li>
-              <li><Link href="/contact" className="text-white/40 hover:text-white transition-colors duration-300">Contact</Link></li>
-              <li><Link href="/sms-consent" className="text-white/40 hover:text-white transition-colors duration-300">Text Us</Link></li>
+              <li><Link href="/contact" className="text-white/65 hover:text-white transition-colors duration-300">Contact</Link></li>
+              <li><Link href="/sms-consent" className="text-white/65 hover:text-white transition-colors duration-300">Text Us</Link></li>
               <li><Link href="/book" className="text-blush font-medium hover:text-champagne transition-colors duration-300">Book Appointment</Link></li>
             </ul>
           </div>
@@ -52,13 +48,13 @@ export function Footer() {
           <div>
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-champagne font-semibold mb-6">Treatments</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link href="/injectables" className="text-white/40 hover:text-white transition-colors duration-300">Injectables & Fillers</Link></li>
-              <li><Link href="/laser-treatments" className="text-white/40 hover:text-white transition-colors duration-300">Laser & Skin Treatments</Link></li>
-              <li><Link href="/weight-loss" className="text-white/40 hover:text-white transition-colors duration-300">Weight Loss & Metabolic</Link></li>
-              <li><Link href="/wellness" className="text-white/40 hover:text-white transition-colors duration-300">Wellness & Longevity</Link></li>
-              <li><Link href="/iv-lounge-kingsport-tn" className="text-white/40 hover:text-white transition-colors duration-300">IV Hydration Lounge</Link></li>
-              <li><Link href="/hormone-optimization" className="text-white/40 hover:text-white transition-colors duration-300">Hormone Optimization</Link></li>
-              <li><Link href="/telehealth" className="text-white/40 hover:text-white transition-colors duration-300">Telehealth & Virtual Care</Link></li>
+              <li><Link href="/injectables" className="text-white/65 hover:text-white transition-colors duration-300">Injectables & Fillers</Link></li>
+              <li><Link href="/laser-treatments" className="text-white/65 hover:text-white transition-colors duration-300">Laser & Skin Treatments</Link></li>
+              <li><Link href="/weight-loss" className="text-white/65 hover:text-white transition-colors duration-300">Weight Loss & Metabolic</Link></li>
+              <li><Link href="/wellness" className="text-white/65 hover:text-white transition-colors duration-300">Wellness & Longevity</Link></li>
+              <li><Link href="/iv-lounge-kingsport-tn" className="text-white/65 hover:text-white transition-colors duration-300">IV Hydration Lounge</Link></li>
+              <li><Link href="/hormone-optimization" className="text-white/65 hover:text-white transition-colors duration-300">Hormone Optimization</Link></li>
+              <li><Link href="/telehealth" className="text-white/65 hover:text-white transition-colors duration-300">Telehealth & Virtual Care</Link></li>
             </ul>
           </div>
 
@@ -69,9 +65,9 @@ export function Footer() {
                 <MapPin className="w-4 h-4 mr-3 text-blush/70 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-white/80 text-[13px]">Kingsport</p>
-                  <p className="text-white/35 text-[13px]">1309 South John B Dennis Hwy, Suite 104<br/>Kingsport, TN 37660</p>
+                  <p className="text-white/65 text-[13px]">1309 South John B Dennis Hwy, Suite 104<br/>Kingsport, TN 37660</p>
                   <a href="tel:423-765-1393" className="text-blush text-xs hover:text-champagne transition-colors">(423) 765-1393</a>
-                  <div className="mt-2 flex items-start text-white/35 text-[13px]">
+                  <div className="mt-2 flex items-start text-white/65 text-[13px]">
                     <Clock className="w-3.5 h-3.5 mr-2 text-blush/70 flex-shrink-0 mt-0.5" />
                     <div>
                       {LOCATIONS.kingsport.hours.display.map((row) => (
@@ -85,9 +81,9 @@ export function Footer() {
                 <MapPin className="w-4 h-4 mr-3 text-blush/70 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold text-white/80 text-[13px]">Jonesborough</p>
-                  <p className="text-white/35 text-[13px]">120 South Cherokee St<br/>Jonesborough, TN 37659</p>
+                  <p className="text-white/65 text-[13px]">120 South Cherokee St<br/>Jonesborough, TN 37659</p>
                   <a href="tel:423-646-2169" className="text-blush text-xs hover:text-champagne transition-colors">(423) 646-2169</a>
-                  <div className="mt-2 flex items-start text-white/35 text-[13px]">
+                  <div className="mt-2 flex items-start text-white/65 text-[13px]">
                     <Clock className="w-3.5 h-3.5 mr-2 text-blush/70 flex-shrink-0 mt-0.5" />
                     <div>
                       {LOCATIONS.jonesborough.hours.display.map((row) => (

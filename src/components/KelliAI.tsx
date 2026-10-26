@@ -11,7 +11,6 @@ interface Message {
   buttons?: ActionButton[];
   quickReplies?: string[];
   showLeadForm?: boolean;
-  skinResults?: SkinAnalysisResult;
   selfieImage?: string;
   previewImage?: string;
   beforeImage?: string;
@@ -30,24 +29,6 @@ interface LeadData {
   email: string;
   phone: string;
   smsConsent: boolean;
-}
-
-interface SkinConcern {
-  label: string;
-  score: number;
-  severity: "Low" | "Mild" | "Moderate" | "Notable";
-  emoji: string;
-}
-
-interface TreatmentRec {
-  name: string;
-  match: number;
-}
-
-interface SkinAnalysisResult {
-  overallScore: number;
-  concerns: SkinConcern[];
-  topTreatments: TreatmentRec[];
 }
 
 const treatmentKnowledge: Record<string, { info: string; link: string }> = {
@@ -170,49 +151,10 @@ const concernMap: Record<string, { treatments: string[]; response: string }> = {
 
 const actionButtons: ActionButton[] = [
   { label: "Book Consultation", icon: "calendar", action: "book" },
-  { label: "Take AI Skin Analysis", icon: "camera", action: "skin-analyzer" },
   { label: "View Treatments", icon: "arrow", action: "services" },
 ];
 
 let messageIdCounter = 1;
-
-function generateSkinAnalysis(): SkinAnalysisResult {
-  const concernPool = [
-    { label: "Fine Lines & Wrinkles", emoji: "\ud83e\uddec" },
-    { label: "Skin Texture", emoji: "\u2728" },
-    { label: "Pore Size", emoji: "\ud83d\udd0d" },
-    { label: "Redness & Rosacea", emoji: "\ud83c\udf39" },
-    { label: "Pigmentation & Sun Damage", emoji: "\u2600\ufe0f" },
-    { label: "Skin Firmness", emoji: "\ud83d\udc8e" },
-    { label: "Hydration Level", emoji: "\ud83d\udca7" },
-    { label: "Overall Skin Health", emoji: "\ud83c\udf1f" },
-  ];
-
-  const severities: SkinConcern["severity"][] = ["Low", "Mild", "Moderate", "Notable"];
-  const concerns: SkinConcern[] = concernPool.map((c) => {
-    const score = Math.floor(Math.random() * 55) + 35;
-    const sevIdx = score < 45 ? 0 : score < 60 ? 1 : score < 75 ? 2 : 3;
-    return { ...c, score, severity: severities[sevIdx] };
-  });
-  concerns.sort((a, b) => b.score - a.score);
-
-  const treatmentPool = [
-    { name: "Botox / Dysport / Daxxify", match: 0 },
-    { name: "RF Microneedling", match: 0 },
-    { name: "Laser Rejuvenation", match: 0 },
-    { name: "Dermal Fillers", match: 0 },
-    { name: "Skin Tightening", match: 0 },
-    { name: "IV Therapy", match: 0 },
-  ];
-  const topTreatments = treatmentPool
-    .map((t) => ({ ...t, match: Math.floor(Math.random() * 25) + 75 }))
-    .sort((a, b) => b.match - a.match)
-    .slice(0, 3);
-
-  const overallScore = Math.floor(concerns.reduce((sum, c) => sum + c.score, 0) / concerns.length);
-
-  return { overallScore, concerns: concerns.slice(0, 5), topTreatments };
-}
 
 const voiceUrlCache = new Map<number, string>();
 let activeAudio: HTMLAudioElement | null = null;
@@ -354,53 +296,6 @@ function ActionButtonsRow({ buttons, onAction }: { buttons: ActionButton[]; onAc
           {btn.label}
         </button>
       ))}
-    </div>
-  );
-}
-
-function SkinResultsCard({ results }: { results: SkinAnalysisResult }) {
-  const scoreColor = results.overallScore >= 70 ? "text-green-600" : results.overallScore >= 50 ? "text-primary" : "text-accent";
-
-  return (
-    <div className="bg-gradient-to-br from-secondary/80 to-white border border-border rounded-xl p-3 space-y-3">
-      <div className="flex items-center gap-3">
-        <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
-          <span className={`text-xl font-bold ${scoreColor}`}>{results.overallScore}</span>
-        </div>
-        <div>
-          <p className="text-xs font-semibold text-foreground/80">Overall Skin Score</p>
-          <p className="text-[11px] text-foreground/50">AI-powered analysis</p>
-        </div>
-      </div>
-
-      <div className="space-y-1.5">
-        <p className="text-[11px] font-semibold text-foreground/60 uppercase tracking-wider">Top Concerns</p>
-        {results.concerns.map((c) => (
-          <div key={c.label} className="flex items-center gap-2">
-            <span className="text-xs">{c.emoji}</span>
-            <span className="text-xs text-foreground/70 flex-1">{c.label}</span>
-            <div className="w-16 h-1.5 bg-border rounded-full overflow-hidden">
-              <motion.div
-                className="h-full rounded-full bg-primary"
-                initial={{ width: 0 }}
-                animate={{ width: `${c.score}%` }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              />
-            </div>
-            <span className="text-[10px] font-medium text-foreground/50 w-8 text-right">{c.score}%</span>
-          </div>
-        ))}
-      </div>
-
-      <div className="space-y-1.5">
-        <p className="text-[11px] font-semibold text-foreground/60 uppercase tracking-wider">Recommended Treatments</p>
-        {results.topTreatments.map((t) => (
-          <div key={t.name} className="flex items-center justify-between bg-primary/5 rounded-lg px-2.5 py-1.5">
-            <span className="text-xs font-medium text-foreground/80">{t.name}</span>
-            <span className="text-[10px] font-semibold text-primary">{t.match}% match</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
@@ -579,52 +474,6 @@ function SelfieCameraView({ onCapture, onCancel }: { onCapture: (imageData: stri
         >
           <X className="w-4 h-4" />
         </button>
-      </div>
-    </div>
-  );
-}
-
-function AnalyzingAnimation() {
-  const steps = ["Mapping facial zones...", "Analyzing skin texture...", "Detecting concerns...", "Generating treatment plan..."];
-  const [step, setStep] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setStep((prev) => Math.min(prev + 1, steps.length - 1));
-    }, 800);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="bg-secondary/80 border border-border rounded-xl p-4 space-y-3">
-      <div className="flex items-center gap-3">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent"
-        />
-        <div>
-          <p className="text-xs font-semibold text-foreground/80">Analyzing your skin...</p>
-          <p className="text-[11px] text-foreground/50">AI-powered assessment</p>
-        </div>
-      </div>
-      <div className="space-y-1.5">
-        {steps.map((s, i) => (
-          <motion.div
-            key={s}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: i <= step ? 1 : 0.3, x: 0 }}
-            transition={{ delay: i * 0.2 }}
-            className="flex items-center gap-2"
-          >
-            {i <= step ? (
-              <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
-            ) : (
-              <div className="w-3.5 h-3.5 rounded-full border border-border" />
-            )}
-            <span className="text-[11px] text-foreground/60">{s}</span>
-          </motion.div>
-        ))}
       </div>
     </div>
   );
@@ -826,7 +675,6 @@ export function KelliAIChat() {
   const [leadCaptured, setLeadCaptured] = useState(false);
   const [interactionCount, setInteractionCount] = useState(0);
   const [showCamera, setShowCamera] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false);
   const [generatingPreview, setGeneratingPreview] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -856,9 +704,8 @@ export function KelliAIChat() {
       const openingMsg: Message = {
         id: messageIdCounter++,
         from: "bot",
-        text: "Hey love! 💗 I'm KelliAI, your personal wellness coach at Balanced Wellness.\n\nI'm here to listen, answer your questions, analyze your skin, and even show you a glimpse of how treatments could look on YOU. Tell me — what's on your heart today?",
+        text: "Hey love! 💗 I'm KelliAI, your personal wellness coach at Balanced Wellness.\n\nI'm here to listen, answer general questions, and help you book a consultation. I cannot assess or diagnose your skin. Tell me — what's on your heart today?",
         quickReplies: [
-          "Analyze my skin (selfie)",
           "Show me what filler would look like",
           "Help me lose weight",
           "What treatments do you offer?",
@@ -871,7 +718,7 @@ export function KelliAIChat() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isTyping, showCamera, analyzing, scrollToBottom]);
+  }, [messages, isTyping, showCamera, scrollToBottom]);
 
   const addBotMessage = useCallback((text: string, extras?: Partial<Message>) => {
     setIsTyping(true);
@@ -954,8 +801,8 @@ export function KelliAIChat() {
     }
 
     if (lower.includes("selfie") || lower.includes("skin anal") || lower.includes("analyze my") || lower.includes("skin scan") || lower.includes("photo") || lower.includes("take a pic")) {
-      addBotMessage("Yes! Let's do a quick AI skin analysis together 💗 I'll open the camera, you take a selfie, and I'll walk you through what I see and which treatments would help most.", {
-        buttons: [{ label: "Open Camera for Skin Analysis", icon: "camera", action: "start-selfie" }],
+      addBotMessage("Online skin analysis is not available. I cannot assess or diagnose skin from a photo. You can book a consultation with our team to discuss your concerns.", {
+        buttons: [{ label: "Book Consultation", icon: "calendar", action: "book" }],
       });
       return;
     }
@@ -1016,7 +863,6 @@ export function KelliAIChat() {
       addBotMessage("I'd love to help you book! You can schedule online or contact us directly:\n\n\ud83d\udcde Kingsport: (423) 765-1393\n\ud83d\udcde Jonesborough: (423) 646-2169\n\nAll new patients receive a complimentary consultation.", {
         buttons: [
           { label: "Book Online Now", icon: "calendar", action: "book" },
-          { label: "Take AI Skin Analysis First", icon: "camera", action: "start-selfie" },
         ],
       });
       return;
@@ -1044,14 +890,14 @@ export function KelliAIChat() {
 
     if (lower.includes("treatment") || lower.includes("service") || lower.includes("offer") || lower.includes("what do you")) {
       addBotMessage("We offer a comprehensive menu of aesthetic and wellness services:\n\n\ud83d\udc89 Injectables: Botox, Dysport, Daxxify, Lip Filler, Dermal Fillers\n\u2728 Skin: RF Microneedling, Laser Rejuvenation, Chemical Peels\n\u2696\ufe0f Weight Loss: Semaglutide, Tirzepatide, Metabolic Programs\n\ud83e\uddec Wellness: Hormone Optimization, Peptide Therapy, IV Therapy\n\nWhat interests you most? I can share details on any treatment!", {
-        quickReplies: ["Botox", "Lip Filler", "Laser treatments", "Weight loss", "Hormone therapy", "Analyze my skin"],
+        quickReplies: ["Botox", "Lip Filler", "Laser treatments", "Weight loss", "Hormone therapy"],
       });
       return;
     }
 
     if (lower.includes("concern") || lower.includes("help me") || lower.includes("choose") || lower.includes("recommend") || lower.includes("not sure") || lower.includes("what should")) {
-      addBotMessage("I'd love to help you find the perfect treatment! You can tell me your concerns, or try our AI Skin Analysis for a quick selfie-based assessment.\n\nCommon concerns:\n\u2022 Wrinkles or fine lines\n\u2022 Acne scars or skin texture\n\u2022 Volume loss or thin lips\n\u2022 Sun damage or dark spots\n\u2022 Sagging or loose skin\n\u2022 Weight management\n\u2022 Low energy or fatigue", {
-        quickReplies: ["Analyze my skin", "Wrinkles", "Skin texture", "Lip volume", "Sun damage", "Weight loss"],
+      addBotMessage("I'd love to help you find the perfect treatment! You can tell me your concerns, or book a consultation for an individual assessment with our team.\n\nCommon concerns:\n\u2022 Wrinkles or fine lines\n\u2022 Acne scars or skin texture\n\u2022 Volume loss or thin lips\n\u2022 Sun damage or dark spots\n\u2022 Sagging or loose skin\n\u2022 Weight management\n\u2022 Low energy or fatigue", {
+        quickReplies: ["Wrinkles", "Skin texture", "Lip volume", "Sun damage", "Weight loss"],
       });
       return;
     }
@@ -1068,7 +914,6 @@ export function KelliAIChat() {
         quickReplies: [
           "What treatments do you offer?",
           "I have a specific concern",
-          "Analyze my skin",
           "Tell me about pricing",
         ],
       });
@@ -1120,34 +965,8 @@ export function KelliAIChat() {
       return;
     }
 
-    setAnalyzing(true);
-    const userMsg: Message = {
-      id: messageIdCounter++,
-      from: "user",
-      text: "Selfie captured for analysis",
-      selfieImage: imageData,
-    };
-    setMessages(prev => [...prev, userMsg]);
-
-    setTimeout(() => {
-      setAnalyzing(false);
-      const results = generateSkinAnalysis();
-      const resultMsg: Message = {
-        id: messageIdCounter++,
-        from: "bot",
-        text: "Your AI Skin Analysis is ready! Want to see how a treatment would actually look on you? Pick one below 💗",
-        skinResults: results,
-        buttons: [
-          { label: "💋 Preview Lip Filler", icon: "camera", action: "preview-lipfiller" },
-          { label: "✨ Preview Cheek Filler", icon: "camera", action: "preview-cheekfiller" },
-          { label: "💉 Preview Botox", icon: "camera", action: "preview-botox" },
-          { label: "🌟 Preview Laser Glow", icon: "camera", action: "preview-laser" },
-          { label: "Book Consultation", icon: "calendar", action: "book" },
-        ],
-      };
-      setMessages(prev => [...prev, resultMsg]);
-    }, 3500);
-  }, [previewMode]);
+    addBotMessage("Online skin analysis is not available. Please book a consultation for an individual assessment.", { buttons: actionButtons });
+  }, [previewMode, addBotMessage]);
 
   const generatePreview = useCallback(async (imageData: string, treatment: string) => {
     setGeneratingPreview(true);
@@ -1215,8 +1034,7 @@ export function KelliAIChat() {
     if (action === "book") {
       openBookingChooser({ service: "Free Consultation" });
     } else if (action === "skin-analyzer" || action === "start-selfie") {
-      setPreviewMode(null);
-      setShowCamera(true);
+      addBotMessage("Online skin analysis is not available. Please book a consultation for an individual assessment.", { buttons: actionButtons });
     } else if (action === "services") {
       window.location.href = "/services";
     } else if (action === "iv-lounge") {
@@ -1230,7 +1048,7 @@ export function KelliAIChat() {
     } else if (action === "more-previews") {
       processUserMessage("show me another treatment preview");
     }
-  }, [openBookingChooser]);
+  }, [openBookingChooser, addBotMessage, processUserMessage]);
 
   const handleLeadSubmit = useCallback(async (data: LeadData) => {
     setLeadCaptured(true);
@@ -1331,12 +1149,6 @@ export function KelliAIChat() {
                     </div>
                   )}
 
-                  {msg.skinResults && (
-                    <div className="mt-2 ml-1">
-                      <SkinResultsCard results={msg.skinResults} />
-                    </div>
-                  )}
-
                   {msg.buttons && (
                     <div className="mt-2 ml-1">
                       <ActionButtonsRow buttons={msg.buttons} onAction={handleAction} />
@@ -1359,18 +1171,12 @@ export function KelliAIChat() {
                 </motion.div>
               ))}
 
-              {showCamera && !analyzing && !generatingPreview && (
+              {showCamera && !generatingPreview && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                   <SelfieCameraView
                     onCapture={handleSelfieCapture}
                     onCancel={() => setShowCamera(false)}
                   />
-                </motion.div>
-              )}
-
-              {analyzing && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                  <AnalyzingAnimation />
                 </motion.div>
               )}
 
@@ -1382,7 +1188,7 @@ export function KelliAIChat() {
 
               {isTyping && <TypingIndicator />}
 
-              {showLeadCapture && !isTyping && !showCamera && !analyzing && !generatingPreview && (
+              {showLeadCapture && !isTyping && !showCamera && !generatingPreview && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1404,11 +1210,11 @@ export function KelliAIChat() {
                 onKeyDown={(e) => {
                   if (e.key === "Enter") handleSend();
                 }}
-                disabled={isTyping || showCamera || analyzing || generatingPreview}
+                disabled={isTyping || showCamera || generatingPreview}
               />
               <button
                 onClick={handleSend}
-                disabled={isTyping || showCamera || analyzing || generatingPreview}
+                disabled={isTyping || showCamera || generatingPreview}
                 className="w-10 h-10 bg-gradient-to-r from-primary to-accent text-white rounded-xl flex items-center justify-center hover:opacity-90 transition-opacity disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
@@ -1420,6 +1226,8 @@ export function KelliAIChat() {
 
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Close chat" : "Open Balanced assistant chat"}
+        aria-expanded={isOpen}
         className="fixed bottom-6 right-4 sm:right-6 z-50 w-14 h-14 bg-gradient-to-r from-primary to-accent text-white rounded-full shadow-lg shadow-primary/30 flex items-center justify-center hover:shadow-xl transition-all group"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}

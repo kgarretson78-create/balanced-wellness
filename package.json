@@ -9,10 +9,11 @@
     "build:client": "vite build --config vite.config.ts",
     "build:server": "tsc -p tsconfig.server.json",
     "prerender": "node --import tsx scripts/prerender.ts",
-    "build": "npm run build:client && npm run prerender && npm run build:server",
+    "build": "node scripts/prepare-approved-release.mjs && npm run build:server",
     "ensure-build": "node scripts/ensure-build.mjs",
     "start": "npm run ensure-build && node dist-server/index.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build:source": "npm run build:client && npm run prerender && npm run build:server"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",

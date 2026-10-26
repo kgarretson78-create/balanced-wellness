@@ -54,8 +54,6 @@ export default function About() {
               <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-gold-ink mb-4">By the numbers</p>
               <div className="grid grid-cols-2 gap-4 mb-6">
                 {[
-                  { value: "8,000+", label: "Patients Treated" },
-                  { value: "200+", label: "5-Star Reviews" },
                   { value: "5+ yrs", label: "Serving Tri-Cities" },
                   { value: "2", label: "Locations" },
                 ].map((s) => (

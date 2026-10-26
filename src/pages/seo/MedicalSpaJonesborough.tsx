@@ -102,38 +102,6 @@ export const data = {
     { name: "VIP Memberships", path: "/memberships", desc: "Membership benefits at both locations." },
     { name: "Book Consultation", path: "/book", desc: "Schedule at either location." },
   ],
-  trust: {
-    headline: "Trusted by 8,000+ Tri-Cities Patients",
-    intro: "Balanced Wellness Medical Spa has earned 200+ five-star Google reviews and treated more than 8,000 patients across Jonesborough, Johnson City, Kingsport, and the surrounding Tri-Cities region. Patients consistently describe a calm, unhurried visit with results that look like them — only refreshed.",
-    proofCards: [
-      {
-        title: "Natural-looking results",
-        body: "Patients often mention that Botox, lip filler, and laser work at Balanced Wellness look natural — never overdone — because we plan conservatively and refine over follow-up visits.",
-      },
-      {
-        title: "Friendly, judgment-free care",
-        body: "First-time visitors frequently note how welcoming the team is, especially for patients who have never had Botox, weight loss medication, or hormone therapy before.",
-      },
-      {
-        title: "Clear, honest treatment plans",
-        body: "We walk you through realistic options, pricing, and timelines before anything is scheduled — no high-pressure consults, no surprise fees.",
-      },
-      {
-        title: "Medical-grade safety",
-        body: "Every treatment is performed or supervised by licensed medical providers — nurse practitioners and physicians — not unlicensed technicians.",
-      },
-      {
-        title: "Convenient for Washington County",
-        body: "Patients from Johnson City, Erwin, Greeneville, and surrounding Washington County communities choose our Jonesborough location for its closer drive.",
-      },
-      {
-        title: "Two locations, one standard of care",
-        body: "Same providers, same protocols, same pricing — whether you visit Jonesborough or our Kingsport flagship.",
-      },
-    ],
-    googleReviewsUrl: "https://www.google.com/maps/place/Balanced+Wellness+Medical+Spa",
-    ctaText: "Read our Google reviews",
-  },
   locationDetails: {
     headline: "Visiting Our Jonesborough Medical Spa",
     paragraphs: [

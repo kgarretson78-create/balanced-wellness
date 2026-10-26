@@ -256,10 +256,8 @@ export function LocalSEOPage(props: LocalSEOPageProps) {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { label: "5-Star Reviews", value: "200+" },
                 { label: "Years of Excellence", value: "5+" },
                 { label: "Treatments Offered", value: "30+" },
-                { label: "Happy Patients", value: "1,000+" },
               ].map((stat, i) => (
                 <div key={i} className="bg-secondary rounded-xl p-6 border border-border text-center">
                   <p className="text-3xl font-serif font-bold text-primary">{stat.value}</p>

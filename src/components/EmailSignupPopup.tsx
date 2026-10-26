@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Mail, Phone, Sparkles, Check } from "lucide-react";
 
 const API_BASE = "/api";
-const POPUP_DELAY_MS = 8000;
 const DISMISS_KEY = "bw_popup_dismissed";
 const SUBSCRIBED_KEY = "bw_subscribed";
 
@@ -18,12 +17,10 @@ export function EmailSignupPopup() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    const dismissed = localStorage.getItem(DISMISS_KEY);
-    const subscribed = localStorage.getItem(SUBSCRIBED_KEY);
-    if (dismissed || subscribed) return;
-
-    const timer = setTimeout(() => setIsOpen(true), POPUP_DELAY_MS);
-    return () => clearTimeout(timer);
+    // Open only when the visitor asks; never interrupt browsing on a timer.
+    const show = () => setIsOpen(true);
+    window.addEventListener("balanced:open-offers", show);
+    return () => window.removeEventListener("balanced:open-offers", show);
   }, []);
 
   const handleClose = () => {
@@ -78,6 +75,7 @@ export function EmailSignupPopup() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          role="dialog" aria-modal="true" aria-label="Offers and updates"
         >
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={handleClose} />
 
@@ -91,6 +89,7 @@ export function EmailSignupPopup() {
             <div className="luxury-gradient-night p-6 text-center">
               <button
                 onClick={handleClose}
+                aria-label="Close offers and updates"
                 className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors"
               >
                 <X className="w-5 h-5" />

@@ -38,7 +38,6 @@ const data = {
     "Two convenient locations — Kingsport and Jonesborough",
     "VIP membership program with exclusive monthly savings",
     "Complimentary consultations with zero pressure or commitment",
-    "8,000+ patients treated with consistently outstanding results",
   ],
   nearbyAreas: [
     "Johnson City TN", "Bristol TN", "Jonesborough TN", "Greeneville TN",

@@ -1,208 +1,54 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, ChevronDown, ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { FlexiblePaymentsBand } from "@/components/FlexiblePaymentsBand";
+import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
 
+const serviceLinks = [
+  { name: "All treatments", path: "/services" },
+  { name: "Injectables & fillers", path: "/injectables" },
+  { name: "Laser & skin", path: "/laser-treatments" },
+  { name: "Weight management", path: "/weight-loss" },
+  { name: "Wellness & IV therapy", path: "/wellness" },
+  { name: "Hormone consultations", path: "/hormone-optimization" },
+  { name: "Online care", path: "/online-care" },
+  { name: "Memberships", path: "/memberships" },
+  { name: "Payment options", path: "/flexible-payments" },
+  { name: "Shop Obagi", path: "/shop-obagi" },
+];
 export function Navbar() {
   const [location] = useLocation();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const { open: openBookingChooser } = useBookingChooser();
-
+  const { open } = useBookingChooser();
+  useEffect(() => { setMobileOpen(false); setServicesOpen(false); }, [location]);
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") { setMobileOpen(false); setServicesOpen(false); } };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
   }, []);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-    setServicesOpen(false);
-    setMobileServicesOpen(false);
-  }, [location]);
-
-  const serviceLinks = [
-    { name: "All Services", path: "/services" },
-    { name: "Injectables & Fillers", path: "/injectables" },
-    { name: "Laser & Skin Treatments", path: "/laser-treatments" },
-    { name: "Weight Loss & Metabolic", path: "/weight-loss" },
-    { name: "Wellness & Longevity", path: "/wellness" },
-    { name: "IV Hydration Lounge", path: "/iv-lounge-kingsport-tn" },
-    { name: "Hormone Optimization", path: "/hormone-optimization" },
-    { name: "Telehealth & Virtual Care", path: "/telehealth" },
-    { name: "Memberships", path: "/memberships" },
-    { name: "Flexible Payments", path: "/flexible-payments" },
-    { name: "Before & After Gallery", path: "/gallery" },
-    { name: "AI Skin Analyzer", path: "/skin-analyzer" },
-  ];
-
-  const isServicePage = ["/services", "/injectables", "/laser-treatments", "/weight-loss", "/wellness", "/iv-lounge-kingsport-tn", "/hormone-optimization", "/telehealth", "/memberships", "/gallery", "/skin-analyzer", "/flexible-payments"].includes(location);
-
-  const navLinkClass = (path: string, isActive?: boolean) =>
-    `text-[13px] font-medium tracking-wide transition-colors duration-300 ${
-      (isActive || location === path) ? 'text-blush-ink' : 'text-foreground/65 hover:text-foreground'
-    }`;
-
+  const book = () => { setMobileOpen(false); setServicesOpen(false); open(); };
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-[#fbf8f1]/95 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]"
-          : "bg-[#fbf8f1]/88 backdrop-blur-md"
-      }`}
-    >
-      <FlexiblePaymentsBand />
-      <div className={`hidden lg:flex justify-end items-center px-8 text-[11px] border-b border-border/30 bg-background/40 transition-all duration-500 ${isScrolled ? "h-0 py-0 overflow-hidden opacity-0" : "py-1.5 opacity-100"}`}>
-        <a href="tel:423-765-1393" className="flex items-center text-foreground/50 hover:text-primary transition-colors mr-6">
-          <Phone className="w-3 h-3 mr-1.5" /> Kingsport: (423) 765-1393
-        </a>
-        <a href="tel:423-646-2169" className="flex items-center text-foreground/50 hover:text-primary transition-colors">
-          <Phone className="w-3 h-3 mr-1.5" /> Jonesborough: (423) 646-2169
-        </a>
+    <header className="bw-site-header">
+      <div className="bw-header-note"><span>Medical aesthetics &amp; wellness</span><Link href="/contact">Kingsport &amp; Jonesborough, TN <ArrowUpRight size={11} aria-hidden="true" /></Link></div>
+      <div className="bw-header-inner">
+        <Link href="/" className="bw-header-logo" aria-label="Balanced Wellness Medical Spa home"><span className="bw-header-wordmark">Balanced<span>Wellness Medical Spa</span></span></Link>
+        <nav className="bw-desktop-nav" aria-label="Main navigation">
+          <div className="bw-nav-dropdown" onMouseLeave={() => setServicesOpen(false)}>
+            <button type="button" onClick={() => setServicesOpen(!servicesOpen)} aria-expanded={servicesOpen} aria-controls="bw-services-menu">Treatments <ChevronDown size={12} aria-hidden="true" /></button>
+            {servicesOpen && <div id="bw-services-menu" className="bw-nav-menu">{serviceLinks.map(link => <Link key={link.path} href={link.path} onClick={() => setServicesOpen(false)}>{link.name}</Link>)}</div>}
+          </div>
+          <Link href="/about">Our approach</Link>
+          <a href="/#locations">Locations</a>
+          <Link href="/gallery">Gallery</Link>
+          <Link href="/contact">Contact</Link>
+        </nav>
+        <div className="bw-header-actions"><button type="button" onClick={book} className="bw-header-book">Book a visit <ArrowUpRight size={15} aria-hidden="true" /></button><button type="button" className="bw-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-expanded={mobileOpen} aria-controls="bw-mobile-menu" aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}>{mobileOpen ? <X size={22} /> : <Menu size={22} />}</button></div>
       </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-[80px] lg:h-[68px]">
-          <Link href="/" className="brand-logo-link flex-shrink-0 flex items-center group" aria-label="Balanced Wellness Medical Spa — Kingsport & Jonesborough TN">
-              <span className="brand-logo-embed" aria-hidden="true">
-                <img
-                  src="/images/logo.png"
-                  alt=""
-                  className="brand-logo-image transition-all duration-500 group-hover:opacity-80"
-                />
-              </span>
-            </Link>
-
-          <nav className="hidden lg:flex items-center space-x-7">
-            <Link href="/" className={navLinkClass("/")}>Home</Link>
-
-            <div
-              className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-            >
-              <button
-                className={`flex items-center ${navLinkClass("/services", isServicePage)}`}
-                aria-expanded={servicesOpen}
-                aria-haspopup="menu"
-                aria-controls="services-menu"
-              >
-                Services <ChevronDown className={`ml-1 w-3 h-3 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {servicesOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                    transition={{ duration: 0.15 }}
-                    id="services-menu"
-                    role="menu"
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56 rounded-xl bg-[#fbf8f1]/98 backdrop-blur-xl shadow-xl shadow-black/[0.06] border border-border/50 py-1.5"
-                  >
-                    {serviceLinks.map((link) => (
-                      <Link
-                        key={link.path}
-                        href={link.path}
-                        className={`block px-4 py-2 text-[13px] transition-all duration-200 ${location === link.path ? 'text-primary bg-primary/[0.04]' : 'text-foreground/60 hover:bg-background hover:text-foreground'}`}
-                      >
-                        {link.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            <Link href="/memberships" className={navLinkClass("/memberships")}>Memberships</Link>
-            <Link href="/gallery" className={navLinkClass("/gallery")}>Gallery</Link>
-            <Link href="/shop-obagi" className={navLinkClass("/shop-obagi")}>Shop Obagi</Link>
-            <Link href="/about" className={navLinkClass("/about")}>About</Link>
-            <Link href="/contact" className={navLinkClass("/contact")}>Contact</Link>
-            <Link href="/sms-consent" className={navLinkClass("/sms-consent")}>Text Us</Link>
-
-            <button
-              type="button"
-              onClick={() => openBookingChooser()}
-              className="group flex items-center px-5 py-2 bg-primary text-white text-[12px] font-semibold uppercase tracking-[0.12em] rounded-lg shadow-sm shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-[1px] transition-all duration-300"
-            >
-              Book Now
-              <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-          </nav>
-
-          <button
-            className="lg:hidden p-2 text-foreground/70"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#fbf8f1]/98 backdrop-blur-xl border-t border-border/30 overflow-hidden"
-          >
-            <div className="px-4 pt-2 pb-6 space-y-0.5 max-h-[80vh] overflow-y-auto">
-              <Link href="/" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Home</Link>
-
-              <button
-                onClick={() => setMobileServicesOpen(!mobileServicesOpen)}
-                aria-expanded={mobileServicesOpen}
-                aria-controls="mobile-services-menu"
-                className="w-full flex items-center justify-between px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background rounded-lg transition-colors"
-              >
-                Services <ChevronDown className={`w-4 h-4 transition-transform ${mobileServicesOpen ? 'rotate-180' : ''}`} />
-              </button>
-              {mobileServicesOpen && (
-                <div id="mobile-services-menu" className="pl-3">
-                  {serviceLinks.map(link => (
-                    <Link key={link.path} href={link.path} className="block px-4 py-2 text-sm text-foreground/50 hover:bg-background hover:text-primary rounded-lg transition-colors">
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-
-              <Link href="/memberships" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Memberships</Link>
-              <Link href="/gallery" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Gallery</Link>
-              <Link href="/shop-obagi" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Shop Obagi</Link>
-              <Link href="/about" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">About</Link>
-              <Link href="/contact" className="block px-3 py-3 text-sm font-medium text-foreground/70 hover:bg-background hover:text-primary rounded-lg transition-colors">Contact</Link>
-
-              <div className="mt-4 pt-4 border-t border-border/30 space-y-3">
-                <a href="tel:423-765-1393" className="flex items-center px-3 text-sm text-foreground/50">
-                  <Phone className="w-4 h-4 mr-3 text-primary" /> Kingsport: (423) 765-1393
-                </a>
-                <a href="tel:423-646-2169" className="flex items-center px-3 text-sm text-foreground/50">
-                  <Phone className="w-4 h-4 mr-3 text-primary" /> Jonesborough: (423) 646-2169
-                </a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    openBookingChooser();
-                  }}
-                  className="block w-full text-center mt-4 px-6 py-3 bg-primary text-white text-sm font-semibold uppercase tracking-[0.08em] rounded-lg shadow-md shadow-primary/20"
-                >
-                  Book Appointment
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {mobileOpen && <nav id="bw-mobile-menu" className="bw-mobile-nav" aria-label="Mobile navigation">
+        <Link href="/about">Our approach</Link><a href="/#locations" onClick={() => setMobileOpen(false)}>Our locations</a><Link href="/gallery">Gallery</Link><Link href="/contact">Contact</Link>
+        <p>Treatments &amp; more</p>{serviceLinks.map(link => <Link key={link.path} href={link.path}>{link.name}</Link>)}
+        <a href="tel:4237651393">Call Kingsport · (423) 765-1393</a><a href="tel:4236462169">Call Jonesborough · (423) 646-2169</a><Link href="/sms-consent">Text us</Link>
+      </nav>}
     </header>
   );
 }

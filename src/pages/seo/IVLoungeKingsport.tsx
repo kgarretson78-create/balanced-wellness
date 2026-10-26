@@ -298,7 +298,7 @@ export const data = {
     },
     {
       q: "What are your IV Lounge hours in Kingsport and Jonesborough?",
-      a: "Our Kingsport location at 1309 S John B Dennis Hwy, Suite 104 is open Monday through Thursday 10 AM–7 PM and Friday 9 AM–5 PM, with Saturdays by appointment. Our Jonesborough location at 120 South Cherokee St is open Monday through Friday 10 AM–6 PM, with Saturdays by appointment. Call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169 to confirm same-day availability.",
+      a: "Our Kingsport location at 1309 S John B Dennis Hwy, Suite 104 is open Monday through Thursday 10 AM–7 PM and Friday 9 AM–5 PM, with Saturdays by appointment. Our Jonesborough location at 120 South Cherokee St is open Monday through Thursday 10 AM–6 PM and Friday 9 AM–1 PM. Call Kingsport at (423) 765-1393 or Jonesborough at (423) 646-2169 to confirm same-day availability.",
     },
     {
       q: "Do you offer NAD+ therapy, B12, or vitamin injections in addition to IV drips?",

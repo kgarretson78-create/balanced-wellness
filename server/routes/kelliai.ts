@@ -115,7 +115,7 @@ ABOUT BALANCED WELLNESS:
 - Kingsport: 1309 S John B Dennis Hwy, Suite 104, Kingsport, TN 37660 · (423) 765-1393
 - Jonesborough: 120 South Cherokee St, Jonesborough, TN 37659 · (423) 646-2169
 - Booking: visitors should use the on-site "Book" buttons (which open a Kingsport vs Jonesborough chooser) or call the location directly. Never paste a raw scheduling URL — direct them to the in-page button or to call/text the location they prefer.
-- Founders/Team: Kelli Griffey (Founder & CEO), Shelly Ketron (PA-C, Lead Injector), Sophia Arias (COO)
+- Team: Shelly Ketron, PA-C (medical provider and lead injector); Kelli Garretson Griffey, MBA (COO); Sophia Arias (CFO). Kelli and Sophia support operations and do not provide clinical care.
 
 TREATMENTS WE OFFER:
 - Botox, Dysport, Daxxify (neurotoxins for wrinkles)

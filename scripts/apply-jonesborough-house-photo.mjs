@@ -11,11 +11,11 @@ function replaceOnce(old, next) {
   if (js.split(old).length !== 2) throw new Error(`Expected one match: ${old.slice(0,100)}`);
   js = js.replace(old, next);
 }
-replaceOnce('id:"jonesborough",label:"The Jonesborough house",image:"/images/locations/jonesborough-interior.webp"', 'id:"jonesborough",label:"The Jonesborough house",image:"/images/locations/jonesborough-house-20261026.jpg"');
+replaceOnce('id:"jonesborough",label:"The Jonesborough house",image:"/images/locations/jonesborough-interior.webp"', 'id:"jonesborough",label:"The Jonesborough house",image:"/images/locations/jonesborough-house-owner-photo-20261026.jpg"');
 replaceOnce('alt:`Inside Balanced Wellness Medical Spa in ${o.city}`', 'alt:s.id==="jonesborough"?"Exterior of Balanced Wellness Medical Spa in Jonesborough":`Inside Balanced Wellness Medical Spa in ${o.city}`');
 writeFileSync(join(root, 'assets', newAsset), js);
 unlinkSync(join(root, 'assets', oldAsset));
-copyFileSync('public/images/locations/jonesborough-house-20261026.jpg', join(root, 'images/locations/jonesborough-house-20261026.jpg'));
+writeFileSync(join(root, 'images/locations/jonesborough-house-owner-photo-20261026.jpg'), Buffer.from(readFileSync('public/images/locations/jonesborough-house-owner-photo.jpg.base64', 'utf8'), 'base64'));
 function htmlFiles(dir) {
   return readdirSync(dir,{withFileTypes:true}).flatMap(entry => {
     const p=join(dir,entry.name);

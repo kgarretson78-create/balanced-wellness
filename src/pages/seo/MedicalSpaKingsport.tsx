@@ -1,4 +1,5 @@
 import { LocalSEOPage } from "@/components/LocalSEOPage";
+import paymentOptions from "@/lib/payment-options.json";
 
 export const data = {
   seo: {
@@ -77,7 +78,7 @@ export const data = {
     },
     {
       q: "Do you offer payment plans?",
-      a: "Yes. We offer CareCredit and Ally financing options to make your treatments more accessible. Our membership plans also provide significant savings on ongoing treatments.",
+      a: paymentOptions.availability,
     },
     {
       q: "What medical spa treatments are available in Kingsport TN?",

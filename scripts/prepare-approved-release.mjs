@@ -10,3 +10,6 @@ for (const [file, expected] of Object.entries(manifest.files)) {
 rmSync("dist", { recursive: true, force: true });
 cpSync(`${release}/client`, "dist", { recursive: true });
 console.log(`Prepared ${Object.keys(manifest.files).length} verified approved client files`);
+// Guarded, owner-confirmed content corrections; retain the approved visual artifact.
+const { applySiteCorrections } = await import("./apply-site-corrections.mjs");
+applySiteCorrections("dist");

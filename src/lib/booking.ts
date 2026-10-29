@@ -52,7 +52,7 @@ const KINGSPORT_HOURS: LocationHours = {
   display: [
     { days: "Monday - Thursday", time: "10:00 AM - 7:00 PM" },
     { days: "Friday", time: "9:00 AM - 5:00 PM" },
-    { days: "Saturday", time: "By Appointment Only" },
+    { days: "Saturday", time: "Closed" },
     { days: "Sunday", time: "Closed" },
   ],
   schema: [

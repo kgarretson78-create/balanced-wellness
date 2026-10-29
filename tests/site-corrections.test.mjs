@@ -120,3 +120,21 @@ test('immutable approved release still passes every recorded SHA-256', () => {
   const manifest = JSON.parse(readFileSync('releases/2026-10-26-approved/manifest.json', 'utf8'));
   for (const [path, expected] of Object.entries(manifest.files)) assert.equal(hash(readFileSync(join(release, path))), expected, path);
 });
+
+test('actual shared SEO effect removes only stale anonymous homepage FAQ after navigation', (t) => {
+  const root = fixture(t); applySiteCorrections(root);
+  const js = readFileSync(join(root, 'assets/index-B-dTmdU7.js'), 'utf8');
+  const start = js.indexOf('function Je('), end = js.indexOf('const u4=', start);
+  const fn = js.slice(start, end);
+  const home = 'https://www.balancedmedicalspa.com/';
+  const makeNode = (data, id = '') => ({id, textContent: typeof data === 'string' ? data : JSON.stringify(data), removed:false, remove() {this.removed=true;}});
+  const nodes = [makeNode({'@type':'FAQPage',url:home}), makeNode({'@type':'FAQPage',url:home},'route-schema'), makeNode({'@type':'FAQPage',url:home+'services'}), makeNode({'@type':'MedicalBusiness',url:home}), makeNode('{invalid')];
+  const document = {title:'', querySelectorAll: (selector) => {assert.equal(selector, 'script[type="application/ld+json"]:not([id])'); return nodes.filter(x=>!x.id&&!x.removed);} };
+  const context = {document, l4:'', F0:home.slice(0,-1), Pt:()=>{}, d4:()=>{}, v:{useEffect:(fn)=>fn()}};
+  runInNewContext(fn+'; Je({title:"Home",description:"Home",canonicalPath:"/"});',context);
+  assert.ok(nodes.every(x=>!x.removed));
+  runInNewContext('Je({title:"Payments",description:"Payments",canonicalPath:"/flexible-payments"});',context);
+  assert.deepEqual(nodes.map(x=>x.removed),[true,false,false,false,false]);
+  runInNewContext('Je({title:"Home",description:"Home",canonicalPath:"/"}); Je({title:"Payments",description:"Payments",canonicalPath:"/flexible-payments"});',context);
+  assert.deepEqual(nodes.map(x=>x.removed),[true,false,false,false,false]);
+});

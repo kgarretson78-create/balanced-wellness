@@ -71,6 +71,19 @@ export function SEO({
     setLinkHref("canonical", canonicalUrl);
     setMetaContent('meta[property="og:url"]', canonicalUrl, { property: "og:url" });
 
+    // The approved snapshot can include an anonymous homepage FAQ. Do not let
+    // that page-specific data follow visitors to a different client-side route.
+    if (canonicalUrl !== `${CANONICAL_ORIGIN}/`) {
+      document.querySelectorAll('script[type="application/ld+json"]:not([id])').forEach((script) => {
+        try {
+          const data = JSON.parse(script.textContent || "null");
+          if (data?.["@type"] === "FAQPage" && data.url === `${CANONICAL_ORIGIN}/`) script.remove();
+        } catch {
+          // Leave unrelated or malformed third-party markup untouched.
+        }
+      });
+    }
+
     return () => {
       document.title = "Balanced Wellness Medical Spa | Med Spa Kingsport TN & Jonesborough TN";
     };

@@ -11,16 +11,18 @@ The corrections:
 - Harmonize payment-page cards/copy, two Kingsport FAQs and JSON-LD.
 - Give the shared organization schema a stable ID so the client updates it, rather than appending a duplicate. Keep that global node during navigation to routes without a schema component.
 - Correct the existing organization founder object's job title to COO; do not add or alter ownership claims.
-- Set server-delivered title, description, canonical and social metadata on About, Contact, booking aliases, payment options and Gallery, matching existing client metadata. Booking aliases retain `/book-now` as canonical. Remove copied homepage FAQ schema from these routes. Broader static body/source reconciliation remains separate.
+- Set server-delivered title, description, canonical and social metadata on About, Contact, booking aliases, payment options and Gallery, matching existing client metadata. Booking aliases retain `/book-now` as canonical. Remove copied homepage FAQ schema from these routes and remove only that anonymous homepage FAQ after client-side navigation away from Home. Broader static body/source reconciliation remains separate.
 - Give the corrected JS URL a content-derived query cache key, because Express serves assets with an immutable one-year cache. This preserves filename markers required by later guarded patches.
 
-No changes to pricing, services, phone numbers, booking URLs, imagery, styles, analytics accounts or form submissions. No merge or deployment is included.
+No changes to pricing, services, phone numbers, booking URLs, imagery, styles, analytics accounts or form submissions. Publication is handled separately from these code changes.
 
 ## Compatibility and checks
 
-- `node --test tests/site-corrections.test.mjs`: eight tests cover copy/schema, compiled schema lifecycle, metadata, cache key, immutable release checksums, unchanged links/styles/images and fail-closed guards.
+- `node --test tests/site-corrections.test.mjs`: nine tests cover copy/schema, compiled schema lifecycle, stale homepage FAQ cleanup on client navigation, metadata, cache key, immutable release checksums, unchanged links/styles/images and fail-closed guards.
 - `npm run build`: approved snapshot preparation and Express server TypeScript build.
 - `node --check dist/assets/index-jonesborough-hours-20261026.js`: final client syntax.
 - PR #44's `refine-approved-client.mjs` can run after the same build; it is not changed or merged by this work.
 - Full `npm run typecheck` remains blocked by 11 diagnostics already present at base `c043610`: duplicate `useState` imports in Gallery and pre-existing SEO expectation-card type errors. Baseline and modified diagnostics were compared and are identical. An expanded check including the prerender script also exposes its pre-existing Router children typing error.
-- Browser layout, real booking completion, contact delivery and analytics receipt are not established by these checks. Keep the pull request draft pending visual QA and publication approval.
+- Browser QA of the exact built snapshot passed for desktop and a 390px iframe viewport (375px content width): financing copy/cards, unchanged home layout, booking selector open/close/reopen, About navigation and Back, one organization node and no stale homepage FAQ after Home → payments. No horizontal overflow observed on the payment page.
+- Real booking completion, contact delivery and analytics receipt are not established by these checks. The owner separately authorized publication after readiness checks on October 29.
+- After client navigation away from Home, the copied homepage FAQ is removed rather than restored on Back; a full home reload retains its FAQ schema. This avoids inaccurate cross-route markup. No visible content is removed.

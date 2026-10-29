@@ -55,6 +55,9 @@ export function applySiteCorrections(root = 'dist') {
   // Organization data is shared across all routes. Do not remove the reused static
   // node when navigating to a page that does not mount LocalBusinessSchema.
   js = replaceExactly(js, 'return()=>{const s=document.getElementById("local-business-schema");s&&s.remove()}', '');
+  // The shared SEO effect also runs on Home -> payments/client-side navigation.
+  // Remove only the anonymous homepage FAQ; preserve organization and route FAQs.
+  js = replaceExactly(js, 'return d4("canonical",m),Pt(\'meta[property="og:url"]\',m,{property:"og:url"}),', 'if(m!==F0+"/")for(const f of document.querySelectorAll(\'script[type="application/ld+json"]:not([id])\'))try{const a=JSON.parse(f.textContent||"null");a&&a["@type"]==="FAQPage"&&a.url===F0+"/"&&f.remove()}catch{}return d4("canonical",m),Pt(\'meta[property="og:url"]\',m,{property:"og:url"}),');
   const cacheKey = createHash('sha256').update(js).digest('hex').slice(0, 16);
 
   const routes = {

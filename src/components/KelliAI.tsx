@@ -846,7 +846,7 @@ export function KelliAIChat() {
     }
 
     if (lower.includes("hour") || lower.includes("open") || lower.includes("schedule")) {
-      addBotMessage("Here are our hours:\n\nKingsport: Monday–Thursday 10 AM–7 PM, Friday 9 AM–5 PM (Saturday by appointment) — (423) 765-1393\nJonesborough: Monday–Thursday 10 AM–6 PM, Friday 9 AM–1 PM — (423) 646-2169\n\nFor the most up-to-date availability, I recommend booking online or calling your preferred location.", {
+      addBotMessage("Here are our hours:\n\nKingsport: Monday–Thursday 10 AM–7 PM, Friday 9 AM–5 PM (closed Saturday and Sunday) — (423) 765-1393\nJonesborough: Monday–Thursday 10 AM–6 PM, Friday 9 AM–1 PM — (423) 646-2169\n\nFor the most up-to-date availability, I recommend booking online or calling your preferred location.", {
         buttons: [{ label: "Book Appointment", icon: "calendar", action: "book" }],
       });
       return;

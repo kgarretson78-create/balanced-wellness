@@ -58,6 +58,11 @@ export function applySiteCorrections(root = 'dist') {
   // The shared SEO effect also runs on Home -> payments/client-side navigation.
   // Remove only the anonymous homepage FAQ; preserve organization and route FAQs.
   js = replaceExactly(js, 'return d4("canonical",m),Pt(\'meta[property="og:url"]\',m,{property:"og:url"}),', 'if(m!==F0+"/")for(const f of document.querySelectorAll(\'script[type="application/ld+json"]:not([id])\'))try{const a=JSON.parse(f.textContent||"null");a&&a["@type"]==="FAQPage"&&a.url===F0+"/"&&f.remove()}catch{}return d4("canonical",m),Pt(\'meta[property="og:url"]\',m,{property:"og:url"}),');
+  // Podium business hours, confirmed by the owner on 2026-10-29: both
+  // locations are closed on weekends. Preserve every weekday/Friday hour.
+  js = replaceExactly(js, '{days:"Saturday",time:"By Appointment Only"}', '{days:"Saturday",time:"Closed"}');
+  js = replaceExactly(js, '(Saturday by appointment)', '(closed Saturday and Sunday)');
+  js = replaceExactly(js, 'with Saturdays by appointment', 'and is closed on Saturdays and Sundays');
   const cacheKey = createHash('sha256').update(js).digest('hex').slice(0, 16);
 
   const routes = {
@@ -77,6 +82,15 @@ export function applySiteCorrections(root = 'dist') {
     html = replaceExactly(html, 'src="/assets/index-B-dTmdU7.js"', `src="/assets/index-B-dTmdU7.js?v=${cacheKey}"`);
     html = html.replaceAll(oldFaq, payment.availability).replaceAll(oldInsurance, insurance);
     const route = '/' + relative(root, path).replaceAll('\\', '/').replace(/\/index\.html$/, '').replace(/^index\.html$/, '');
+    // These existing static footers/IV FAQ copies are also served before JS.
+    // Guard their exact counts so a changed snapshot cannot be partly patched.
+    const saturdayCopies = {
+      '/privacy-policy': [1, 0],
+      '/terms-and-conditions': [1, 0],
+      '/iv-lounge-kingsport-tn': [1, 2],
+    }[route] || [0, 0];
+    html = replaceExactly(html, 'Saturday: By Appointment Only', 'Saturday: Closed', saturdayCopies[0]);
+    html = replaceExactly(html, 'with Saturdays by appointment', 'and is closed on Saturdays and Sundays', saturdayCopies[1]);
     let businessCount = 0;
     html = html.replace(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g, (script, body) => {
       const schema = JSON.parse(body);

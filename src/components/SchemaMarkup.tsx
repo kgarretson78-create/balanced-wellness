@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import paymentOptions from "@/lib/payment-options.json";
 import { LOCATIONS, type OpeningHoursSpec } from "@/lib/booking";
 
 const toSchemaHours = (specs: OpeningHoursSpec[]) =>
@@ -21,7 +22,7 @@ export function LocalBusinessSchema() {
       logo: "https://www.balancedmedicalspa.com/images/logo.png",
       priceRange: "$$",
       currenciesAccepted: "USD",
-      paymentAccepted: "Cash, Credit Card, Debit Card, CareCredit, Cherry Financing",
+      paymentAccepted: paymentOptions.paymentAccepted,
       knowsAbout: [
         "Medical aesthetics in Kingsport and Jonesborough",
         "Tri-Cities medical spa treatments",
@@ -57,7 +58,7 @@ export function LocalBusinessSchema() {
       founder: {
         "@type": "Person",
         name: "Kelli Griffey",
-        jobTitle: "Founder & CEO",
+        jobTitle: "COO",
       },
       department: [
         {
@@ -133,10 +134,8 @@ export function LocalBusinessSchema() {
       script.textContent = JSON.stringify(schema);
       document.head.appendChild(script);
     }
-    return () => {
-      const el = document.getElementById("local-business-schema");
-      if (el) el.remove();
-    };
+    // Shared organization data remains valid on every route. Keep the reused
+    // prerendered node when navigating to a page without this component.
   }, []);
 
   return null;

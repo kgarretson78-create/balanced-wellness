@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import paymentOptions from "@/lib/payment-options.json";
 import { Link } from "wouter";
 import { Wallet, Layers, CalendarRange, ShieldCheck, ArrowRight } from "lucide-react";
 import { useBookingChooser } from "@/components/booking/LocationChooser";
@@ -83,11 +84,7 @@ export function FlexiblePaymentsSection() {
             <span className="opacity-60">·</span>
             <span>Podium Payments</span>
             <span className="opacity-60">·</span>
-            <span>Affirm</span>
-            <span className="opacity-60">·</span>
-            <span>Klarna</span>
-            <span className="opacity-60">·</span>
-            <span>Afterpay</span>
+            <span>{paymentOptions.providers.join(" · ")} — both locations</span>
             <span className="opacity-60">·</span>
             <span>Credit / Debit Card</span>
           </div>

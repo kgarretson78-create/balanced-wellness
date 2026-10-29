@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import paymentOptions from "@/lib/payment-options.json";
 import { Link } from "wouter";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { SEO } from "@/components/SEO";
@@ -18,9 +19,7 @@ const providers = [
     name: "Podium Payments",
     desc: "Secure checkout link through our patient portal.",
   },
-  { name: "Affirm", desc: "Monthly payment plans with quick eligibility check." },
-  { name: "Klarna", desc: "Pay in 4 interest-free installments on eligible treatments." },
-  { name: "Afterpay", desc: "Split your purchase into smaller payments over time." },
+  ...paymentOptions.providers.map((name) => ({ name, desc: paymentOptions.providerDescription })),
   { name: "Credit / Debit Card", desc: "Visa, Mastercard, Discover, American Express." },
 ];
 
@@ -72,7 +71,7 @@ export default function FlexiblePayments() {
     <PageLayout>
       <SEO
         title="Flexible Payment Options | Balanced Wellness Medical Spa"
-        description="Pay in full or split into monthly payments. Balanced Wellness Medical Spa accepts Podium Payments, Affirm, Klarna, Afterpay, and credit/debit cards for treatments in Kingsport & Jonesborough TN."
+        description={paymentOptions.description}
         keywords="flexible payments med spa, monthly payment Botox, Affirm med spa, Klarna med spa, Afterpay med spa, weight loss financing Kingsport TN"
       />
 
@@ -104,10 +103,7 @@ export default function FlexiblePayments() {
       <section className="py-16 sm:py-20 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-foreground/70 text-base sm:text-lg leading-relaxed">
-            At Balanced Wellness Medical Spa, we believe confidence should feel accessible. Patients
-            may choose to pay in full or explore flexible payment options through available providers
-            including <strong>Podium Payments</strong>, <strong>Affirm</strong>,{" "}
-            <strong>Klarna</strong>, <strong>Afterpay</strong>, and card checkout.
+            {paymentOptions.availability} Card checkout and Podium Payments are also available.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <button

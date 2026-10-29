@@ -91,6 +91,8 @@ const WEEKDAY_HOURS = LOCATIONS.kingsport.hours.schema.map((s) => ({
   ...s,
 }));
 
+const paymentOptions = JSON.parse(await fs.readFile("src/lib/payment-options.json", "utf8"));
+
 const LOCAL_BUSINESS_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "MedicalBusiness",
@@ -104,7 +106,7 @@ const LOCAL_BUSINESS_SCHEMA = {
   logo: `${ORIGIN}/images/logo.png`,
   priceRange: "$$",
   currenciesAccepted: "USD",
-  paymentAccepted: "Cash, Credit Card, Debit Card, CareCredit, Cherry Financing",
+  paymentAccepted: paymentOptions.paymentAccepted,
   medicalSpecialty: [
     "Botox",
     "Dermal Fillers",
@@ -260,7 +262,10 @@ function applyHeadToTemplate(template: string, h: HeadInputs): string {
   // characters in the JSON payload (e.g. "$$" price range) aren't treated as
   // back-reference syntax by String.prototype.replace.
   const ldScripts = h.jsonLd
-    .map((obj) => `    <script type="application/ld+json">${jsonLdSafe(obj)}</script>`)
+    .map((obj) => {
+      const id = (obj as { "@type"?: string })["@type"] === "MedicalBusiness" ? ' id="local-business-schema"' : "";
+      return `    <script${id} type="application/ld+json">${jsonLdSafe(obj)}</script>`;
+    })
     .join("\n");
   html = html.replace("</head>", () => `${ldScripts}\n  </head>`);
 

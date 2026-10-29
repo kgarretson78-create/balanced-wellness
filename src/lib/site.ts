@@ -182,7 +182,7 @@ export const TRUST_SIGNALS: TrustSignal[] = [
   { label: "Licensed Providers", detail: "Care led by PA-C and FNP clinicians", icon: Stethoscope },
   { label: "Medical Oversight", detail: "Physician-supervised protocols", icon: Syringe },
   { label: "Two Tennessee Locations", detail: "Kingsport & Jonesborough", icon: Sparkles },
-  { label: "Flexible Financing", detail: "CareCredit & Cherry available", icon: Scale },
+  { label: "Flexible Financing", detail: "CareCredit, Cherry, Ally, Affirm, Klarna & Afterpay at both locations", icon: Scale },
 ];
 
 /** Headline stats reused across hero and trust sections. */

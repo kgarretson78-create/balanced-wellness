@@ -1,4 +1,5 @@
 import { LocalSEOPage } from "@/components/LocalSEOPage";
+import paymentOptions from "@/lib/payment-options.json";
 
 const data = {
   seo: {
@@ -84,7 +85,7 @@ const data = {
     },
     {
       q: "Do you accept insurance at your Kingsport med spa?",
-      a: "Most aesthetic treatments are not covered by insurance. However, we offer competitive pricing, CareCredit and Ally financing, and VIP membership plans that provide significant savings on ongoing treatments.",
+      a: "Most aesthetic treatments are not covered by insurance. " + paymentOptions.availability,
     },
   ],
   relatedLinks: [

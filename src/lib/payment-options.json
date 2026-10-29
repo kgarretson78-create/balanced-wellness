@@ -1,0 +1,15 @@
+{
+  "confirmedOn": "2026-10-29",
+  "providers": [
+    "CareCredit",
+    "Cherry",
+    "Ally",
+    "Affirm",
+    "Klarna",
+    "Afterpay"
+  ],
+  "availability": "CareCredit, Cherry, Ally, Affirm, Klarna and Afterpay are available at both our Kingsport and Jonesborough locations. Eligibility, available plans and terms vary by provider.",
+  "description": "CareCredit, Cherry, Ally, Affirm, Klarna and Afterpay are available at both Balanced Wellness locations. Eligibility and terms vary by provider.",
+  "paymentAccepted": "Cash, Credit Card, Debit Card, CareCredit, Cherry, Ally, Affirm, Klarna, Afterpay, Podium Payments",
+  "providerDescription": "Available at both locations. Eligibility and terms vary by provider."
+}

@@ -25,6 +25,13 @@ export function PageLayout({ children }: PageLayoutProps) {
         transition={{ duration: 0.35, ease: "easeOut" }}
         className="flex-grow flex flex-col pt-[102px] min-[901px]:pt-[116px]"
       >
+        {(location === "/" || location === "/medical-spa-jonesborough-tn") && (
+          <aside aria-label="Coming soon to Jonesborough" style={{ background: "#faeeec", color: "#201b1a", textAlign: "center", padding: "22px 24px", borderBottom: "1px solid #eadbd8" }}>
+            <p style={{ margin: "0 0 7px", fontSize: "11px", letterSpacing: ".18em", textTransform: "uppercase" }}>Jonesborough · Coming soon</p>
+            <p style={{ margin: "0 0 5px", fontFamily: "Georgia, serif", fontSize: "30px", lineHeight: 1.2 }}>Head Spa</p>
+            <p style={{ margin: 0, fontSize: "14px", lineHeight: 1.5 }}>Your next moment of calm. Launch details coming soon.</p>
+          </aside>
+        )}
         {children}
       </motion.main>
       <Footer />

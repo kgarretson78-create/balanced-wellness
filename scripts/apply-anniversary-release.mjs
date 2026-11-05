@@ -1,0 +1,44 @@
+import { readFileSync, writeFileSync, readdirSync, mkdirSync, renameSync } from 'node:fs';
+import { join } from 'node:path';
+import { createHash } from 'node:crypto';
+import { transformSync } from 'esbuild';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+const root='dist';
+const oldAsset='index-jonesborough-hours-20261026.js';
+let js=readFileSync(join(root,'assets',oldAsset),'utf8');
+function exact(before,after){if(js.split(before).length!==2)throw Error('Release marker changed: '+before.slice(0,80));js=js.replace(before,after);}
+const source=readFileSync('src/pages/AnniversaryEvent.tsx','utf8').replace(/^import .*;\r?\n/gm,'').replace('export default function AnniversaryEvent','function i6');
+const compiled=transformSync(source,{loader:'tsx',jsxFactory:'v.createElement',minify:true}).code;
+const start=js.indexOf('const s6=["Special event pricing"');
+const end=js.indexOf('const Q1=',start);
+if(start<0||end<start)throw Error('Event component markers changed');
+js=js.slice(0,start)+compiled.replaceAll('PageLayout','Ue').replaceAll('LOCATIONS','Yt').replaceAll('SEO','Je')+js.slice(end);
+exact('path:"/bootox",component:i6','path:"/anniversary",component:i6');
+const trackerStart=js.indexOf('const S6="/api",Cv="bw_session_id";');
+const trackerEnd=js.indexOf('const Cl=',trackerStart);
+if(trackerStart<0||trackerEnd<trackerStart)throw Error('Tracker markers changed');
+js=js.slice(0,trackerStart)+'function C6(){return null}'+js.slice(trackerEnd);
+const banner='n.jsx("a",{href:"/anniversary",className:"bg-[#fbf8f1] px-4 py-3 text-center text-sm text-foreground",children:"Celebrating five years · December 5 · Kingsport · Event details"})';
+exact('children:e},t),n.jsx(',`children:[${banner},e]},t),n.jsx(`);
+if(/BOO-TOX|Spooky-chic|Event-only beauty offers|bw_session_id|document.referrer/.test(js))throw Error('Retired content or tracking remains');
+const newAsset='index-anniversary-'+createHash('sha256').update(js).digest('hex').slice(0,12)+'.js';
+writeFileSync(join(root,'assets',oldAsset),js);
+renameSync(join(root,'assets',oldAsset),join(root,'assets',newAsset));
+function htmlFiles(dir){return readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?htmlFiles(join(dir,e.name)):e.name.endsWith('.html')?[join(dir,e.name)]:[]);}
+for(const file of htmlFiles(root))writeFileSync(file,readFileSync(file,'utf8').replaceAll(oldAsset,newAsset));
+// Render from the same component and central location constants used by the SPA.
+const booking=transformSync(readFileSync('src/lib/booking.ts','utf8').replace('(import.meta as any).env','({}).env'),{loader:'ts',format:'cjs'}).code;
+const mod={exports:{}};new Function('module','exports',booking)(mod,mod.exports);
+const Component=new Function('v','PageLayout','SEO','LOCATIONS',compiled+';return i6;')(React,({children})=>React.createElement('main',null,children),()=>null,mod.exports.LOCATIONS);
+const content=renderToStaticMarkup(React.createElement(Component));
+let html=readFileSync(join(root,'index.html'),'utf8');
+html=html.replace(/<script\b[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/g,'');
+const title='Five-Year Anniversary | Balanced Wellness Medical Spa Kingsport';
+const description='Celebrate five years of Balanced in Kingsport on Saturday, December 5, 2026, from 2–7 PM Eastern. Save the date.';
+html=html.replace(/<title>[\s\S]*?<\/title>/,`<title>${title}</title>`).replace(/(<meta (?:name="description"|property="og:description"|name="twitter:description") content=")[^"]*"/g,`$1${description}"`).replace(/(<meta (?:property="og:title"|name="twitter:title") content=")[^"]*"/g,`$1${title}"`).replace(/(<link rel="canonical" href=")[^"]*"/, '$1https://www.balancedmedicalspa.com/anniversary"').replace(/(<meta property="og:url" content=")[^"]*"/,'$1https://www.balancedmedicalspa.com/anniversary"');
+html=html.replace(/<body>[\s\S]*?<\/body>/,`<body><div id="root">${content}</div></body>`);
+mkdirSync(join(root,'anniversary'),{recursive:true});writeFileSync(join(root,'anniversary','index.html'),html);
+writeFileSync(join(root,'bootox','index.html'),'<!doctype html><meta http-equiv="refresh" content="0;url=/anniversary"><a href="/anniversary">Anniversary event</a>');
+writeFileSync(join(root,'sitemap.xml'),readFileSync('public/sitemap.xml','utf8'));
+console.log('Applied anniversary event, navigation and disabled unconfigured tracking: '+newAsset);

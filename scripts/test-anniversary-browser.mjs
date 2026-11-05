@@ -24,6 +24,6 @@ for(const viewport of [{width:1440,height:1100},{width:390,height:844}]){
  await page.getByRole('link',{name:/Celebrating five years/}).click();
  assert.equal(tracking.length,0);assert.deepEqual(errors,[]);await page.close();
 }
-const response=await fetch('http://127.0.0.1:3109/bootox',{redirect:'manual'});assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/anniversary');
+for (const route of ['/bootox','/bootox/','/bootox/index.html']) { const response=await fetch('http://127.0.0.1:3109'+route,{redirect:'manual'});assert.equal(response.status,301);assert.equal(response.headers.get('location'),'/anniversary'); }
 const sitemap=await (await fetch('http://127.0.0.1:3109/sitemap.xml')).text();assert.ok(sitemap.includes('/anniversary'));assert.ok(!sitemap.includes('/bootox'));
 await browser.close();server.kill();console.log('PASS desktop/mobile, navigation, metadata, booking links, redirect, sitemap, no tracking requests or runtime errors');

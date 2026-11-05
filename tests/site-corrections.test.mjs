@@ -92,7 +92,7 @@ test('keeps all link destinations, styling and image bytes unchanged', (t) => {
     if (path.endsWith('.html')) {
       const anchors = (s) => [...s.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map((m) => m[1]);
       assert.deepEqual(anchors(after.toString()), anchors(before.toString()), path);
-    } else if (!path.endsWith('/assets/index-B-dTmdU7.js')) assert.equal(hash(after), hash(before), path);
+    } else if (!path.endsWith(join('assets', 'index-B-dTmdU7.js'))) assert.equal(hash(after), hash(before), path);
   }
 });
 

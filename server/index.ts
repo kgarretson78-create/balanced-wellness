@@ -80,6 +80,9 @@ app.use((req, res, next) => {
 app.use(cors({ origin: process.env.ALLOWED_ORIGIN || "*", credentials: true }));
 app.use(express.json({ limit: "15mb" }));
 
+// Retire the old promotion without forwarding potentially sensitive query strings.
+app.get(["/bootox", "/bootox/", "/bootox/index.html"], (_req, res) => res.redirect(301, "/anniversary"));
+
 // API routes
 app.use("/api", kelliaiRouter);
 

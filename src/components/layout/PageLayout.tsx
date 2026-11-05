@@ -25,6 +25,7 @@ export function PageLayout({ children }: PageLayoutProps) {
         transition={{ duration: 0.35, ease: "easeOut" }}
         className="flex-grow flex flex-col pt-[102px] min-[901px]:pt-[116px]"
       >
+        <a href="/anniversary" className="bg-[#fbf8f1] px-4 py-3 text-center text-sm text-foreground">Celebrating five years · December 5 · Kingsport · Event details</a>
         {children}
       </motion.main>
       <Footer />

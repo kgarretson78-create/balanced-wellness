@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Memberships &amp; Gift Cards | Balanced Wellness Medical Spa</title>
-  <meta name="description" content="Explore Balanced Wellness Medical Spa memberships and request a digital gift card from our Kingsport or Jonesborough clinic.">
+  <meta name="description" content="Explore Balanced Wellness Medical Spa memberships and buy digital gift cards online for Kingsport or Jonesborough.">
   <link rel="canonical" href="https://www.balancedmedicalspa.com/memberships-and-gift-cards">
   <style>
     * { box-sizing: border-box; }
@@ -39,7 +39,7 @@
         <option value="kingsport">Kingsport</option>
         <option value="jonesborough">Jonesborough</option>
       </select>
-      <p id="purchase-help">These buttons open a text request to your chosen clinic. Our team will help you complete your purchase through Podium.</p>
+      <p id="purchase-help">Membership requests go by text to your chosen clinic. Digital gift cards can be purchased online through Podium.</p>
       <div class="cards">
         <section aria-labelledby="membership-heading">
           <h2 id="membership-heading">Memberships</h2>
@@ -48,7 +48,7 @@
         </section>
         <section aria-labelledby="gift-heading">
           <h2 id="gift-heading">Digital Gift Cards</h2>
-          <p>Give a Balanced Wellness gift card. Our team can help you choose an amount and arrange digital delivery.</p>
+          <p>Choose an amount and send a Balanced Wellness gift card through our secure Podium storefront.</p>
           <button type="submit" value="gift-card">Buy a Digital Gift Card</button>
         </section>
       </div>
@@ -64,8 +64,11 @@
       event.preventDefault();
       const clinic = clinics[document.getElementById('clinic').value];
       if (!clinic || !event.submitter) return;
-      const item = event.submitter.value === 'membership' ? 'choosing a membership' : 'buying a digital gift card';
-      const message = `Hi Balanced Wellness, I’d like help with ${item} at your ${clinic.name} location.`;
+      if (event.submitter.value === 'gift-card') {
+        window.location.href = 'https://booking.podium.com/medspa/gift-cards/01930831-555d-761d-a789-eab731891451';
+        return;
+      }
+      const message = `Hi Balanced Wellness, I’d like help choosing a membership at your ${clinic.name} location.`;
       window.location.href = `sms:${clinic.phone}?body=${encodeURIComponent(message)}`;
     });
   </script>

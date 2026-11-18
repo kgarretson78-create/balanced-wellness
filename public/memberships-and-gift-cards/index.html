@@ -15,15 +15,17 @@
     h1, h2 { font-family: Georgia, serif; font-weight: 400; line-height: 1.1; }
     h1 { font-size: clamp(2.6rem, 7vw, 5rem); margin: 0 0 1rem; }
     h2 { font-size: 2rem; margin: 0; }
-    label { display: block; margin: 2rem 0 .4rem; font-weight: 650; }
-    select, button { font: inherit; min-height: 48px; border-radius: 4px; }
+    label { display: block; margin: 0 0 .4rem; font-weight: 650; }
+    select, button, .purchase-button { font: inherit; min-height: 48px; border-radius: 4px; }
     select { width: min(100%, 20rem); color: inherit; background: white; border: 1px solid #806975; padding: .55rem; }
     .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; margin-top: 2rem; }
     section { display: flex; flex-direction: column; align-items: flex-start; background: #fffdfb; border: 1px solid #e5d4d9; padding: clamp(1.25rem, 4vw, 2rem); }
     section p { flex: 1; }
-    button { cursor: pointer; color: white; background: #583b49; border: 1px solid #583b49; padding: .55rem 1rem; }
-    button:hover { background: #3e2834; }
+    form button { display: block; margin-top: .75rem; }
+    button, .purchase-button { cursor: pointer; color: white; background: #583b49; border: 1px solid #583b49; padding: .55rem 1rem; }
+    button:hover, .purchase-button:hover { background: #3e2834; }
     :focus-visible { outline: 2px solid #754b62; outline-offset: 4px; }
+    .purchase-button { display: inline-block; box-sizing: border-box; text-align: center; text-decoration: none; }
     .details { color: #583b49; }
   </style>
 </head>
@@ -32,28 +34,27 @@
   <main>
     <h1>Memberships &amp; Gift Cards</h1>
     <p>Make time for yourself or give someone a visit to look forward to.</p>
-    <form id="purchase-request">
-      <label for="clinic">Choose your clinic</label>
-      <select id="clinic" required aria-describedby="purchase-help">
-        <option value="">Select a location</option>
-        <option value="kingsport">Kingsport</option>
-        <option value="jonesborough">Jonesborough</option>
-      </select>
-      <p id="purchase-help">Membership requests go by text to your chosen clinic. Digital gift cards can be purchased online through Podium.</p>
-      <div class="cards">
-        <section aria-labelledby="membership-heading">
-          <h2 id="membership-heading">Memberships</h2>
-          <p>Ask about monthly membership options and find the plan that suits you.</p>
-          <button type="submit" value="membership">Choose a Membership</button>
-        </section>
-        <section aria-labelledby="gift-heading">
-          <h2 id="gift-heading">Digital Gift Cards</h2>
-          <p>Choose an amount and send a Balanced Wellness gift card through our secure Podium storefront.</p>
-          <button type="submit" value="gift-card">Buy a Digital Gift Card</button>
-        </section>
-      </div>
-      <p class="details">Prefer to call? <a class="details" href="tel:+14237651393">Kingsport</a> or <a class="details" href="tel:+14236462169">Jonesborough</a>.</p>
-    </form>
+    <div class="cards">
+      <section aria-labelledby="membership-heading">
+        <h2 id="membership-heading">Memberships</h2>
+        <p>Text your clinic to compare plans and get help enrolling.</p>
+        <form id="purchase-request">
+          <label for="clinic">Choose your clinic</label>
+          <select id="clinic" required>
+            <option value="">Select a location</option>
+            <option value="kingsport">Kingsport</option>
+            <option value="jonesborough">Jonesborough</option>
+          </select>
+          <button type="submit">Choose a Membership</button>
+        </form>
+      </section>
+      <section aria-labelledby="gift-heading">
+        <h2 id="gift-heading">Digital Gift Cards</h2>
+        <p>Choose Kingsport or Jonesborough under “Select a location” in Podium before paying. The storefront opens with Kingsport selected.</p>
+        <a class="purchase-button" href="https://booking.podium.com/medspa/gift-cards/01930831-555d-761d-a789-eab731891451">Buy a Digital Gift Card</a>
+      </section>
+    </div>
+    <p class="details">Prefer to call? <a class="details" href="tel:+14237651393">Kingsport</a> or <a class="details" href="tel:+14236462169">Jonesborough</a>.</p>
   </main>
   <script>
     const clinics = {
@@ -63,11 +64,7 @@
     document.getElementById('purchase-request').addEventListener('submit', (event) => {
       event.preventDefault();
       const clinic = clinics[document.getElementById('clinic').value];
-      if (!clinic || !event.submitter) return;
-      if (event.submitter.value === 'gift-card') {
-        window.location.href = 'https://booking.podium.com/medspa/gift-cards/01930831-555d-761d-a789-eab731891451';
-        return;
-      }
+      if (!clinic) return;
       const message = `Hi Balanced Wellness, I’d like help choosing a membership at your ${clinic.name} location.`;
       window.location.href = `sms:${clinic.phone}?body=${encodeURIComponent(message)}`;
     });

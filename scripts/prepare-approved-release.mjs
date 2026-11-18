@@ -13,6 +13,7 @@ console.log(`Prepared ${Object.keys(manifest.files).length} verified approved cl
 // Guarded, owner-confirmed content corrections; retain the approved visual artifact.
 const { applySiteCorrections } = await import("./apply-site-corrections.mjs");
 applySiteCorrections("dist");
+cpSync("public/memberships-and-gift-cards", "dist/memberships-and-gift-cards", { recursive: true });
 
 // Add the owner's GA4 tag to every approved public HTML page.
 const { readdirSync, writeFileSync } = await import("node:fs");

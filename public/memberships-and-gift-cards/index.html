@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memberships &amp; Gift Cards | Balanced Wellness Medical Spa</title>
+  <meta name="description" content="Explore Balanced Wellness Medical Spa memberships and request a digital gift card from our Kingsport or Jonesborough clinic.">
+  <link rel="canonical" href="https://www.balancedmedicalspa.com/memberships-and-gift-cards">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fbf7f4; color: #2b2225; font: 1rem/1.6 system-ui, sans-serif; }
+    header { background: #fffdfb; border-bottom: 1px solid #e5d4d9; padding: 1.2rem clamp(1rem, 5vw, 4rem); }
+    header a { color: inherit; font: 1.4rem Georgia, serif; text-decoration: none; }
+    main { width: min(64rem, 100%); margin: auto; padding: clamp(2.5rem, 8vw, 6rem) 1.25rem; }
+    h1, h2 { font-family: Georgia, serif; font-weight: 400; line-height: 1.1; }
+    h1 { font-size: clamp(2.6rem, 7vw, 5rem); margin: 0 0 1rem; }
+    h2 { font-size: 2rem; margin: 0; }
+    label { display: block; margin: 2rem 0 .4rem; font-weight: 650; }
+    select, button { font: inherit; min-height: 48px; border-radius: 4px; }
+    select { width: min(100%, 20rem); color: inherit; background: white; border: 1px solid #806975; padding: .55rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: 1rem; margin-top: 2rem; }
+    section { display: flex; flex-direction: column; align-items: flex-start; background: #fffdfb; border: 1px solid #e5d4d9; padding: clamp(1.25rem, 4vw, 2rem); }
+    section p { flex: 1; }
+    button { cursor: pointer; color: white; background: #583b49; border: 1px solid #583b49; padding: .55rem 1rem; }
+    button:hover { background: #3e2834; }
+    :focus-visible { outline: 2px solid #754b62; outline-offset: 4px; }
+    .details { color: #583b49; }
+  </style>
+</head>
+<body>
+  <header><a href="/">Balanced Wellness Medical Spa</a></header>
+  <main>
+    <h1>Memberships &amp; Gift Cards</h1>
+    <p>Make time for yourself or give someone a visit to look forward to.</p>
+    <form id="purchase-request">
+      <label for="clinic">Choose your clinic</label>
+      <select id="clinic" required aria-describedby="purchase-help">
+        <option value="">Select a location</option>
+        <option value="kingsport">Kingsport</option>
+        <option value="jonesborough">Jonesborough</option>
+      </select>
+      <p id="purchase-help">These buttons open a text request to your chosen clinic. Our team will help you complete your purchase through Podium.</p>
+      <div class="cards">
+        <section aria-labelledby="membership-heading">
+          <h2 id="membership-heading">Memberships</h2>
+          <p>Ask about monthly membership options and find the plan that suits you.</p>
+          <button type="submit" value="membership">Choose a Membership</button>
+        </section>
+        <section aria-labelledby="gift-heading">
+          <h2 id="gift-heading">Digital Gift Cards</h2>
+          <p>Give a Balanced Wellness gift card. Our team can help you choose an amount and arrange digital delivery.</p>
+          <button type="submit" value="gift-card">Buy a Digital Gift Card</button>
+        </section>
+      </div>
+      <p class="details">Prefer to call? <a class="details" href="tel:+14237651393">Kingsport</a> or <a class="details" href="tel:+14236462169">Jonesborough</a>.</p>
+    </form>
+  </main>
+  <script>
+    const clinics = {
+      kingsport: { name: 'Kingsport', phone: '+14237651393' },
+      jonesborough: { name: 'Jonesborough', phone: '+14236462169' }
+    };
+    document.getElementById('purchase-request').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const clinic = clinics[document.getElementById('clinic').value];
+      if (!clinic || !event.submitter) return;
+      const item = event.submitter.value === 'membership' ? 'choosing a membership' : 'buying a digital gift card';
+      const message = `Hi Balanced Wellness, I’d like help with ${item} at your ${clinic.name} location.`;
+      window.location.href = `sms:${clinic.phone}?body=${encodeURIComponent(message)}`;
+    });
+  </script>
+</body>
+</html>

@@ -68,6 +68,10 @@ export function applySiteCorrections(root = 'dist') {
   const layoutBefore = 'className:"flex-grow flex flex-col pt-[102px] min-[901px]:pt-[116px]",children:e';
   const announcement = 'n.jsxs("aside",{"aria-label":"Coming soon to Jonesborough",style:{background:"#faeeec",color:"#201b1a",textAlign:"center",padding:"22px 24px",borderBottom:"1px solid #eadbd8"},children:[n.jsx("p",{style:{margin:"0 0 7px",fontSize:"11px",letterSpacing:".18em",textTransform:"uppercase"},children:"Jonesborough · Coming soon"}),n.jsx("p",{style:{margin:"0 0 5px",fontFamily:"Georgia, serif",fontSize:"30px",lineHeight:1.2},children:"Head Spa"}),n.jsx("p",{style:{margin:0,fontSize:"14px",lineHeight:1.5},children:"Your next moment of calm. Launch details coming soon."})]})';
   js = replaceExactly(js, layoutBefore, 'className:"flex-grow flex flex-col pt-[102px] min-[901px]:pt-[116px]",children:[(t==="/"||t==="/medical-spa-jonesborough-tn")&&' + announcement + ',e]');
+  const navContact = 'n.jsx(Y,{href:"/contact",children:"Contact"})';
+  const shopLink = 'n.jsx("a",{href:"/memberships-and-gift-cards",children:"Memberships & Gift Cards"})';
+  js = replaceExactly(js, 'n.jsx(Y,{href:"/gallery",children:"Gallery"}),' + navContact,
+    'n.jsx(Y,{href:"/gallery",children:"Gallery"}),' + shopLink + ',' + navContact, 2);
   const cacheKey = createHash('sha256').update(js).digest('hex').slice(0, 16);
 
   const routes = {

@@ -11,7 +11,6 @@ const serviceLinks = [
   { name: "Wellness & IV therapy", path: "/wellness" },
   { name: "Hormone consultations", path: "/hormone-optimization" },
   { name: "Online care", path: "/online-care" },
-  { name: "Memberships", path: "/memberships" },
   { name: "Payment options", path: "/flexible-payments" },
   { name: "Shop Obagi", path: "/shop-obagi" },
 ];
@@ -40,12 +39,13 @@ export function Navbar() {
           <Link href="/about">Our approach</Link>
           <a href="/#locations">Locations</a>
           <Link href="/gallery">Gallery</Link>
+          <a href="/memberships-and-gift-cards">Memberships &amp; Gift Cards</a>
           <Link href="/contact">Contact</Link>
         </nav>
         <div className="bw-header-actions"><button type="button" onClick={book} className="bw-header-book">Book a visit <ArrowUpRight size={15} aria-hidden="true" /></button><button type="button" className="bw-mobile-toggle" onClick={() => setMobileOpen(!mobileOpen)} aria-expanded={mobileOpen} aria-controls="bw-mobile-menu" aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}>{mobileOpen ? <X size={22} /> : <Menu size={22} />}</button></div>
       </div>
       {mobileOpen && <nav id="bw-mobile-menu" className="bw-mobile-nav" aria-label="Mobile navigation">
-        <Link href="/about">Our approach</Link><a href="/#locations" onClick={() => setMobileOpen(false)}>Our locations</a><Link href="/gallery">Gallery</Link><Link href="/contact">Contact</Link>
+        <Link href="/about">Our approach</Link><a href="/#locations" onClick={() => setMobileOpen(false)}>Our locations</a><Link href="/gallery">Gallery</Link><a href="/memberships-and-gift-cards">Memberships &amp; Gift Cards</a><Link href="/contact">Contact</Link>
         <p>Treatments &amp; more</p>{serviceLinks.map(link => <Link key={link.path} href={link.path}>{link.name}</Link>)}
         <a href="tel:4237651393">Call Kingsport · (423) 765-1393</a><a href="tel:4236462169">Call Jonesborough · (423) 646-2169</a><Link href="/sms-consent">Text us</Link>
       </nav>}

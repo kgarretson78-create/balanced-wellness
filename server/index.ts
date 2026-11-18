@@ -115,6 +115,11 @@ app.get("/sitemap.xml", (_req, res) => {
   res.type("application/xml").sendFile(path.join(distPath, "sitemap.xml"));
 });
 
+// The purchase landing page is standalone and does not need the approved SPA bundle.
+app.get("/memberships-and-gift-cards", (_req, res) => {
+  res.sendFile(path.resolve(process.cwd(), "public", "memberships-and-gift-cards", "index.html"));
+});
+
 // Prerendered route handler — registered BEFORE express.static so the static
 // middleware never sees these paths and never auto-redirects them to a
 // trailing-slash URL. For each request, if a file at dist/<slug>/index.html

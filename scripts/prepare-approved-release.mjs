@@ -44,6 +44,3 @@ function addAnalytics(directory) {
   }
 }
 addAnalytics(resolve("dist"));
-
-const { applyTeamPortraits } = await import("./apply-team-portraits.mjs");
-applyTeamPortraits(resolve("dist"));

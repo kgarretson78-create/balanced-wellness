@@ -3,6 +3,7 @@ import { cpSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const portraits = {
+  "justin-studio.webp": "Justin Jennings",
   "maddie-studio.webp": "Maddie Horn, RMA",
   "sophia-suit.webp": "Sophia Arias",
   "kelli-white-suit.webp": "Kelli Garretson Griffey",
@@ -26,6 +27,8 @@ function applyTeamPortraits(dist) {
     ['className:"bw-team-initial","aria-hidden":"true",children:"M"', "meagan-studio.webp"],
     ['className:"bw-partner-monogram","aria-hidden":"true",children:"M"', "meagan-studio.webp"],
     ['className:"bw-team-initial","aria-hidden":"true",children:"V"', "victoria-studio.webp"],
+    ['className:"bw-team-initial","aria-hidden":"true",children:"J"', "justin-studio.webp"],
+    ['className:"bw-partner-monogram","aria-hidden":"true",children:"J"', "justin-studio.webp"],
   ];
   for (const [original, replacement] of replacements) {
     if (!source.includes(original)) throw new Error(`Approved portrait reference missing: ${original}`);
@@ -36,7 +39,7 @@ function applyTeamPortraits(dist) {
       if (!source.includes(span)) throw new Error(`Approved profile card missing: ${original}`);
       const alt = JSON.stringify(portraits[replacement]);
       const width = original.includes("bw-partner-monogram") ? 192 : 104;
-      const position = replacement === "meagan-studio.webp" ? "center 20%" : "center top";
+      const position = ["meagan-studio.webp", "justin-studio.webp"].includes(replacement) ? "center 20%" : "center top";
       source = source.replaceAll(span, `n.jsx("img",{src:"/images/${replacement}",alt:${alt},width:${width},height:${width},loading:"lazy",style:{height:${width},objectPosition:"${position}",objectFit:"cover",borderRadius:"50%",display:"block",marginBottom:"1rem"}})`);
     }
   }

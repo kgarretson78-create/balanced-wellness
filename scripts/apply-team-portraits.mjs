@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 const portraits = {
   "justin-studio.webp": "Justin Jennings",
-  "maddie-studio.webp": "Maddie Horn, RMA",
+  "maddie-studio-wide.webp": "Maddie Horn, RMA",
   "sophia-suit.webp": "Sophia Arias",
   "kelli-white-suit.webp": "Kelli Garretson Griffey",
   "shelly-studio.webp": "Shelly Ketron",
@@ -49,7 +49,7 @@ function applyTeamPortraits(dist) {
   }
   const maddieProfile = [
     'n.jsxs("article",{className:"bw-victoria-feature mt-6",children:[',
-    'n.jsx("img",{src:"/images/maddie-studio.webp",alt:"Maddie Horn, RMA",width:104,height:104,loading:"lazy",style:{height:104,objectPosition:"center 20%",objectFit:"cover",borderRadius:"50%"}}),',
+    'n.jsx("img",{src:"/images/maddie-studio-wide.webp",alt:"Maddie Horn, RMA",width:104,height:104,loading:"lazy",style:{height:104,objectPosition:"center 20%",objectFit:"cover",borderRadius:"50%"}}),',
     'n.jsxs("div",{children:[',
     'n.jsx("p",{className:"bw-eyebrow",children:"Front Office & Patient Experience Lead"}),',
     'n.jsx("h3",{children:"Maddie Horn, RMA"}),',

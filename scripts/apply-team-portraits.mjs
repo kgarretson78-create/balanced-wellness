@@ -9,10 +9,9 @@ const portraits = {
   "victoria-portrait.webp": "Victoria Ledford",
 };
 
-export function applyTeamPortraits(dist) {
+function applyTeamPortraits(dist) {
   const assets = resolve(dist, "assets");
-  const bundle = readdirSync(assets).find((file) => /^index-.*\.js$/.test(file));
-  if (!bundle) throw new Error("Approved client bundle is missing");
+  const bundle = "index-jonesborough-hours-20261026.js";
   const path = resolve(assets, bundle);
   let source = readFileSync(path, "utf8");
 
@@ -56,3 +55,5 @@ export function applyTeamPortraits(dist) {
   }
   updateHtml(dist);
 }
+
+applyTeamPortraits(resolve("dist"));

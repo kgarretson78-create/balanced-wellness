@@ -3,10 +3,11 @@ import { cpSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const portraits = {
+  "sophia-studio.webp": "Sophia Arias",
   "kelli-white-suit.webp": "Kelli Garretson Griffey",
-  "shelly-long-blonde.webp": "Shelly Ketron",
-  "meagan-portrait.webp": "Meagan, The Beauty Medic",
-  "victoria-portrait.webp": "Victoria Ledford",
+  "shelly-studio.webp": "Shelly Ketron",
+  "meagan-studio.webp": "Meagan, The Beauty Medic",
+  "victoria-studio.webp": "Victoria Ledford",
 };
 
 function applyTeamPortraits(dist) {
@@ -16,12 +17,14 @@ function applyTeamPortraits(dist) {
   let source = readFileSync(path, "utf8");
 
   const replacements = [
+    ["/images/sophia-arias.webp", "/images/sophia-studio.webp"],
+    ["/images/sophia-arias.jpg", "/images/sophia-studio.webp"],
     ["/images/kelli-garretson-griffey.webp", "/images/kelli-white-suit.webp"],
     ["/images/kelli-garretson-griffey.jpg", "/images/kelli-white-suit.webp"],
-    ["/images/shelly-ketron-updated.jpeg", "/images/shelly-long-blonde.webp"],
-    ['className:"bw-team-initial","aria-hidden":"true",children:"M"', "meagan-portrait.webp"],
-    ['className:"bw-partner-monogram","aria-hidden":"true",children:"M"', "meagan-portrait.webp"],
-    ['className:"bw-team-initial","aria-hidden":"true",children:"V"', "victoria-portrait.webp"],
+    ["/images/shelly-ketron-updated.jpeg", "/images/shelly-studio.webp"],
+    ['className:"bw-team-initial","aria-hidden":"true",children:"M"', "meagan-studio.webp"],
+    ['className:"bw-partner-monogram","aria-hidden":"true",children:"M"', "meagan-studio.webp"],
+    ['className:"bw-team-initial","aria-hidden":"true",children:"V"', "victoria-studio.webp"],
   ];
   for (const [original, replacement] of replacements) {
     if (!source.includes(original)) throw new Error(`Approved portrait reference missing: ${original}`);
@@ -32,7 +35,8 @@ function applyTeamPortraits(dist) {
       if (!source.includes(span)) throw new Error(`Approved profile card missing: ${original}`);
       const alt = JSON.stringify(portraits[replacement]);
       const width = original.includes("bw-partner-monogram") ? 192 : 104;
-      source = source.replaceAll(span, `n.jsx("img",{src:"/images/${replacement}",alt:${alt},width:${width},height:${width},loading:"lazy",style:{objectFit:"cover",borderRadius:"50%",display:"block",marginBottom:"1rem"}})`);
+      const position = replacement === "meagan-studio.webp" ? "center 20%" : "center top";
+      source = source.replaceAll(span, `n.jsx("img",{src:"/images/${replacement}",alt:${alt},width:${width},height:${width},loading:"lazy",style:{height:${width},objectPosition:"${position}",objectFit:"cover",borderRadius:"50%",display:"block",marginBottom:"1rem"}})`);
     }
   }
   for (const filename of Object.keys(portraits)) {

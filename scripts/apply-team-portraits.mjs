@@ -64,6 +64,16 @@ function applyTeamPortraits(dist) {
     'id:"beauty-team-title",children:["Meet",n.jsx("br",{}),n.jsx("em",{children:"the Balanced team."})]',
   );
   source = source.replace('children:"Your Balanced skin care team"', 'children:"Balanced Wellness Medical Spa"');
+  const meaganBookingUpdates = [
+    ['n.jsxs(Y,{href:"/contact",className:"bw-button",children:["Ask about an appointment "', 'n.jsxs("a",{href:"https://beautymedic.glossgenius.com/",target:"_blank",rel:"noopener noreferrer",className:"bw-button",children:["Book with Meagan "'],
+    ['Ask the team about current services, appointment availability and the right next step for your visit.', 'View current services and book directly with Meagan.'],
+    ['Contact the team to confirm the provider, location and service before booking.', 'Meagan manages her own appointments through The Beauty Medic.'],
+    ['Meet Meagan with The Beauty Medic. Contact the team for current services, availability and appointment details.', 'Meet Meagan with The Beauty Medic. View services and book directly with Meagan.'],
+  ];
+  for (const [original, replacement] of meaganBookingUpdates) {
+    if (!source.includes(original)) throw new Error(`Beauty Medic booking copy missing: ${original}`);
+    source = source.replace(original, replacement);
+  }
   for (const filename of Object.keys(portraits)) {
     cpSync(resolve("public/images", filename), resolve(dist, "images", filename));
   }

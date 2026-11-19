@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 
 const portraits = {
   "maddie-studio.webp": "Maddie Horn, RMA",
-  "sophia-studio.webp": "Sophia Arias",
+  "sophia-suit.webp": "Sophia Arias",
   "kelli-white-suit.webp": "Kelli Garretson Griffey",
   "shelly-studio.webp": "Shelly Ketron",
   "meagan-studio.webp": "Meagan, The Beauty Medic",
@@ -18,8 +18,8 @@ function applyTeamPortraits(dist) {
   let source = readFileSync(path, "utf8");
 
   const replacements = [
-    ["/images/sophia-arias.webp", "/images/sophia-studio.webp"],
-    ["/images/sophia-arias.jpg", "/images/sophia-studio.webp"],
+    ["/images/sophia-arias.webp", "/images/sophia-suit.webp"],
+    ["/images/sophia-arias.jpg", "/images/sophia-suit.webp"],
     ["/images/kelli-garretson-griffey.webp", "/images/kelli-white-suit.webp"],
     ["/images/kelli-garretson-griffey.jpg", "/images/kelli-white-suit.webp"],
     ["/images/shelly-ketron-updated.jpeg", "/images/shelly-studio.webp"],

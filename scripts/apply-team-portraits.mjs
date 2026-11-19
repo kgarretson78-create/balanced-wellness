@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { cpSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -38,5 +39,20 @@ export function applyTeamPortraits(dist) {
   for (const filename of Object.keys(portraits)) {
     cpSync(resolve("public/images", filename), resolve(dist, "images", filename));
   }
-  writeFileSync(path, source);
+  const hash = createHash("sha256").update(source).digest("hex").slice(0, 12);
+  const updatedBundle = `index-team-${hash}.js`;
+  writeFileSync(resolve(assets, updatedBundle), source);
+
+  function updateHtml(directory) {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const filename = resolve(directory, entry.name);
+      if (entry.isDirectory()) updateHtml(filename);
+      else if (entry.name.endsWith(".html")) {
+        const html = readFileSync(filename, "utf8");
+        const updated = html.replaceAll(`/assets/${bundle}`, `/assets/${updatedBundle}`);
+        if (updated !== html) writeFileSync(filename, updated);
+      }
+    }
+  }
+  updateHtml(dist);
 }

@@ -39,6 +39,27 @@ function applyTeamPortraits(dist) {
       source = source.replaceAll(span, `n.jsx("img",{src:"/images/${replacement}",alt:${alt},width:${width},height:${width},loading:"lazy",style:{height:${width},objectPosition:"${position}",objectFit:"cover",borderRadius:"50%",display:"block",marginBottom:"1rem"}})`);
     }
   }
+  const staffSectionEnd = 'n.jsxs("div",{className:"bw-independent-heading"';
+  if (source.split(staffSectionEnd).length !== 2) {
+    throw new Error("Balanced staff section could not be identified");
+  }
+  const maddieProfile = [
+    'n.jsxs("article",{className:"bw-victoria-feature mt-6",children:[',
+    'n.jsx("span",{className:"bw-team-initial","aria-hidden":"true",children:"MH"}),',
+    'n.jsxs("div",{children:[',
+    'n.jsx("p",{className:"bw-eyebrow",children:"Front Office & Patient Experience Lead"}),',
+    'n.jsx("h3",{children:"Maddie Horn, RMA"}),',
+    'n.jsx("p",{children:"Maddie is a Registered Medical Assistant who helps patients schedule visits, answers front-office questions, and welcomes them to Balanced Wellness Medical Spa."})',
+    ']})]}),',
+  ].join("");
+  source = source.replace(staffSectionEnd, () => maddieProfile + staffSectionEnd);
+  const teamHeading = 'id:"beauty-team-title",children:["Meet",n.jsx("br",{}),n.jsx("em",{children:"Victoria."})]';
+  if (!source.includes(teamHeading)) throw new Error("Balanced staff heading missing");
+  source = source.replace(
+    teamHeading,
+    'id:"beauty-team-title",children:["Meet",n.jsx("br",{}),n.jsx("em",{children:"the Balanced team."})]',
+  );
+  source = source.replace('children:"Your Balanced skin care team"', 'children:"Balanced Wellness Medical Spa"');
   for (const filename of Object.keys(portraits)) {
     cpSync(resolve("public/images", filename), resolve(dist, "images", filename));
   }

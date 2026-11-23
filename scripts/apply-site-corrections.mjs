@@ -72,6 +72,15 @@ export function applySiteCorrections(root = 'dist') {
   const shopLink = 'n.jsx("a",{href:"/memberships-and-gift-cards",children:"Memberships & Gift Cards"})';
   js = replaceExactly(js, 'n.jsx(Y,{href:"/gallery",children:"Gallery"}),' + navContact,
     'n.jsx(Y,{href:"/gallery",children:"Gallery"}),' + shopLink + ',' + navContact, 2);
+  // Thanksgiving dates use clinic-local time, independent of visitors' time zones.
+  const holiday = 'Thanksgiving hours: Kingsport and Jonesborough are closed Thursday, November 26 and Friday, November 27. Starting December 4, Kingsport’s regular Friday office hours are 9 AM–1 PM. Special events have separate hours.';
+  const notice = 'n.jsx("aside",{"aria-label":"Thanksgiving hours",style:{background:"#f8e9e7",color:"#201b1a",textAlign:"center",padding:"12px 22px",borderBottom:"1px solid #eadbd8",fontSize:"14px",lineHeight:1.45},children:' + JSON.stringify(holiday) + '})';
+  const showHoliday = 'new Intl.DateTimeFormat("en-CA",{timeZone:"America/New_York",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(new Date()).filter(p=>p.type!=="literal").reduce((a,p)=>(a[p.type]=p.value,a),{})';
+  js = replaceExactly(js, 'children:[(t==="/"||t==="/medical-spa-jonesborough-tn")&&' + announcement + ',e]',
+    'children:[((d)=>d.year+d.month+d.day<"20261128")(' + showHoliday + ')&&' + notice + ',(t==="/"||t==="/medical-spa-jonesborough-tn")&&' + announcement + ',e]');
+  js = replaceExactly(js, '{days:"Friday",time:"9:00 AM - 5:00 PM"}', '{days:"Friday",time:"9:00 AM - 1:00 PM"}');
+  js = replaceExactly(js, 'dayOfWeek:["Friday"],opens:"09:00",closes:"17:00"', 'dayOfWeek:["Friday"],opens:"09:00",closes:"13:00"');
+  js = replaceExactly(js, 'Friday 9 AM–5 PM', 'regular Friday office hours 9 AM–1 PM starting December 4', 2);
   const cacheKey = createHash('sha256').update(js).digest('hex').slice(0, 16);
 
   const routes = {
@@ -100,6 +109,11 @@ export function applySiteCorrections(root = 'dist') {
     }[route] || [0, 0];
     html = replaceExactly(html, 'Saturday: By Appointment Only', 'Saturday: Closed', saturdayCopies[0]);
     html = replaceExactly(html, 'with Saturdays by appointment', 'and is closed on Saturdays and Sundays', saturdayCopies[1]);
+    // Carry the future regular Friday schedule into existing prerendered copy and JSON-LD.
+    html = html
+      .replaceAll('"dayOfWeek":["Friday"],"opens":"09:00","closes":"17:00"', '"dayOfWeek":["Friday"],"opens":"09:00","closes":"13:00"')
+      .replaceAll('Friday 9 AM–5 PM', 'regular Friday office hours 9 AM–1 PM starting December 4')
+      .replaceAll('Friday: 9:00 AM - 5:00 PM', 'Friday: 9:00 AM - 1:00 PM');
     let businessCount = 0;
     html = html.replace(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g, (script, body) => {
       const schema = JSON.parse(body);
